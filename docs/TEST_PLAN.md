@@ -162,6 +162,15 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. `Migrations.ALL_MIGRATIONS` registry created and hooked into Room database builder without destructive migration fallback. Debug build verified via `.\gradlew.bat assembleDebug`.
 
+### DataStore Preferences Verification: 2026-11-09 (Task SZ-014)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 47 unit tests (including `UserPreferencesTest` with 4 tests verifying `ThemePreference` enum serialization, `AppPreferences` default values, locale-based currency fallback resolution, and `UserPreferencesRepositoryImpl` reactive Flow emissions and edit methods via DataStore preferences)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 18 executed, 19 up-to-date)
+- **Failures/Issues:** None. AndroidX DataStore preferences 1.1.3 integrated and verified. Non-relational preferences (theme mode, default currency, haptic feedback, and completed items visibility) fully operational.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

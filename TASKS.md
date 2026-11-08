@@ -15,7 +15,7 @@
 - [x] SZ-011 Implement DAOs and observable queries.
 - [x] SZ-012 Implement repositories and domain models/mappers.
 - [x] SZ-013 Implement database migrations and migration tests.
-- [ ] SZ-014 Implement DataStore preferences.
+- [x] SZ-014 Implement DataStore preferences.
 - [ ] SZ-015 Test CRUD, foreign keys, transactions and persistence.
 
 ## Phase 2 — Shopping list workflows
