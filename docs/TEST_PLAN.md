@@ -130,6 +130,14 @@ For each run, record:
 - **Passed:** Debug APK produced with zero compilation or dexing errors.
 - **Failures/Issues:** None. Phase 0 foundation complete.
 
+### Room Entities & Schema Verification: 2026-11-09 (Task SZ-010)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 16 unit tests (including `RoomEntityStructureTest` verifying 5 entities, indices, foreign keys, cascade delete constraints, and exported schema `1.json`)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. Room 2.7.2 and KSP 2.2.10-2.0.2 compiler processing verified. Schema successfully exported to `app/schemas`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

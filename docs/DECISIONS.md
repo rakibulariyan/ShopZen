@@ -73,3 +73,9 @@ Record durable product and technical decisions here. Use newest entries at the b
 - **Decision:** Display name is ShopZen and application ID is `com.barakwebsoft.shopzen`.
 - **Reason:** Verified against existing `app/build.gradle.kts` (namespace and applicationId both set to `com.barakwebsoft.shopzen`).
 - **Consequences:** Stable application identity confirmed across build configuration, PRD and codebase. Once published, changing application ID creates a different Play app.
+
+## ADR-013 — Room 2.7.2 with KSP2 and Schema Export
+- **Status:** Accepted
+- **Decision:** Use Room `2.7.2` with KSP `2.2.10-2.0.2` and export schemas to `app/schemas/`.
+- **Reason:** AGP 9.3 and Kotlin 2.2 require KSP2 analysis API; Room 2.7.2 resolves KSP2 void return signature compilation issues, provides full SQLite foreign key / index code generation, and exports immutable schema JSON artifacts for version verification.
+- **Consequences:** Room annotations use `BINARY` retention. Schema integrity and migrations are verified against exported JSON schema files. Incremental compilation cache is stabilized via `kotlin.incremental=false` on Windows.

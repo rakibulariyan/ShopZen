@@ -11,7 +11,7 @@
 - [x] SZ-006 Verify debug build and document actual setup.
 
 ## Phase 1 — Local data foundation
-- [ ] SZ-010 Define Room entities, relationships, indices and schema export.
+- [x] SZ-010 Define Room entities, relationships, indices and schema export.
 - [ ] SZ-011 Implement DAOs and observable queries.
 - [ ] SZ-012 Implement repositories and domain models/mappers.
 - [ ] SZ-013 Implement database migrations and migration tests.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-010 — define Room entities, relationships, indices and schema export.
-- **Next:** SZ-011 — implement DAOs and observable queries.
-- **Blockers:** None. Phase 0 foundation completed and verified with successful unit tests and assembleDebug.
+- **Current:** SZ-011 — implement DAOs and observable queries.
+- **Next:** SZ-012 — implement repositories and domain models/mappers.
+- **Blockers:** None. Room entities, indices, foreign keys, and schema export version 1 verified and committed.
