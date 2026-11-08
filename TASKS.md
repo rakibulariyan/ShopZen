@@ -14,7 +14,7 @@
 - [x] SZ-010 Define Room entities, relationships, indices and schema export.
 - [x] SZ-011 Implement DAOs and observable queries.
 - [x] SZ-012 Implement repositories and domain models/mappers.
-- [ ] SZ-013 Implement database migrations and migration tests.
+- [x] SZ-013 Implement database migrations and migration tests.
 - [ ] SZ-014 Implement DataStore preferences.
 - [ ] SZ-015 Test CRUD, foreign keys, transactions and persistence.
 
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-013 — implement database migrations and migration tests.
-- **Next:** SZ-014 — implement DataStore preferences.
-- **Blockers:** None. Room entities, DAOs, repositories, domain models, and mappers verified with 36/36 tests passing and debug APK built.
+- **Current:** SZ-014 — implement DataStore preferences.
+- **Next:** SZ-015 — test CRUD, foreign keys, transactions and persistence.
+- **Blockers:** None. Room schema v1, migrations framework, and 43 unit tests passing with zero failures.

@@ -50,6 +50,7 @@ abstract class ShopZenDatabase : RoomDatabase() {
                     ShopZenDatabase::class.java,
                     DATABASE_NAME
                 )
+                    .addMigrations(*Migrations.ALL_MIGRATIONS)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)

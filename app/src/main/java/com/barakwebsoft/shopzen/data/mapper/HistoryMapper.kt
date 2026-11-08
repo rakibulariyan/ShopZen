@@ -61,3 +61,4 @@ fun HistoryWithItems.toDomainDetail(): HistoryDetail = HistoryDetail(
     history = history.toDomain(),
     items = items.map { it.toDomain() }
 )
+

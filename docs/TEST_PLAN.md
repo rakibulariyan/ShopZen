@@ -154,6 +154,14 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. All 4 domain repositories (`ShoppingListRepository`, `ShoppingItemRepository`, `CategoryRepository`, `HistoryRepository`), domain models, and mappers verified and integrated. Debug build verified via `.\gradlew.bat assembleDebug`.
 
+### Database Migrations & Schema Integrity Verification: 2026-11-09 (Task SZ-013)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 43 unit tests (including `RoomMigrationTest` with 7 tests verifying schema version 1 format, identity hash, full table createSql templates, foreign key cascade constraints, indices, migration registry registration on `ShopZenDatabase`, prevention of destructive migrations in production, and simulated forward migration execution)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. `Migrations.ALL_MIGRATIONS` registry created and hooked into Room database builder without destructive migration fallback. Debug build verified via `.\gradlew.bat assembleDebug`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
