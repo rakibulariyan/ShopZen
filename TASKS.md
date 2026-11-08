@@ -5,7 +5,7 @@
 ## Phase 0 — Project inspection and foundation
 - [x] SZ-001 Inspect existing Android Studio project, Gradle configuration, package IDs and Git status.
 - [x] SZ-002 Confirm application ID/namespace, SDK configuration and compatible toolchain versions.
-- [ ] SZ-003 Establish package/module structure and dependency conventions without unnecessary modules.
+- [x] SZ-003 Establish package/module structure and dependency conventions without unnecessary modules.
 - [ ] SZ-004 Implement Material 3 theme tokens, typography and light/dark/system theme foundation.
 - [ ] SZ-005 Establish navigation shell and app-level UI state handling.
 - [ ] SZ-006 Verify debug build and document actual setup.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-003 — establish package/module structure and dependency conventions without unnecessary modules.
-- **Next:** SZ-004 — implement Material 3 theme tokens, typography and light/dark/system theme foundation.
-- **Blockers:** None. Project inspection, toolchain verification and test baseline verified. Note: Git repo is not yet initialized in the project directory.
+- **Current:** SZ-004 — implement Material 3 theme tokens, typography and light/dark/system theme foundation.
+- **Next:** SZ-005 — establish navigation shell and app-level UI state handling.
+- **Blockers:** None. Foundation dependencies and navigation package structure established and verified.
