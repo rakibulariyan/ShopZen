@@ -116,6 +116,20 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. Brand botanical theme tokens, typography scale, and light/dark palette verified.
 
+### Navigation Shell & App UI State: 2026-11-09 (Task SZ-005)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (24 actionable tasks executed)
+- **Passed:** 9 unit tests (including `ShopZenNavigationTest` top-level route validation)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. Navigation shell with BottomBar for Home, History, and Settings verified.
+
+### Debug Build Verification: 2026-11-09 (Task SZ-006)
+- **Command:** `.\gradlew.bat assembleDebug`
+- **Result:** BUILD SUCCESSFUL (36 actionable tasks executed, output `app/build/outputs/apk/debug/app-debug.apk`)
+- **Passed:** Debug APK produced with zero compilation or dexing errors.
+- **Failures/Issues:** None. Phase 0 foundation complete.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

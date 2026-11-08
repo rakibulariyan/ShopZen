@@ -7,8 +7,8 @@
 - [x] SZ-002 Confirm application ID/namespace, SDK configuration and compatible toolchain versions.
 - [x] SZ-003 Establish package/module structure and dependency conventions without unnecessary modules.
 - [x] SZ-004 Implement Material 3 theme tokens, typography and light/dark/system theme foundation.
-- [ ] SZ-005 Establish navigation shell and app-level UI state handling.
-- [ ] SZ-006 Verify debug build and document actual setup.
+- [x] SZ-005 Establish navigation shell and app-level UI state handling.
+- [x] SZ-006 Verify debug build and document actual setup.
 
 ## Phase 1 — Local data foundation
 - [ ] SZ-010 Define Room entities, relationships, indices and schema export.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-005 — establish navigation shell and app-level UI state handling.
-- **Next:** SZ-006 — verify debug build and document actual setup.
-- **Blockers:** None. Material 3 botanical tokens and typography implemented and verified.
+- **Current:** SZ-010 — define Room entities, relationships, indices and schema export.
+- **Next:** SZ-011 — implement DAOs and observable queries.
+- **Blockers:** None. Phase 0 foundation completed and verified with successful unit tests and assembleDebug.
