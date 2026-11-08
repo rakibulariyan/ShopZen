@@ -146,6 +146,14 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. Room KSP compiler generated all DAO implementations (`ShoppingListDao_Impl`, `ShoppingItemDao_Impl`, `CategoryDao_Impl`, `HistoryDao_Impl`, `ShopZenDatabase_Impl`) and verified all SQL queries against the SQLite schema. Debug build verified via `.\gradlew.bat assembleDebug`.
 
+### Repositories, Domain Models & Mappers Verification: 2026-11-09 (Task SZ-012)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 36 unit tests (including `MappersTest` with 6 tests verifying bidirectional domain/entity mapping and aggregate counts, and `RepositoriesTest` with 7 tests verifying list CRUD/duplication/reset logic, item sorting, category default seeding, and atomic history snapshot creation with exact minor unit calculations)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. All 4 domain repositories (`ShoppingListRepository`, `ShoppingItemRepository`, `CategoryRepository`, `HistoryRepository`), domain models, and mappers verified and integrated. Debug build verified via `.\gradlew.bat assembleDebug`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
