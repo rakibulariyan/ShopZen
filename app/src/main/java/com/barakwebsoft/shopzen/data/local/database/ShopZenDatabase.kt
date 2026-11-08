@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.barakwebsoft.shopzen.data.local.DefaultCategories
 import com.barakwebsoft.shopzen.data.local.dao.CategoryDao
 import com.barakwebsoft.shopzen.data.local.dao.HistoryDao
 import com.barakwebsoft.shopzen.data.local.dao.ShoppingItemDao
@@ -13,6 +15,9 @@ import com.barakwebsoft.shopzen.data.local.entity.HistoryItemEntity
 import com.barakwebsoft.shopzen.data.local.entity.ShoppingHistoryEntity
 import com.barakwebsoft.shopzen.data.local.entity.ShoppingItemEntity
 import com.barakwebsoft.shopzen.data.local.entity.ShoppingListEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Database(
     entities = [
@@ -44,7 +49,17 @@ abstract class ShopZenDatabase : RoomDatabase() {
                     context.applicationContext,
                     ShopZenDatabase::class.java,
                     DATABASE_NAME
-                ).build().also { INSTANCE = it }
+                )
+                    .addCallback(object : Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                getInstance(context).categoryDao().insertCategories(DefaultCategories.ALL)
+                            }
+                        }
+                    })
+                    .build()
+                    .also { INSTANCE = it }
             }
         }
     }

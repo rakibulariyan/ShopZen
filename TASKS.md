@@ -12,7 +12,7 @@
 
 ## Phase 1 — Local data foundation
 - [x] SZ-010 Define Room entities, relationships, indices and schema export.
-- [ ] SZ-011 Implement DAOs and observable queries.
+- [x] SZ-011 Implement DAOs and observable queries.
 - [ ] SZ-012 Implement repositories and domain models/mappers.
 - [ ] SZ-013 Implement database migrations and migration tests.
 - [ ] SZ-014 Implement DataStore preferences.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-011 — implement DAOs and observable queries.
-- **Next:** SZ-012 — implement repositories and domain models/mappers.
-- **Blockers:** None. Room entities, indices, foreign keys, and schema export version 1 verified and committed.
+- **Current:** SZ-012 — implement repositories and domain models/mappers.
+- **Next:** SZ-013 — implement database migrations and migration tests.
+- **Blockers:** None. Room entities, DAOs, observable queries, database pre-population callback, and schema v1 verified and passing 23/23 tests.

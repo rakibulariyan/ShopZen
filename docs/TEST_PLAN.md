@@ -133,10 +133,18 @@ For each run, record:
 ### Room Entities & Schema Verification: 2026-11-09 (Task SZ-010)
 - **Command:** `.\gradlew.bat test`
 - **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
-- **Passed:** 16 unit tests (including `RoomEntityStructureTest` verifying 5 entities, indices, foreign keys, cascade delete constraints, and exported schema `1.json`)
+- **Passed:** 17 unit tests (including `RoomEntityStructureTest` verifying 5 entities, indices, foreign keys, cascade delete constraints, and exported schema `1.json`)
 - **Failed:** 0
 - **Skipped:** 0
-- **Failures/Issues:** None. Room 2.7.2 and KSP 2.2.10-2.0.2 compiler processing verified. Schema successfully exported to `app/schemas`.
+- **Failures/Issues:** None. Room 2.7.2 and KSP 2.3.9 compiler processing verified. Schema successfully exported to `app/schemas`.
+
+### Room DAOs & Observable Queries Verification: 2026-11-09 (Task SZ-011)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 23 unit tests (including `RoomDaoStructureTest` verifying 4 DAOs, Flow observable queries, atomic `@Transaction` archive execution, KSP generated `_Impl` implementations, default categories seeding, and `ShopZenDatabase` DAO accessors)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. Room KSP compiler generated all DAO implementations (`ShoppingListDao_Impl`, `ShoppingItemDao_Impl`, `CategoryDao_Impl`, `HistoryDao_Impl`, `ShopZenDatabase_Impl`) and verified all SQL queries against the SQLite schema. Debug build verified via `.\gradlew.bat assembleDebug`.
 
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
