@@ -1,0 +1,75 @@
+# ShopZen — Development Tasks
+
+> Status values: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `DONE`. Mark `DONE` only after implementation and the stated verification have been completed. Update this file as tasks are verified.
+
+## Phase 0 — Project inspection and foundation
+- [x] SZ-001 Inspect existing Android Studio project, Gradle configuration, package IDs and Git status.
+- [x] SZ-002 Confirm application ID/namespace, SDK configuration and compatible toolchain versions.
+- [ ] SZ-003 Establish package/module structure and dependency conventions without unnecessary modules.
+- [ ] SZ-004 Implement Material 3 theme tokens, typography and light/dark/system theme foundation.
+- [ ] SZ-005 Establish navigation shell and app-level UI state handling.
+- [ ] SZ-006 Verify debug build and document actual setup.
+
+## Phase 1 — Local data foundation
+- [ ] SZ-010 Define Room entities, relationships, indices and schema export.
+- [ ] SZ-011 Implement DAOs and observable queries.
+- [ ] SZ-012 Implement repositories and domain models/mappers.
+- [ ] SZ-013 Implement database migrations and migration tests.
+- [ ] SZ-014 Implement DataStore preferences.
+- [ ] SZ-015 Test CRUD, foreign keys, transactions and persistence.
+
+## Phase 2 — Shopping list workflows
+- [ ] SZ-020 Home list overview and empty state.
+- [ ] SZ-021 Create, edit, archive and delete shopping lists.
+- [ ] SZ-022 Duplicate list with new IDs and reset purchase state/prices.
+- [ ] SZ-023 List details and item ordering.
+- [ ] SZ-024 Add, edit and delete shopping items.
+- [ ] SZ-025 Categories and category selection.
+- [ ] SZ-026 Search and filtering.
+- [ ] SZ-027 Validate critical list/item flows with tests.
+
+## Phase 3 — Market Mode and budget
+- [ ] SZ-030 Implement exact money and quantity calculation utilities.
+- [ ] SZ-031 Implement purchased/pending item state and undo.
+- [ ] SZ-032 Implement Market Mode, large touch targets and haptic feedback.
+- [ ] SZ-033 Implement actual price entry.
+- [ ] SZ-034 Implement budget summary, over-budget warning and unpriced-item handling.
+- [ ] SZ-035 Ensure Market Mode, Add/Edit Item and Budget screens contain no ads.
+- [ ] SZ-036 Test rounding, zero-decimal currencies, large values and edge cases.
+
+## Phase 4 — History and settings
+- [ ] SZ-040 Implement atomic archive and immutable history snapshots.
+- [ ] SZ-041 Implement history list and historical detail screens.
+- [ ] SZ-042 Implement currency selection per list and locale-based default.
+- [ ] SZ-043 Implement appearance and app preferences.
+- [ ] SZ-044 Implement data export/import only if confirmed in the approved MVP scope.
+- [ ] SZ-045 Test archive, snapshot integrity and deletion behavior.
+
+## Phase 5 — Monetization
+- [ ] SZ-050 Verify current Google Mobile Ads SDK and UMP integration guidance.
+- [ ] SZ-051 Implement consent flow and privacy-safe ad initialization.
+- [ ] SZ-052 Add ads only to approved placements; never in protected screens.
+- [ ] SZ-053 Verify current Google Play Billing integration guidance.
+- [ ] SZ-054 Implement yearly Remove Ads entitlement using Play-provided localized price.
+- [ ] SZ-055 Handle pending, purchased, cancelled, expired, restored and unavailable states.
+- [ ] SZ-056 Test billing/ad behavior; do not trust a local boolean as purchase proof.
+
+## Phase 6 — Release readiness
+- [ ] SZ-060 Complete critical journey and regression tests.
+- [ ] SZ-061 Review accessibility, small screens, theme and performance.
+- [ ] SZ-062 Review privacy disclosures, permissions and Data safety declarations.
+- [ ] SZ-063 Verify current Play target API and store requirements.
+- [ ] SZ-064 Configure release signing securely and verify AAB.
+- [ ] SZ-065 Prepare store listing assets and release notes.
+- [ ] SZ-066 Complete production checklist and release handover.
+
+## Deferred / not MVP
+- [ ] Future: widgets, voice item entry, templates, sharing/export enhancements.
+- [ ] Future: family real-time sync and cloud backup.
+- [ ] Future: barcode scanning and pantry/low-stock management.
+- [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
+
+## Current task
+- **Current:** SZ-003 — establish package/module structure and dependency conventions without unnecessary modules.
+- **Next:** SZ-004 — implement Material 3 theme tokens, typography and light/dark/system theme foundation.
+- **Blockers:** None. Project inspection, toolchain verification and test baseline verified. Note: Git repo is not yet initialized in the project directory.

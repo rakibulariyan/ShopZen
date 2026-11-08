@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-dim": "#d0ddd5", "inverse-surface": "#28332d", "primary-fixed": "#94f6c4", "secondary-container": "#bdef8b", "outline": "#6e7a72", "tertiary-container": "#b45857", "inverse-on-surface": "#e7f4eb", "on-secondary-container": "#446d19", "on-error": "#ffffff", "surface-tint": "#006c48", "surface": "#f0fcf4", "on-primary-fixed-variant": "#005236", "surface-container-highest": "#d9e6dd", "on-secondary": "#ffffff", "error": "#ba1a1a", "on-surface-variant": "#3e4942", "background": "#f0fcf4", "on-tertiary-fixed": "#400107", "on-primary-fixed": "#002113", "on-secondary-fixed-variant": "#2b5000", "outline-variant": "#bdcac0", "on-tertiary-container": "#fffaf9", "surface-bright": "#f0fcf4", "secondary": "#406915", "surface-container": "#e4f1e9", "tertiary": "#954040", "secondary-fixed": "#c0f18d", "error-container": "#ffdad6", "surface-container-lowest": "#ffffff", "on-surface": "#131e19", "on-primary": "#ffffff", "on-tertiary": "#ffffff", "primary-fixed-dim": "#78d9aa", "tertiary-fixed-dim": "#ffb3b0", "primary-container": "#16845b", "on-secondary-fixed": "#0e2000", "inverse-primary": "#78d9aa", "surface-container-low": "#eaf7ee", "secondary-fixed-dim": "#a5d574", "on-primary-container": "#f2fff4", "on-error-container": "#93000a", "on-tertiary-fixed-variant": "#7b2c2d", "on-background": "#131e19", "tertiary-fixed": "#ffdad8", "surface-variant": "#d9e6dd", "surface-container-high": "#deebe3", "primary": "#006946" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xs": "0.25rem", "gutter": "1rem", "space-xl": "2rem", "margin": "1rem", "space-lg": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem" }, fontFamily: { "numeral-md": ["Inter"], "headline-md": ["Inter"], "body-md": ["Inter"], "display-lg-mobile": ["Inter"], "numeral-lg": ["Inter"], "body-lg": ["Inter"], "label-md": ["Inter"], "title-md": ["Inter"], "headline-md-mobile": ["Inter"], "display-lg": ["Inter"] }, fontSize: { "numeral-md": ["16px", { lineHeight: "22px", letterSpacing: "0em", fontWeight: "600" }], "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }], "body-md": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "400" }], "display-lg-mobile": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "numeral-lg": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0.01em", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }], "title-md": ["18px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "600" }], "headline-md-mobile": ["22px", { lineHeight: "28px", letterSpacing: "0em", fontWeight: "600" }], "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }] } } } }</script><style>@layer base { html, body { width: 100%; margin: 0; padding: 0; background-color: #f0fcf4; -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-full"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.03)]"><div class="h-16 px-space-sm flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Go back or close" class="w-12 h-12 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container active:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-title-md text-title-md text-on-surface tracking-tight truncate max-w-[210px]">Create From Template</h1></div><div class="flex items-center gap-space-xs pr-space-xs"><button aria-label="More screen actions" class="w-12 h-12 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[24px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe bg-surface"><div class="flex flex-col w-full pb-36">
+<!-- Reassurance Brand Banner -->
+<div class="mx-margin mt-space-sm mb-space-md p-space-md bg-surface-container-low rounded-2xl flex items-start gap-space-md shadow-sm">
+<div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface">Template Safety Active</span>
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+        Creating a fresh trip from <span class="font-semibold text-on-surface">"Weekly Groceries"</span>. The original master template stays untouched and ready for next week.
+      </p>
+</div>
+</div>
+<div class="px-margin flex flex-col gap-space-lg">
+<!-- List Name Field Section -->
+<div class="flex flex-col gap-1.5">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm focus-within:shadow-md transition-shadow">
+<label class="block font-label-md text-label-md text-primary font-semibold uppercase tracking-wider mb-1" for="list-name-input">
+          List Name *
+        </label>
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">edit_note</span>
+<input class="w-full bg-transparent font-body-lg text-body-lg text-on-surface focus:outline-none placeholder:text-on-surface-variant font-medium" id="list-name-input" placeholder="E.g., Sunday Fresh Haul" type="text" value="Weekly Groceries - Oct 28"/>
+<button aria-label="Clear list title" class="w-12 h-12 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container transition-colors shrink-0" onclick="document.getElementById('list-name-input').value = ''; document.getElementById('list-name-input').focus();" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">auto_awesome</span>
+<span class="font-label-md text-label-md">Auto-appended today's date to keep recurring trips distinct.</span>
+</div>
+</div>
+<!-- Currency & Target Budget Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm flex flex-col gap-space-md">
+<!-- Currency selector row -->
+<div class="flex items-center justify-between py-1">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">currency_rupee</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface-variant">Active Currency</span>
+<span class="font-title-md text-title-md text-on-surface truncate">INR (₹) • Indian Rupee</span>
+</div>
+</div>
+<button class="h-10 px-space-md rounded-xl bg-surface-container hover:bg-surface-container-high active:bg-surface-dim text-primary font-label-md text-label-md transition-colors flex items-center gap-1" type="button">
+<span>Change</span>
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+</div>
+<div class="h-[1px] bg-surface-container-highest w-full"></div>
+<!-- Budget Ceiling Inputs -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-on-surface">Target Budget Ceiling</span>
+<span class="font-label-md text-label-md px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">Flexible Cap</span>
+</div>
+<div class="bg-surface-container-low rounded-xl px-space-md py-space-sm flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-primary font-bold">₹</span>
+<input class="w-32 bg-transparent font-numeral-lg text-numeral-lg text-on-surface focus:outline-none font-bold tracking-tight" id="budget-input" type="number" value="2000"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Tap to adjust</span>
+</div>
+<!-- Headroom / Buffer pill -->
+<div class="bg-surface-container p-space-sm rounded-xl flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">trending_up</span>
+<div class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-label-md text-label-md text-on-surface">
+<span>Template estimate: <strong class="text-on-surface font-semibold" id="dynamic-estimate">₹1,850</strong></span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-secondary font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">savings</span>
+              Safe headroom: +₹150 (8% buffer)
+            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Items Review & Customization -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-2">
+<h2 class="font-title-md text-title-md text-on-surface">Included Items</h2>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md font-semibold" id="items-badge">16 items</span>
+</div>
+<button class="h-10 px-space-md rounded-full bg-surface-container-high hover:bg-surface-dim text-primary font-label-md text-label-md font-semibold flex items-center gap-1 active:scale-95 transition-all" onclick="addNewItemPrompt()" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Extra Item</span>
+</button>
+</div>
+<!-- Item Card List -->
+<div class="flex flex-col gap-space-xs" id="items-container">
+<!-- Item 1: Roma Tomatoes -->
+<div class="item-row bg-surface-container-lowest rounded-2xl p-space-md flex items-center justify-between gap-space-sm shadow-sm transition-all" data-base-price="35" data-unit="kg">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">nutrition</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-lg text-body-lg font-medium text-on-surface truncate">Roma Tomatoes</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="item-calc">2 kg</span> • <span class="item-total-cost font-semibold text-on-surface">₹70</span>
+</span>
+</div>
+</div>
+<!-- Stepper & Actions -->
+<div class="flex items-center gap-space-xs shrink-0">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 gap-1">
+<button aria-label="Decrease quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="qty-display w-7 text-center font-numeral-md text-numeral-md text-on-surface font-semibold">2</span>
+<button aria-label="Increase quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<button aria-label="Remove item" class="w-11 h-11 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container/30 active:scale-90 transition-all" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Red Onions -->
+<div class="item-row bg-surface-container-lowest rounded-2xl p-space-md flex items-center justify-between gap-space-sm shadow-sm transition-all" data-base-price="40" data-unit="kg">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">eco</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-lg text-body-lg font-medium text-on-surface truncate">Red Onions</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="item-calc">3 kg</span> • <span class="item-total-cost font-semibold text-on-surface">₹120</span>
+</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 gap-1">
+<button aria-label="Decrease quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="qty-display w-7 text-center font-numeral-md text-numeral-md text-on-surface font-semibold">3</span>
+<button aria-label="Increase quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<button aria-label="Remove item" class="w-11 h-11 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container/30 active:scale-90 transition-all" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Organic Whole Milk -->
+<div class="item-row bg-surface-container-lowest rounded-2xl p-space-md flex items-center justify-between gap-space-sm shadow-sm transition-all" data-base-price="58" data-unit="L">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">local_drink</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-lg text-body-lg font-medium text-on-surface truncate">Organic Whole Milk</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="item-calc">2 L</span> • <span class="item-total-cost font-semibold text-on-surface">₹116</span>
+</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 gap-1">
+<button aria-label="Decrease quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="qty-display w-7 text-center font-numeral-md text-numeral-md text-on-surface font-semibold">2</span>
+<button aria-label="Increase quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<button aria-label="Remove item" class="w-11 h-11 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container/30 active:scale-90 transition-all" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Salted Butter -->
+<div class="item-row bg-surface-container-lowest rounded-2xl p-space-md flex items-center justify-between gap-space-sm shadow-sm transition-all" data-base-price="275" data-unit="pack">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="w-11 h-11 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">bakery_dining</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-lg text-body-lg font-medium text-on-surface truncate">Salted Butter (500g)</span>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="item-calc">1 pack</span> • <span class="item-total-cost font-semibold text-on-surface">₹275</span>
+</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 gap-1">
+<button aria-label="Decrease quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="qty-display w-7 text-center font-numeral-md text-numeral-md text-on-surface font-semibold">1</span>
+<button aria-label="Increase quantity" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container active:scale-95 transition-transform" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<button aria-label="Remove item" class="w-11 h-11 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container/30 active:scale-90 transition-all" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Accordion for remaining items -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
+<button class="w-full p-space-md flex items-center justify-between text-left hover:bg-surface-container-low transition-colors" id="accordion-trigger" onclick="toggleAccordion()" type="button">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-md font-bold">
+              +12
+            </div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">12 more pantry &amp; produce staples</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Rice, Lentils, Spices, Bread, Eggs &amp; more</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[24px] transition-transform duration-300" id="accordion-chevron">
+            expand_more
+          </span>
+</button>
+<div class="hidden px-space-md pb-space-md flex flex-col gap-space-xs pt-1 border-t-0" id="accordion-content">
+<!-- Item 5: Basmati Rice -->
+<div class="item-row bg-surface-container-low rounded-xl p-space-sm flex items-center justify-between gap-space-sm" data-base-price="140" data-unit="kg">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px]">grain</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md font-medium text-on-surface truncate">Aged Basmati Rice</span>
+<span class="font-label-md text-label-md text-on-surface-variant"><span class="item-calc">5 kg</span> • ₹<span class="item-total-cost">700</span></span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Decrease" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[14px]">remove</span>
+</button>
+<span class="qty-display w-6 text-center font-label-md font-bold text-on-surface">5</span>
+<button aria-label="Increase" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+<button aria-label="Remove" class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error flex items-center justify-center ml-1" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Item 6: Free Range Eggs -->
+<div class="item-row bg-surface-container-low rounded-xl p-space-sm flex items-center justify-between gap-space-sm" data-base-price="95" data-unit="tray">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px]">egg</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md font-medium text-on-surface truncate">Brown Eggs (Pack of 12)</span>
+<span class="font-label-md text-label-md text-on-surface-variant"><span class="item-calc">1 tray</span> • ₹<span class="item-total-cost">95</span></span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Decrease" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[14px]">remove</span>
+</button>
+<span class="qty-display w-6 text-center font-label-md font-bold text-on-surface">1</span>
+<button aria-label="Increase" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+<button aria-label="Remove" class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error flex items-center justify-center ml-1" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Item 7: Sourdough Bread -->
+<div class="item-row bg-surface-container-low rounded-xl p-space-sm flex items-center justify-between gap-space-sm" data-base-price="80" data-unit="loaf">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px]">breakfast_dining</span>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md font-medium text-on-surface truncate">Rustic Sourdough Loaf</span>
+<span class="font-label-md text-label-md text-on-surface-variant"><span class="item-calc">1 loaf</span> • ₹<span class="item-total-cost">80</span></span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Decrease" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" onclick="adjustQty(this, -1)" type="button">
+<span class="material-symbols-outlined text-[14px]">remove</span>
+</button>
+<span class="qty-display w-6 text-center font-label-md font-bold text-on-surface">1</span>
+<button aria-label="Increase" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" onclick="adjustQty(this, 1)" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+<button aria-label="Remove" class="w-8 h-8 rounded-lg text-on-surface-variant hover:text-error flex items-center justify-center ml-1" onclick="removeItemRow(this)" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<div class="text-center py-2">
+<span class="font-label-md text-label-md text-on-surface-variant italic">+9 additional household essentials ready in cart</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Duplicate Prevention Safeguard Toggle Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm">
+<label class="flex items-start gap-space-md cursor-pointer select-none">
+<div class="relative flex items-center mt-0.5">
+<input class="sr-only peer" id="duplicate-toggle" type="checkbox"/>
+<div class="w-12 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface">
+            Archive or replace existing "Weekly Groceries" list if active
+          </span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-snug">
+            Default is <strong class="text-primary font-semibold">OFF</strong>. MarketMate creates this as a distinct independent trip to safeguard active shopping carts from accidental overwrites.
+          </p>
+</div>
+</label>
+</div>
+<!-- Quick Tips / Delight Notice -->
+<div class="p-space-md rounded-2xl bg-secondary-container/30 flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary text-[28px] shrink-0" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<p class="font-body-md text-body-md text-on-surface leading-tight">
+<strong>Pro-tip:</strong> You can rearrange and check off items aisle-by-aisle once this active trip is initialized.
+      </p>
+</div>
+</div>
+<!-- Bottom Sticky Action Dock -->
+<div class="fixed bottom-0 inset-x-0 bg-surface/95 backdrop-blur-xl p-space-md pb-safe shadow-[0_-4px_16px_rgba(0,0,0,0.06)] z-40 max-w-md mx-auto flex flex-col gap-2.5">
+<button class="w-full h-14 bg-primary hover:bg-[#105C43] active:scale-[0.99] text-on-primary rounded-xl font-headline-md-mobile text-headline-md-mobile font-semibold flex items-center justify-center gap-space-sm shadow-md transition-all min-h-[48px]" id="create-list-btn" onclick="handleCreateList()" type="button">
+<span class="material-symbols-outlined text-[24px]">shopping_cart_checkout</span>
+<span id="cta-label">Create Shopping List (16 Items • ₹1,850)</span>
+</button>
+<button class="w-full h-11 text-center font-label-md text-label-md font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60 rounded-lg transition-colors flex items-center justify-center" onclick="history.back()" type="button">
+      Cancel &amp; Return to Templates
+    </button>
+</div>
+</div>
+<script>
+  let itemCount = 16;
+  let estimatedTotal = 1850;
+
+  function updateTotals() {
+    const rows = document.querySelectorAll('.item-row');
+    let total = 1850; // base template total baseline
+    
+    // Calculate adjustments
+    let liveRowsCount = rows.length;
+    
+    document.getElementById('items-badge').innerText = itemCount + ' items';
+    document.getElementById('dynamic-estimate').innerText = '₹' + estimatedTotal.toLocaleString('en-IN');
+    document.getElementById('cta-label').innerText = `Create Shopping List (${itemCount} Items • ₹${estimatedTotal.toLocaleString('en-IN')})`;
+  }
+
+  function adjustQty(btn, delta) {
+    const parent = btn.closest('.item-row');
+    const display = parent.querySelector('.qty-display');
+    const basePrice = parseInt(parent.getAttribute('data-base-price') || '50', 10);
+    const unit = parent.getAttribute('data-unit') || 'unit';
+    const totalCostEl = parent.querySelector('.item-total-cost');
+    const calcEl = parent.querySelector('.item-calc');
+
+    let currentQty = parseInt(display.innerText, 10);
+    let newQty = currentQty + delta;
+
+    if (newQty < 1) return; // Prevent zero qty, user should use delete button instead
+
+    display.innerText = newQty;
+    const itemCost = newQty * basePrice;
+    
+    if (totalCostEl) totalCostEl.innerText = itemCost;
+    if (calcEl) calcEl.innerText = `${newQty} ${unit}`;
+
+    // Update global calculation
+    estimatedTotal += (delta * basePrice);
+    updateTotals();
+  }
+
+  function removeItemRow(btn) {
+    const row = btn.closest('.item-row');
+    const basePrice = parseInt(row.getAttribute('data-base-price') || '50', 10);
+    const qty = parseInt(row.querySelector('.qty-display').innerText, 10);
+    
+    // Subtract cost
+    estimatedTotal -= (basePrice * qty);
+    itemCount = Math.max(1, itemCount - 1);
+
+    row.style.opacity = '0';
+    row.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      row.remove();
+      updateTotals();
+    }, 200);
+  }
+
+  function toggleAccordion() {
+    const content = document.getElementById('accordion-content');
+    const chevron = document.getElementById('accordion-chevron');
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      chevron.style.transform = 'rotate(180deg)';
+    } else {
+      content.classList.add('hidden');
+      chevron.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  function addNewItemPrompt() {
+    const name = prompt("Enter extra item name:", "Fresh Mint Leaves");
+    if (!name) return;
+
+    itemCount += 1;
+    estimatedTotal += 30; // nominal price
+
+    const container = document.getElementById('items-container');
+    const newDiv = document.createElement('div');
+    newDiv.className = "item-row bg-surface-container-lowest rounded-2xl p-space-md flex items-center justify-between gap-space-sm shadow-sm transition-all";
+    newDiv.setAttribute('data-base-price', '30');
+    newDiv.setAttribute('data-unit', 'bunch');
+    newDiv.innerHTML = `
+      <div class="flex items-center gap-space-md min-w-0 flex-1">
+        <div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary shrink-0">
+          <span class="material-symbols-outlined text-[24px]">add_task</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="font-body-lg text-body-lg font-medium text-on-surface truncate">${name}</span>
+          <span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+            <span class="item-calc">1 bunch</span> • ₹<span class="item-total-cost font-semibold text-on-surface">30</span>
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-xs shrink-0">
+        <div class="flex items-center bg-surface-container-low rounded-xl p-1 gap-1">
+          <button type="button" onclick="adjustQty(this, -1)" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" aria-label="Decrease quantity">
+            <span class="material-symbols-outlined text-[16px]">remove</span>
+          </button>
+          <span class="qty-display w-7 text-center font-numeral-md text-numeral-md text-on-surface font-semibold">1</span>
+          <button type="button" onclick="adjustQty(this, 1)" class="w-9 h-9 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center" aria-label="Increase quantity">
+            <span class="material-symbols-outlined text-[16px]">add</span>
+          </button>
+        </div>
+        <button type="button" onclick="removeItemRow(this)" class="w-11 h-11 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-error transition-all" aria-label="Remove item">
+          <span class="material-symbols-outlined text-[20px]">delete</span>
+        </button>
+      </div>
+    `;
+    container.insertBefore(newDiv, container.firstChild);
+    updateTotals();
+  }
+
+  function handleCreateList() {
+    const listTitle = document.getElementById('list-name-input').value.trim() || 'Weekly Groceries';
+    const ctaBtn = document.getElementById('create-list-btn');
+    
+    ctaBtn.disabled = true;
+    ctaBtn.classList.add('opacity-80');
+    ctaBtn.innerHTML = `
+      <span class="material-symbols-outlined animate-spin text-[24px]">progress_activity</span>
+      <span>Generating List...</span>
+    `;
+
+    setTimeout(() => {
+      ctaBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[24px]">check_circle</span>
+        <span>List Created!</span>
+      `;
+      ctaBtn.classList.replace('bg-primary', 'bg-secondary');
+      
+      // Feedback toast/redirect simulation
+      setTimeout(() => {
+        alert(`Success! Created "${listTitle}" with ${itemCount} items.`);
+        history.back();
+      }, 500);
+    }, 700);
+  }
+</script></main></body></html>

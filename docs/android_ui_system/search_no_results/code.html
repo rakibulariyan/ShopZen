@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "tertiary-fixed": "#ffdad8", "surface-container": "#e4f1e9", "primary": "#006946", "surface-variant": "#d9e6dd", "tertiary-container": "#b45857", "secondary-fixed": "#c0f18d", "primary-fixed": "#94f6c4", "on-error-container": "#93000a", "on-secondary-fixed": "#0e2000", "on-tertiary-fixed": "#400107", "on-tertiary": "#ffffff", "on-primary-container": "#f2fff4", "surface": "#f0fcf4", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#2b5000", "on-tertiary-fixed-variant": "#7b2c2d", "surface-bright": "#f0fcf4", "tertiary": "#954040", "surface-dim": "#d0ddd5", "on-secondary-container": "#446d19", "surface-container-lowest": "#ffffff", "on-surface": "#131e19", "on-primary-fixed": "#002113", "surface-container-highest": "#d9e6dd", "primary-container": "#16845b", "surface-container-low": "#eaf7ee", "on-background": "#131e19", "outline-variant": "#bdcac0", "on-error": "#ffffff", "outline": "#6e7a72", "on-surface-variant": "#3e4942", "on-primary": "#ffffff", "secondary": "#406915", "secondary-container": "#bdef8b", "error-container": "#ffdad6", "primary-fixed-dim": "#78d9aa", "error": "#ba1a1a", "secondary-fixed-dim": "#a5d574", "on-tertiary-container": "#fffaf9", "surface-container-high": "#deebe3", "tertiary-fixed-dim": "#ffb3b0", "on-primary-fixed-variant": "#005236", "inverse-on-surface": "#e7f4eb", "surface-tint": "#006c48", "background": "#f0fcf4", "inverse-surface": "#28332d", "inverse-primary": "#78d9aa" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" }, spacing: { "space-sm": "0.5rem", "space-lg": "1.5rem", "gutter": "1rem", "space-xl": "2rem", "margin": "1rem", "space-md": "1rem", "space-xs": "0.25rem" }, fontFamily: { "label-md": ["Inter"], "numeral-md": ["Inter"], "display-lg": ["Inter"], "headline-md-mobile": ["Inter"], "title-md": ["Inter"], "display-lg-mobile": ["Inter"], "body-lg": ["Inter"], "numeral-lg": ["Inter"], "headline-md": ["Inter"], "body-md": ["Inter"] }, fontSize: { "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }], "numeral-md": ["16px", { lineHeight: "22px", letterSpacing: "0em", fontWeight: "600" }], "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-md-mobile": ["22px", { lineHeight: "28px", letterSpacing: "0em", fontWeight: "600" }], "title-md": ["18px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "600" }], "display-lg-mobile": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0.01em", fontWeight: "400" }], "numeral-lg": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }], "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }], "body-md": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Navigate back" class="w-11 h-11 -ml-space-xs flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container active:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-title-md text-title-md text-on-surface tracking-tight truncate max-w-[200px]">Offline Sync State</h1></div><div class="flex items-center gap-space-xs"><button aria-label="More actions" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container active:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[24px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full px-gutter pt-16 pb-safe bg-surface flex-1"><div class="flex flex-col w-full pb-8">
+<!-- Active Search Input Field -->
+<div class="w-full pt-2 pb-3">
+<div class="relative flex items-center w-full h-14 bg-surface-container-low rounded-xl px-3 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary shadow-sm">
+<span class="material-symbols-outlined text-primary text-[22px] ml-1 select-none">search</span>
+<input aria-label="Search items" class="w-full bg-transparent border-0 outline-none px-3 font-body-lg text-body-lg text-on-surface placeholder:text-on-surface-variant truncate" id="search-input" placeholder="Search items, lists, or receipts..." type="text" value="Avocado Toast"/>
+<div class="flex items-center gap-1">
+<button aria-label="Clear search input" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-high active:scale-95 transition-all" id="btn-clear" onclick="clearSearch()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button aria-label="Voice search" class="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-surface-container-high active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Filter Chips Scrollable Row -->
+<div class="w-full overflow-x-auto no-scrollbar -mx-gutter px-gutter py-1">
+<div aria-label="Search domains" class="flex items-center gap-2 min-w-max" role="tablist">
+<button aria-selected="true" class="h-8 px-4 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center shadow-sm select-none active:scale-95 transition-transform" role="tab">
+<span class="material-symbols-outlined text-[16px] mr-1.5" style="font-variation-settings: 'FILL' 1;">done</span>
+        All
+      </button>
+<button aria-selected="false" class="h-8 px-4 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md flex items-center justify-center shadow-sm hover:bg-surface-container active:scale-95 transition-all" role="tab">
+        Items
+      </button>
+<button aria-selected="false" class="h-8 px-4 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md flex items-center justify-center shadow-sm hover:bg-surface-container active:scale-95 transition-all" role="tab">
+        Lists
+      </button>
+<button aria-selected="false" class="h-8 px-4 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md flex items-center justify-center shadow-sm hover:bg-surface-container active:scale-95 transition-all" role="tab">
+        History
+      </button>
+</div>
+</div>
+<!-- Central Empty State Graphic & Narrative -->
+<div class="flex flex-col items-center justify-center text-center px-4 pt-10 pb-6">
+<!-- Playful Botanical-Themed Search Illustration Container -->
+<div class="relative w-36 h-36 flex items-center justify-center mb-6">
+<!-- Soft ambient backdrop blobs -->
+<div class="absolute inset-0 bg-surface-container rounded-full scale-100 animate-pulse opacity-70"></div>
+<div class="absolute -top-2 -right-1 w-12 h-12 bg-secondary-container/70 rounded-full blur-md"></div>
+<div class="absolute -bottom-1 -left-2 w-14 h-14 bg-primary-fixed/50 rounded-full blur-sm"></div>
+<!-- Tactile Card Graphic -->
+<div class="relative w-28 h-28 bg-surface-container-lowest rounded-3xl shadow-md flex items-center justify-center overflow-hidden">
+<!-- Botanical leaf subtle motif -->
+<svg class="absolute -bottom-4 -right-4 w-16 h-16 text-surface-container opacity-90" fill="currentColor" viewbox="0 0 100 100">
+<path d="M50 0 C70 30 90 50 100 100 C50 90 30 70 0 50 C30 50 50 30 50 0 Z"></path>
+</svg>
+<!-- Magnifying Glass with curious mark -->
+<div class="relative flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[36px]" style="font-variation-settings: 'wght' 500;">search_check</span>
+</div>
+<!-- Question badge overlay -->
+<div class="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px] font-bold">question_mark</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Core Messaging -->
+<h2 class="font-headline-md-mobile text-headline-md-mobile text-on-surface tracking-tight max-w-xs">
+      No results for “<span class="text-primary font-title-md text-title-md" id="query-term">Avocado Toast</span>”
+    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-xs leading-relaxed">
+      We couldn't find any items, shopping lists, or past receipts matching your search. Check spelling or try a different term.
+    </p>
+<!-- Instant Primary Creation Action (Material 3 Touch Target) -->
+<div class="w-full mt-6">
+<button class="w-full h-12 px-5 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-[0.98] transition-all" id="btn-create-item" onclick="triggerCreateToast()">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Create item “Avocado Toast”</span>
+</button>
+</div>
+</div>
+<!-- Suggested / Popular Categories Mosaic -->
+<div class="w-full mt-4 bg-surface-container-low rounded-2xl p-4 shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">explore</span>
+<h3 class="font-title-md text-title-md text-on-surface">Explore Categories</h3>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Quick Jump</span>
+</div>
+<!-- Category Chips Grid -->
+<div class="flex flex-wrap gap-2">
+<button class="group flex items-center gap-2 px-3 py-2 bg-surface-container-lowest rounded-xl shadow-sm hover:bg-surface-container-high active:scale-95 transition-all text-left" onclick="quickSearch('Vegetables')">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">nutrition</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Vegetables</span>
+</button>
+<button class="group flex items-center gap-2 px-3 py-2 bg-surface-container-lowest rounded-xl shadow-sm hover:bg-surface-container-high active:scale-95 transition-all text-left" onclick="quickSearch('Monthly Grocery')">
+<div class="w-7 h-7 rounded-lg bg-secondary-container/40 flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Monthly Grocery</span>
+</button>
+<button class="group flex items-center gap-2 px-3 py-2 bg-surface-container-lowest rounded-xl shadow-sm hover:bg-surface-container-high active:scale-95 transition-all text-left" onclick="quickSearch('Dairy &amp; Eggs')">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">egg</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Dairy &amp; Eggs</span>
+</button>
+<button class="group flex items-center gap-2 px-3 py-2 bg-surface-container-lowest rounded-xl shadow-sm hover:bg-surface-container-high active:scale-95 transition-all text-left" onclick="quickSearch('Diwali Snacks')">
+<div class="w-7 h-7 rounded-lg bg-secondary-container/40 flex items-center justify-center text-secondary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">cookie</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Diwali Snacks</span>
+</button>
+<button class="group flex items-center gap-2 px-3 py-2 bg-surface-container-lowest rounded-xl shadow-sm hover:bg-surface-container-high active:scale-95 transition-all text-left" onclick="quickSearch('Artisan Bread')">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Artisan Bread</span>
+</button>
+</div>
+</div>
+<!-- Visual Pantry Suggestions / Recipe Discovery Hook -->
+<div class="w-full mt-4">
+<div class="flex items-center justify-between mb-2 px-1">
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold uppercase tracking-wider">Related Inspiration</span>
+<span class="font-label-md text-label-md text-primary flex items-center cursor-pointer">
+        View all <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</span>
+</div>
+<!-- Mini Cards Row -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Recipe Card 1 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm p-2 active:scale-98 transition-transform">
+<div class="relative w-full h-24 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up artisanal whole wheat sliced sourdough loaf on a bright rustic wooden cutting board with rosemary sprigs, bright botanical kitchen lighting, crisp food photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnWTwJwO2A5LAtkcgkm0uQJDsDwvQqvS-gKs-tbmYNgHo0_qmEdQmGgxqOgq-J8ruPdhjWG-LHU5BrCdYU7Cb9vH05bYSl5k_b1PHi_T5dAlOGtvz-JyVQ78CqkaNki43Rdcdnr0Q-izpJKf5SnmtbYhTi8-Ge21OqbE3gDzAfKvn0gmqVaf9BE1TlQ2zUgqcpn0pGq3ir8umnaChAh67Sud4nZNT40mj20ZNi_A"/>
+<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-inverse-surface/80 text-inverse-on-surface font-label-md text-[10px]">
+            Bakery
+          </div>
+</div>
+<div class="pt-2 px-1">
+<span class="font-body-md text-body-md font-semibold text-on-surface block truncate">Sourdough Loaf</span>
+<span class="font-label-md text-label-md text-on-surface-variant block mt-0.5">Key ingredient</span>
+</div>
+</div>
+<!-- Recipe Card 2 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm p-2 active:scale-98 transition-transform">
+<div class="relative w-full h-24 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Fresh ripe green Hass avocados halved and clustered on a clean porcelain plate with lime wedges, soft natural daylight, vibrant food styling with fresh organic produce" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwkf2yr46Njv49GhWfV1Wr9xlnEjKDFvO_qxCNHx_2F78DeL6B_xaZkQ5PCC8bAzQpMJeWSAe37wPPMCoxgj-TMlsYe0botrsE1Msg6ly0My32NdpPnuWtK0doH7M9-Gxz3ZCz_xMmdb7P4Ldx8WgH9ljObUxjJdEREbHvMTewVAqe23lL7YOpMU5IY68-ObXKu_xo5kRazzBezufa_0UVx8DgLpJTp9cF2t1vew"/>
+<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-md text-[10px]">
+            Produce
+          </div>
+</div>
+<div class="pt-2 px-1">
+<span class="font-body-md text-body-md font-semibold text-on-surface block truncate">Hass Avocados</span>
+<span class="font-label-md text-label-md text-on-surface-variant block mt-0.5">3-pack organic</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ephemeral Feedback Snackbar / Toast Container -->
+<div aria-live="polite" class="fixed bottom-6 inset-x-gutter max-w-sm mx-auto z-40 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-xl shadow-xl flex items-center justify-between opacity-0 pointer-events-none translate-y-3 transition-all duration-300" id="toast-notification" role="status">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]">check_circle</span>
+<span class="font-body-md text-body-md">Added “Avocado Toast” to active list!</span>
+</div>
+<button class="text-secondary-fixed font-label-md text-label-md uppercase font-semibold px-2 py-1 active:opacity-75" onclick="dismissToast()">
+      Undo
+    </button>
+</div>
+</div>
+<script>
+  function clearSearch() {
+    const input = document.getElementById('search-input');
+    const term = document.getElementById('query-term');
+    const createBtn = document.getElementById('btn-create-item');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    if (term) term.innerText = '';
+    if (createBtn) {
+      createBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[20px]">add_circle</span>
+        <span>+ Create new custom item</span>
+      `;
+    }
+  }
+
+  function quickSearch(category) {
+    const input = document.getElementById('search-input');
+    const term = document.getElementById('query-term');
+    const createBtn = document.getElementById('btn-create-item');
+    if (input) {
+      input.value = category;
+    }
+    if (term) {
+      term.innerText = category;
+    }
+    if (createBtn) {
+      createBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[20px]">add_circle</span>
+        <span>+ Create item &ldquo;${category}&rdquo;</span>
+      `;
+    }
+  }
+
+  let toastTimer = null;
+  function triggerCreateToast() {
+    const toast = document.getElementById('toast-notification');
+    if (!toast) return;
+    
+    // Clear any previous countdown
+    if (toastTimer) clearTimeout(toastTimer);
+
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    toastTimer = setTimeout(() => {
+      dismissToast();
+    }, 3800);
+  }
+
+  function dismissToast() {
+    const toast = document.getElementById('toast-notification');
+    if (!toast) return;
+    toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+    toast.classList.remove('opacity-100', 'translate-y-0');
+  }
+
+  // Handle dynamic text entry
+  document.getElementById('search-input')?.addEventListener('input', function(e) {
+    const val = e.target.value.trim();
+    const term = document.getElementById('query-term');
+    const createBtn = document.getElementById('btn-create-item');
+    if (term) term.innerText = val || 'item';
+    if (createBtn) {
+      createBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[20px]">add_circle</span>
+        <span>+ Create item &ldquo;${val || 'New Item'}&rdquo;</span>
+      `;
+    }
+  });
+</script></main></body></html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;min-height:100%;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'on-primary': '#ffffff', 'primary': '#006946', 'on-secondary-container': '#446d19', 'surface-tint': '#006c48', 'on-primary-fixed': '#002113', 'surface-bright': '#f0fcf4', 'inverse-surface': '#28332d', 'on-surface': '#131e19', 'surface': '#f0fcf4', 'outline': '#6e7a72', 'on-tertiary': '#ffffff', 'on-primary-container': '#f2fff4', 'on-secondary-fixed': '#0e2000', 'secondary': '#406915', 'on-error': '#ffffff', 'background': '#f0fcf4', 'on-tertiary-container': '#fffaf9', 'secondary-fixed-dim': '#a5d574', 'secondary-container': '#bdef8b', 'tertiary-fixed-dim': '#ffb3b0', 'surface-variant': '#d9e6dd', 'surface-container-low': '#eaf7ee', 'primary-fixed-dim': '#78d9aa', 'inverse-on-surface': '#e7f4eb', 'on-surface-variant': '#3e4942', 'surface-container-high': '#deebe3', 'inverse-primary': '#78d9aa', 'on-secondary-fixed-variant': '#2b5000', 'on-background': '#131e19', 'on-primary-fixed-variant': '#005236', 'secondary-fixed': '#c0f18d', 'primary-container': '#16845b', 'error-container': '#ffdad6', 'surface-container-lowest': '#ffffff', 'on-tertiary-fixed': '#400107', 'tertiary-container': '#b45857', 'error': '#ba1a1a', 'primary-fixed': '#94f6c4', 'tertiary-fixed': '#ffdad8', 'surface-container': '#e4f1e9', 'on-error-container': '#93000a', 'on-secondary': '#ffffff', 'on-tertiary-fixed-variant': '#7b2c2d', 'surface-dim': '#d0ddd5', 'surface-container-highest': '#d9e6dd', 'outline-variant': '#bdcac0', 'tertiary': '#954040' }, borderRadius: { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, spacing: { 'space-lg': '1.5rem', 'space-sm': '0.5rem', 'space-xs': '0.25rem', 'gutter': '1rem', 'space-md': '1rem', 'margin': '1rem', 'space-xl': '2rem' }, fontFamily: { 'body-lg': ['Inter'], 'headline-md-mobile': ['Inter'], 'display-lg': ['Inter'], 'numeral-lg': ['Inter'], 'display-lg-mobile': ['Inter'], 'body-md': ['Inter'], 'numeral-md': ['Inter'], 'label-md': ['Inter'], 'title-md': ['Inter'], 'headline-md': ['Inter'] }, fontSize: { 'body-lg': ['16px', { lineHeight: '24px', letterSpacing: '0.01em', fontWeight: '400' }], 'headline-md-mobile': ['22px', { lineHeight: '28px', letterSpacing: '0em', fontWeight: '600' }], 'display-lg': ['32px', { lineHeight: '40px', letterSpacing: '-0.02em', fontWeight: '700' }], 'numeral-lg': ['22px', { lineHeight: '28px', letterSpacing: '-0.01em', fontWeight: '700' }], 'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.01em', fontWeight: '700' }], 'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0.01em', fontWeight: '400' }], 'numeral-md': ['16px', { lineHeight: '22px', letterSpacing: '0em', fontWeight: '600' }], 'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.02em', fontWeight: '500' }], 'title-md': ['18px', { lineHeight: '24px', letterSpacing: '0em', fontWeight: '600' }], 'headline-md': ['24px', { lineHeight: '32px', letterSpacing: '-0.01em', fontWeight: '600' }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface min-h-screen w-full flex flex-col font-body-md text-on-surface antialiased pt-safe pb-safe"><main class="relative flex-1 w-full flex flex-col items-center justify-center bg-surface"><div class="flex flex-col w-full relative min-w-0 select-none overflow-hidden">
+<!-- Underneath Content: Shopping List Screen (Soft blurred contextual backdrop) -->
+<div class="w-full px-margin space-y-gutter filter blur-[3px] opacity-40 pointer-events-none transition-all duration-300">
+<!-- Context Header -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center space-x-space-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">shopping_basket</span>
+<h2 class="font-headline-md-mobile text-headline-md-mobile text-on-surface">Monthly Grocery</h2>
+</div>
+<span class="font-label-md text-label-md bg-secondary-container text-on-secondary-container px-space-sm py-1 rounded-full font-semibold">In Progress</span>
+</div>
+<!-- Active List Items Preview Mock -->
+<div class="space-y-space-sm pt-space-xs">
+<div class="bg-surface-container p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center space-x-space-md">
+<div class="w-5 h-5 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[16px]">check</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface line-through opacity-70">Organic Whole Milk (2L)</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Dairy • ₹140</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center space-x-space-md">
+<div class="w-5 h-5 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[16px]">check</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface line-through opacity-70">Basmati Rice (5kg)</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Grains • ₹620</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center space-x-space-md">
+<div class="w-5 h-5 rounded outline outline-2 outline-outline"></div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Avocados (4 pcs)</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Produce • Est. ₹280</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center space-x-space-md">
+<div class="w-5 h-5 rounded outline outline-2 outline-outline"></div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Almond Milk Unsweetened</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Beverages • Est. ₹310</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Material 3 Dialog Scrim Overlay -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm flex items-center justify-center p-gutter transition-opacity duration-200" id="dialog-scrim">
+<!-- M3 AlertDialog Card Container (Corner radius 28dp / rounded-[28px], 24dp / p-6 padding) -->
+<div aria-describedby="dialog-description" aria-labelledby="dialog-title" aria-modal="true" class="w-full max-w-sm bg-surface-container-lowest rounded-[28px] p-6 shadow-xl flex flex-col space-y-space-md transition-transform scale-100 ease-out" role="alertdialog">
+<!-- Dialog Header: Centered Icon + Title -->
+<div class="flex flex-col items-center text-center space-y-space-sm">
+<!-- Soft Emerald Icon Container -->
+<div class="w-14 h-14 rounded-full bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">archive</span>
+</div>
+<!-- Dialog Title -->
+<h3 class="font-headline-md-mobile text-headline-md-mobile text-on-surface tracking-tight pt-space-xs" id="dialog-title">
+          Archive “Monthly Grocery”?
+        </h3>
+</div>
+<!-- Dialog Body Narrative -->
+<p class="font-body-md text-body-md text-on-surface-variant text-center leading-relaxed" id="dialog-description">
+        This shopping list will be moved to Shopping History as a completed trip and marked read-only. Current spending of <span class="font-semibold text-on-surface">₹3,250</span> will be recorded against your monthly budget.
+      </p>
+<!-- Details Summary Card -->
+<div class="bg-surface-container-low rounded-2xl p-space-md space-y-space-sm">
+<!-- Metric 1: Items count -->
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">fact_check</span>
+            Items bought
+          </span>
+<span class="font-numeral-md text-numeral-md text-on-surface">12 of 18</span>
+</div>
+<!-- Metric 2: Final Spent with Budget context -->
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">payments</span>
+            Final Spent
+          </span>
+<div class="text-right">
+<span class="font-numeral-md text-numeral-md text-on-surface">₹3,250</span>
+<span class="font-label-md text-label-md text-on-surface-variant ml-1">(of ₹5,000)</span>
+</div>
+</div>
+<!-- Metric 3: Headroom Saved Banner -->
+<div class="pt-space-xs flex items-center justify-between bg-surface-container-high/60 -mx-1 px-3 py-1.5 rounded-lg">
+<span class="font-label-md text-label-md text-secondary flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">trending_down</span>
+            Headroom saved
+          </span>
+<span class="font-numeral-md text-numeral-md text-secondary font-bold">+₹1,750</span>
+</div>
+</div>
+<!-- Checkbox Option for Cloned Trip -->
+<label class="flex items-center space-x-space-sm cursor-pointer min-h-[48px] px-1 py-1 rounded-xl active:bg-surface-container-high/40 transition-colors">
+<input class="sr-only peer" id="duplicate-checkbox" type="checkbox"/>
+<div class="w-5 h-5 rounded flex items-center justify-center transition-all bg-surface-container-highest peer-checked:bg-primary">
+<span class="material-symbols-outlined text-on-primary text-[16px] scale-0 peer-checked:scale-100 transition-transform">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface min-w-0 flex-1 select-none">
+          Keep a duplicate copy in active lists
+        </span>
+</label>
+<!-- Action Buttons Row (Material 3 standard right-aligned or stacked on mobile; min 48dp touch heights) -->
+<div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-space-sm pt-space-xs">
+<!-- Cancel Action -->
+<button class="w-full sm:w-auto min-h-[48px] px-5 rounded-xl font-label-md text-label-md text-primary font-semibold flex items-center justify-center active:bg-surface-container-high transition-colors" id="btn-cancel" type="button">
+          Cancel
+        </button>
+<!-- Archive List Action -->
+<button class="w-full sm:w-auto min-h-[48px] px-5 rounded-xl font-label-md text-label-md bg-primary text-on-primary font-semibold shadow-sm flex items-center justify-center space-x-2 active:bg-surface-tint transition-all" id="btn-archive" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">archive</span>
+<span>Archive List</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+    (function() {
+      const scrim = document.getElementById('dialog-scrim');
+      const cancelBtn = document.getElementById('btn-cancel');
+      const archiveBtn = document.getElementById('btn-archive');
+      const checkbox = document.getElementById('duplicate-checkbox');
+
+      function dismissDialog() {
+        if (!scrim) return;
+        scrim.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          scrim.style.display = 'none';
+        }, 200);
+      }
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', dismissDialog);
+      }
+
+      if (archiveBtn) {
+        archiveBtn.addEventListener('click', () => {
+          const keepCopy = checkbox ? checkbox.checked : false;
+          archiveBtn.innerHTML = `
+            <span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+            <span>Archiving...</span>
+          `;
+          archiveBtn.disabled = true;
+          setTimeout(() => {
+            dismissDialog();
+          }, 700);
+        });
+      }
+
+      if (scrim) {
+        scrim.addEventListener('click', (e) => {
+          if (e.target === scrim) {
+            dismissDialog();
+          }
+        });
+      }
+    })();
+  </script>
+</div></main></body></html>
