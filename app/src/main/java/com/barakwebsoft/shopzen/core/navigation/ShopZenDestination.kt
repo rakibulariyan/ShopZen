@@ -48,11 +48,13 @@ object ShopZenRoutes {
     const val SETTINGS = "settings"
 
     const val CREATE_LIST = "create_list"
+    const val EDIT_LIST = "edit_list/{listId}"
     const val LIST_DETAILS = "list_details/{listId}"
     const val MARKET_MODE = "market_mode/{listId}"
     const val ADD_EDIT_ITEM = "add_edit_item/{listId}?itemId={itemId}"
     const val HISTORICAL_DETAILS = "historical_details/{historyId}"
 
+    fun editList(listId: String): String = "edit_list/$listId"
     fun listDetails(listId: String): String = "list_details/$listId"
     fun marketMode(listId: String): String = "market_mode/$listId"
     fun addEditItem(listId: String, itemId: String? = null): String {

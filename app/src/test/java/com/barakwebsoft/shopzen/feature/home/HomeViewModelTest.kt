@@ -1,10 +1,13 @@
 package com.barakwebsoft.shopzen.feature.home
 
 import com.barakwebsoft.shopzen.data.local.entity.ListStatus
+import com.barakwebsoft.shopzen.domain.model.HistoryDetail
+import com.barakwebsoft.shopzen.domain.model.ShoppingHistory
 import com.barakwebsoft.shopzen.domain.model.ShoppingItem
 import com.barakwebsoft.shopzen.domain.model.ShoppingItemDetail
 import com.barakwebsoft.shopzen.domain.model.ShoppingList
 import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
+import com.barakwebsoft.shopzen.domain.repository.HistoryRepository
 import com.barakwebsoft.shopzen.domain.repository.ShoppingListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,13 +32,15 @@ class HomeViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var fakeRepository: FakeShoppingListRepository
+    private lateinit var fakeHistoryRepository: FakeHistoryRepository
     private lateinit var viewModel: HomeViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         fakeRepository = FakeShoppingListRepository()
-        viewModel = HomeViewModel(fakeRepository, SharingStarted.Eagerly)
+        fakeHistoryRepository = FakeHistoryRepository()
+        viewModel = HomeViewModel(fakeRepository, fakeHistoryRepository, SharingStarted.Eagerly)
     }
 
     @After
@@ -135,6 +140,32 @@ class HomeViewModelTest {
         assertEquals(1, state.totalActiveLists)
     }
 
+    @Test
+    fun archiveList_withoutDuplicate_archivesSuccessfully() = runTest {
+        viewModel.archiveList("list-123", keepDuplicateCopy = false)
+        advanceUntilIdle()
+
+        assertEquals(listOf("list-123"), fakeHistoryRepository.archivedListIds)
+        assertTrue(fakeRepository.duplicatedListIds.isEmpty())
+    }
+
+    @Test
+    fun archiveList_withDuplicate_duplicatesAndArchives() = runTest {
+        viewModel.archiveList("list-123", keepDuplicateCopy = true)
+        advanceUntilIdle()
+
+        assertEquals(listOf("list-123"), fakeHistoryRepository.archivedListIds)
+        assertEquals(listOf("list-123"), fakeRepository.duplicatedListIds)
+    }
+
+    @Test
+    fun deleteList_callsRepositoryDelete() = runTest {
+        viewModel.deleteList("list-delete-99")
+        advanceUntilIdle()
+
+        assertEquals(listOf("list-delete-99"), fakeRepository.deletedListIds)
+    }
+
     private fun createTestListDetail(
         id: String,
         name: String,
@@ -168,6 +199,8 @@ class HomeViewModelTest {
 
     private class FakeShoppingListRepository : ShoppingListRepository {
         private val activeListsFlow = MutableStateFlow<List<ShoppingListDetail>>(emptyList())
+        val deletedListIds = mutableListOf<String>()
+        val duplicatedListIds = mutableListOf<String>()
 
         fun emit(lists: List<ShoppingListDetail>) {
             activeListsFlow.value = lists
@@ -193,8 +226,35 @@ class HomeViewModelTest {
         override suspend fun updateList(list: ShoppingList) {}
         override suspend fun updateListStatus(id: String, status: ListStatus) {}
         override suspend fun markListCompleted(id: String, completedAt: Long) {}
-        override suspend fun deleteList(id: String) {}
-        override suspend fun duplicateList(listId: String, newName: String?): String = ""
+        override suspend fun deleteList(id: String) {
+            deletedListIds.add(id)
+        }
+        override suspend fun duplicateList(listId: String, newName: String?): String {
+            duplicatedListIds.add(listId)
+            return "$listId-copy"
+        }
+    }
+
+    private class FakeHistoryRepository : HistoryRepository {
+        val archivedListIds = mutableListOf<String>()
+
+        override fun getAllHistory(): Flow<List<ShoppingHistory>> = MutableStateFlow(emptyList())
+        override fun observeHistoryById(id: String): Flow<ShoppingHistory?> = MutableStateFlow(null)
+        override fun observeHistoryDetail(id: String): Flow<HistoryDetail?> = MutableStateFlow(null)
+        override fun searchHistory(query: String): Flow<List<ShoppingHistory>> = MutableStateFlow(emptyList())
+        override fun observeHistoryCount(): Flow<Int> = MutableStateFlow(0)
+
+        override suspend fun getHistoryById(id: String): ShoppingHistory? = null
+        override suspend fun getHistoryDetailById(id: String): HistoryDetail? = null
+        override suspend fun getHistoryCount(): Int = 0
+
+        override suspend fun archiveListToHistory(listId: String): String {
+            archivedListIds.add(listId)
+            return "history-$listId"
+        }
+
+        override suspend fun deleteHistory(id: String) {}
+        override suspend fun deleteAllHistory() {}
     }
 }
 

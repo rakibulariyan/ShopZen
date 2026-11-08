@@ -189,6 +189,15 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 18 executed, 19 up-to-date)
 - **Failures/Issues:** None. `ShopZenApplication` container and DI wiring, `CurrencyFormatter`, `ShoppingListCard` with progress and financial pills, `HomeEmptyState`, and `HomeScreen` fully operational.
 
+### Create, Edit, Archive & Delete Lists Verification: 2026-11-09 (Task SZ-021)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 84 unit tests (70 existing + 4 new `CurrencyFormatterTest` tests covering exact `parseToMinor`, `toMajorUnitsString` and comma/zero-decimal conversions + 3 new `HomeViewModelTest` tests covering archive without copy, archive with duplicate copy, and delete + 7 new `AddEditListViewModelTest` tests covering create mode with default currency from preferences, edit mode field loading, required name validation, invalid budget validation, exact minor unit conversion on creation and update, and error clearing on input)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 6 executed, 31 up-to-date)
+- **Failures/Issues:** None. `ArchiveListDialog` (with headroom saved/over-budget context and duplicate copy option), `DeleteListDialog`, `CurrencySelectionDialog`, `AddEditListScreen`, `AddEditListViewModel`, `CREATE_LIST` and `EDIT_LIST` navigation, and 3-dots card overflow actions fully operational.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

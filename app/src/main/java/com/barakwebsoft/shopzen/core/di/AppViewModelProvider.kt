@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.barakwebsoft.shopzen.ShopZenApplication
 import com.barakwebsoft.shopzen.feature.home.HomeViewModel
+import com.barakwebsoft.shopzen.feature.lists.AddEditListViewModel
 
 /**
  * Provides factory instances for ViewModels throughout the ShopZen app.
@@ -16,7 +17,15 @@ object AppViewModelProvider {
         initializer {
             val app = shopZenApplication()
             HomeViewModel(
-                shoppingListRepository = app.container.shoppingListRepository
+                shoppingListRepository = app.container.shoppingListRepository,
+                historyRepository = app.container.historyRepository
+            )
+        }
+        initializer {
+            val app = shopZenApplication()
+            AddEditListViewModel(
+                shoppingListRepository = app.container.shoppingListRepository,
+                userPreferencesRepository = app.container.userPreferencesRepository
             )
         }
     }
@@ -28,4 +37,5 @@ object AppViewModelProvider {
 fun CreationExtras.shopZenApplication(): ShopZenApplication {
     return (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as ShopZenApplication)
 }
+
 

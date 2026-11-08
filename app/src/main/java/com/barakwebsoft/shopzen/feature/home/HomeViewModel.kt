@@ -3,6 +3,7 @@ package com.barakwebsoft.shopzen.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
+import com.barakwebsoft.shopzen.domain.repository.HistoryRepository
 import com.barakwebsoft.shopzen.domain.repository.ShoppingListRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,12 +11,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 /**
- * ViewModel managing active shopping lists observation and search query filtering on the Home screen.
+ * ViewModel managing active shopping lists observation, search query filtering,
+ * archiving, and deletion of shopping lists on the Home screen.
  */
 class HomeViewModel(
     private val shoppingListRepository: ShoppingListRepository,
+    private val historyRepository: HistoryRepository,
     started: SharingStarted = SharingStarted.WhileSubscribed(5_000)
 ) : ViewModel() {
 
@@ -52,5 +56,21 @@ class HomeViewModel(
     fun clearSearchQuery() {
         _searchQuery.value = ""
     }
+
+    fun archiveList(listId: String, keepDuplicateCopy: Boolean) {
+        viewModelScope.launch {
+            if (keepDuplicateCopy) {
+                shoppingListRepository.duplicateList(listId)
+            }
+            historyRepository.archiveListToHistory(listId)
+        }
+    }
+
+    fun deleteList(listId: String) {
+        viewModelScope.launch {
+            shoppingListRepository.deleteList(listId)
+        }
+    }
 }
+
 

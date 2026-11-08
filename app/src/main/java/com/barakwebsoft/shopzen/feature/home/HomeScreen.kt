@@ -22,17 +22,25 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.CloudOff
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -47,6 +55,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,6 +73,8 @@ import com.barakwebsoft.shopzen.core.di.AppViewModelProvider
 import com.barakwebsoft.shopzen.core.util.CurrencyFormatter
 import com.barakwebsoft.shopzen.domain.model.ShoppingList
 import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
+import com.barakwebsoft.shopzen.feature.lists.components.ArchiveListDialog
+import com.barakwebsoft.shopzen.feature.lists.components.DeleteListDialog
 import java.text.DateFormat
 import java.util.Date
 
@@ -69,10 +82,14 @@ import java.util.Date
 fun HomeScreen(
     onCreateListClick: () -> Unit = {},
     onListClick: (String) -> Unit = {},
+    onEditListClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    var listToArchive by remember { mutableStateOf<ShoppingListDetail?>(null) }
+    var listToDelete by remember { mutableStateOf<ShoppingListDetail?>(null) }
 
     HomeScreenContent(
         uiState = uiState,
@@ -80,8 +97,34 @@ fun HomeScreen(
         onClearSearch = viewModel::clearSearchQuery,
         onCreateListClick = onCreateListClick,
         onListClick = onListClick,
+        onEditListClick = onEditListClick,
+        onArchiveListClick = { listToArchive = it },
+        onDeleteListClick = { listToDelete = it },
         modifier = modifier
     )
+
+    listToArchive?.let { detail ->
+        ArchiveListDialog(
+            listDetail = detail,
+            onConfirmArchive = { keepDuplicateCopy ->
+                viewModel.archiveList(detail.list.id, keepDuplicateCopy)
+                listToArchive = null
+            },
+            onDismiss = { listToArchive = null }
+        )
+    }
+
+    listToDelete?.let { detail ->
+        DeleteListDialog(
+            list = detail.list,
+            totalItemsCount = detail.totalItemsCount,
+            onConfirmDelete = {
+                viewModel.deleteList(detail.list.id)
+                listToDelete = null
+            },
+            onDismiss = { listToDelete = null }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,6 +135,9 @@ fun HomeScreenContent(
     onClearSearch: () -> Unit,
     onCreateListClick: () -> Unit,
     onListClick: (String) -> Unit,
+    onEditListClick: (String) -> Unit = {},
+    onArchiveListClick: (ShoppingListDetail) -> Unit = {},
+    onDeleteListClick: (ShoppingListDetail) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -201,6 +247,9 @@ fun HomeScreenContent(
                         onSearchQueryChange = onSearchQueryChange,
                         onClearSearch = onClearSearch,
                         onListClick = onListClick,
+                        onEditListClick = onEditListClick,
+                        onArchiveListClick = onArchiveListClick,
+                        onDeleteListClick = onDeleteListClick,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -310,6 +359,9 @@ fun HomeListsOverview(
     onSearchQueryChange: (String) -> Unit,
     onClearSearch: () -> Unit,
     onListClick: (String) -> Unit,
+    onEditListClick: (String) -> Unit = {},
+    onArchiveListClick: (ShoppingListDetail) -> Unit = {},
+    onDeleteListClick: (ShoppingListDetail) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -442,7 +494,10 @@ fun HomeListsOverview(
             ) { listDetail ->
                 ShoppingListCard(
                     listDetail = listDetail,
-                    onClick = { onListClick(listDetail.list.id) }
+                    onClick = { onListClick(listDetail.list.id) },
+                    onEditClick = { onEditListClick(listDetail.list.id) },
+                    onArchiveClick = { onArchiveListClick(listDetail) },
+                    onDeleteClick = { onDeleteListClick(listDetail) }
                 )
             }
         }
@@ -456,6 +511,9 @@ fun HomeListsOverview(
 fun ShoppingListCard(
     listDetail: ShoppingListDetail,
     onClick: () -> Unit,
+    onEditClick: () -> Unit = {},
+    onArchiveClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val list: ShoppingList = listDetail.list
@@ -481,7 +539,7 @@ fun ShoppingListCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Header: List Name and Updated Time
+            // Header: List Name, Updated Time, Active badge, and 3-dots Menu
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -503,17 +561,93 @@ fun ShoppingListCard(
                     )
                 }
 
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.secondaryContainer
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(
-                        text = "Active",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    ) {
+                        Text(
+                            text = "Active",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    Box {
+                        var menuExpanded by remember { mutableStateOf(false) }
+
+                        IconButton(
+                            onClick = { menuExpanded = true },
+                            modifier = Modifier.size(32.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = "Options for ${list.name}",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = menuExpanded,
+                            onDismissRequest = { menuExpanded = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Edit list") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Edit,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                onClick = {
+                                    menuExpanded = false
+                                    onEditClick()
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Archive list") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Archive,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                onClick = {
+                                    menuExpanded = false
+                                    onArchiveClick()
+                                }
+                            )
+                            HorizontalDivider()
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = "Delete list",
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.error,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                onClick = {
+                                    menuExpanded = false
+                                    onDeleteClick()
+                                }
+                            )
+                        }
+                    }
                 }
             }
 

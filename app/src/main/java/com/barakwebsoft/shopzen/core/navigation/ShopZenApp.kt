@@ -12,12 +12,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.barakwebsoft.shopzen.feature.history.HistoryScreen
 import com.barakwebsoft.shopzen.feature.home.HomeScreen
+import com.barakwebsoft.shopzen.feature.lists.AddEditListScreen
 import com.barakwebsoft.shopzen.feature.settings.SettingsScreen
 
 @Composable
@@ -57,11 +60,33 @@ fun ShopZenApp(
             composable(ShopZenRoutes.HOME) {
                 HomeScreen(
                     onCreateListClick = {
-                        // Will navigate to CREATE_LIST in SZ-021
+                        navController.navigate(ShopZenRoutes.CREATE_LIST)
+                    },
+                    onEditListClick = { listId ->
+                        navController.navigate(ShopZenRoutes.editList(listId))
                     },
                     onListClick = { listId ->
-                        // Will navigate to LIST_DETAILS in SZ-023
+                        // Navigates to list details in SZ-023
                     }
+                )
+            }
+            composable(ShopZenRoutes.CREATE_LIST) {
+                AddEditListScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onListSaved = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = ShopZenRoutes.EDIT_LIST,
+                arguments = listOf(
+                    navArgument("listId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val listId = backStackEntry.arguments?.getString("listId")
+                AddEditListScreen(
+                    listId = listId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onListSaved = { navController.popBackStack() }
                 )
             }
             composable(ShopZenRoutes.HISTORY) {

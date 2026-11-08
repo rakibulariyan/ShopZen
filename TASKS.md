@@ -20,7 +20,7 @@
 
 ## Phase 2 — Shopping list workflows
 - [x] SZ-020 Home list overview and empty state.
-- [ ] SZ-021 Create, edit, archive and delete shopping lists.
+- [x] SZ-021 Create, edit, archive and delete shopping lists.
 - [ ] SZ-022 Duplicate list with new IDs and reset purchase state/prices.
 - [ ] SZ-023 List details and item ordering.
 - [ ] SZ-024 Add, edit and delete shopping items.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-021 — create, edit, archive and delete shopping lists.
-- **Next:** SZ-022 — duplicate list with new IDs and reset purchase state/prices.
-- **Blockers:** None. Phase 1 foundation and SZ-020 (Home list overview and empty state) completed with 70 passing unit tests and successful debug build.
+- **Current:** SZ-022 — duplicate list with new IDs and reset purchase state/prices.
+- **Next:** SZ-023 — list details and item ordering.
+- **Blockers:** None. SZ-021 completed with 84 passing unit tests and clean debug APK build.
