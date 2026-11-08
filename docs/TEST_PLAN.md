@@ -108,6 +108,14 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. Added Navigation Compose, ViewModel Compose, and Material Icons Extended cleanly.
 
+### Material 3 Design System Tokens: 2026-11-09 (Task SZ-004)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (24 actionable tasks executed)
+- **Passed:** 8 unit tests (including `ThemeColorTokensTest` design token validation)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. Brand botanical theme tokens, typography scale, and light/dark palette verified.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

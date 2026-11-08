@@ -9,35 +9,48 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = ShopZenAccent,
+    onPrimary = ShopZenDarkBackground,
+    primaryContainer = ShopZenPrimaryDark,
+    onPrimaryContainer = ShopZenAccent,
+    secondary = ShopZenPrimary,
+    onSecondary = Color.White,
+    background = ShopZenDarkBackground,
+    onBackground = ShopZenMainTextDark,
+    surface = ShopZenDarkSurface,
+    onSurface = ShopZenMainTextDark,
+    surfaceVariant = ShopZenDarkSurfaceVariant,
+    onSurfaceVariant = ShopZenSecondaryTextDark,
+    error = ShopZenError,
+    onError = Color.White
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    primary = ShopZenPrimary,
     onPrimary = Color.White,
+    primaryContainer = ShopZenAccent,
+    onPrimaryContainer = ShopZenPrimaryDark,
+    secondary = ShopZenPrimaryDark,
     onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    background = ShopZenLightBackground,
+    onBackground = ShopZenMainTextLight,
+    surface = ShopZenLightSurface,
+    onSurface = ShopZenMainTextLight,
+    surfaceVariant = ShopZenLightSurfaceVariant,
+    onSurfaceVariant = ShopZenSecondaryTextLight,
+    error = ShopZenError,
+    onError = Color.White
 )
 
 @Composable
 fun ShopZenTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    // Brand identity defaults to ShopZen botanical tokens
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -45,7 +58,6 @@ fun ShopZenTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
