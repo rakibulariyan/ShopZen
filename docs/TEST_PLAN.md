@@ -180,6 +180,15 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 18 executed, 19 up-to-date)
 - **Failures/Issues:** None. Phase 1 (Local data foundation) fully implemented and verified against native SQLite. Ready for Phase 2 (Shopping list workflows).
 
+### Home List Overview & Empty State Verification: 2026-11-09 (Task SZ-020)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 70 unit tests (59 existing + 5 `CurrencyFormatterTest` testing exact integer minor unit formatting, decimal places, JPY zero-decimal, and fallback symbols + 6 `HomeViewModelTest` verifying initial loading, true empty state transitions, active lists flow emission, search filtering, and query clearing)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 18 executed, 19 up-to-date)
+- **Failures/Issues:** None. `ShopZenApplication` container and DI wiring, `CurrencyFormatter`, `ShoppingListCard` with progress and financial pills, `HomeEmptyState`, and `HomeScreen` fully operational.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

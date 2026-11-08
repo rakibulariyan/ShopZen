@@ -248,6 +248,14 @@ class RepositoriesTest {
         override fun getActiveLists(): Flow<List<ShoppingListEntity>> =
             getListsByStatus(ListStatus.ACTIVE.name)
 
+        override fun observeActiveListsWithItems(): Flow<List<ShoppingListWithItems>> =
+            lists.map { map ->
+                map.values
+                    .filter { it.status == ListStatus.ACTIVE.name }
+                    .sortedByDescending { it.updatedAt }
+                    .map { ShoppingListWithItems(it, emptyList()) }
+            }
+
         override fun getCompletedLists(): Flow<List<ShoppingListEntity>> =
             getListsByStatus(ListStatus.COMPLETED.name)
 

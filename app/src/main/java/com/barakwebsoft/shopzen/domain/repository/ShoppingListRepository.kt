@@ -9,6 +9,7 @@ interface ShoppingListRepository {
     fun getAllLists(): Flow<List<ShoppingList>>
     fun getListsByStatus(status: ListStatus): Flow<List<ShoppingList>>
     fun getActiveLists(): Flow<List<ShoppingList>>
+    fun getActiveListDetails(): Flow<List<ShoppingListDetail>>
     fun getCompletedLists(): Flow<List<ShoppingList>>
     fun getArchivedLists(): Flow<List<ShoppingList>>
     fun observeListById(id: String): Flow<ShoppingList?>

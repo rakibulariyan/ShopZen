@@ -57,7 +57,10 @@ fun ShopZenApp(
             composable(ShopZenRoutes.HOME) {
                 HomeScreen(
                     onCreateListClick = {
-                        // Will navigate to CREATE_LIST in Phase 2
+                        // Will navigate to CREATE_LIST in SZ-021
+                    },
+                    onListClick = { listId ->
+                        // Will navigate to LIST_DETAILS in SZ-023
                     }
                 )
             }

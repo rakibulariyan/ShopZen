@@ -6,6 +6,7 @@ import com.barakwebsoft.shopzen.data.local.entity.ListStatus
 import com.barakwebsoft.shopzen.data.mapper.toDomain
 import com.barakwebsoft.shopzen.data.mapper.toDomainDetail
 import com.barakwebsoft.shopzen.data.mapper.toEntity
+import com.barakwebsoft.shopzen.domain.model.ShoppingItemDetail
 import com.barakwebsoft.shopzen.domain.model.ShoppingList
 import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
 import com.barakwebsoft.shopzen.domain.repository.ShoppingListRepository
@@ -39,6 +40,21 @@ class ShoppingListRepositoryImpl(
     override fun getActiveLists(): Flow<List<ShoppingList>> {
         return shoppingListDao.getActiveLists()
             .map { list -> list.map { it.toDomain() } }
+            .flowOn(ioDispatcher)
+    }
+
+    override fun getActiveListDetails(): Flow<List<ShoppingListDetail>> {
+        return shoppingListDao.observeActiveListsWithItems()
+            .map { listWithItems ->
+                listWithItems.map { withItems ->
+                    ShoppingListDetail(
+                        list = withItems.list.toDomain(),
+                        items = withItems.items.map { itemEntity ->
+                            ShoppingItemDetail(item = itemEntity.toDomain())
+                        }
+                    )
+                }
+            }
             .flowOn(ioDispatcher)
     }
 

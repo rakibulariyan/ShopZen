@@ -19,7 +19,7 @@
 - [x] SZ-015 Test CRUD, foreign keys, transactions and persistence.
 
 ## Phase 2 — Shopping list workflows
-- [ ] SZ-020 Home list overview and empty state.
+- [x] SZ-020 Home list overview and empty state.
 - [ ] SZ-021 Create, edit, archive and delete shopping lists.
 - [ ] SZ-022 Duplicate list with new IDs and reset purchase state/prices.
 - [ ] SZ-023 List details and item ordering.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-014 — implement DataStore preferences.
-- **Next:** SZ-015 — test CRUD, foreign keys, transactions and persistence.
-- **Blockers:** None. Room schema v1, migrations framework, and 43 unit tests passing with zero failures.
+- **Current:** SZ-021 — create, edit, archive and delete shopping lists.
+- **Next:** SZ-022 — duplicate list with new IDs and reset purchase state/prices.
+- **Blockers:** None. Phase 1 foundation and SZ-020 (Home list overview and empty state) completed with 70 passing unit tests and successful debug build.

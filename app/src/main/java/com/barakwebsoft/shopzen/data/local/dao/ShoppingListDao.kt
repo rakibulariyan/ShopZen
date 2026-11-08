@@ -23,6 +23,10 @@ interface ShoppingListDao {
     @Query("SELECT * FROM shopping_lists WHERE status = 'ACTIVE' ORDER BY updated_at DESC")
     fun getActiveLists(): Flow<List<ShoppingListEntity>>
 
+    @Transaction
+    @Query("SELECT * FROM shopping_lists WHERE status = 'ACTIVE' ORDER BY updated_at DESC")
+    fun observeActiveListsWithItems(): Flow<List<ShoppingListWithItems>>
+
     @Query("SELECT * FROM shopping_lists WHERE status = 'COMPLETED' ORDER BY updated_at DESC")
     fun getCompletedLists(): Flow<List<ShoppingListEntity>>
 
