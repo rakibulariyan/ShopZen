@@ -23,5 +23,12 @@ data class ShoppingListDetail(
             val qty = detail.item.quantity.toBigDecimalOrNull() ?: BigDecimal.ONE
             acc + (BigDecimal.valueOf(price) * qty).toLong()
         }
+
+    val estimatedPendingMinor: Long
+        get() = items.filter { !it.item.isPurchased }.fold(0L) { acc, detail ->
+            val price = detail.item.estimatedUnitPriceMinor ?: 0L
+            val qty = detail.item.quantity.toBigDecimalOrNull() ?: BigDecimal.ONE
+            acc + (BigDecimal.valueOf(price) * qty).toLong()
+        }
 }
 

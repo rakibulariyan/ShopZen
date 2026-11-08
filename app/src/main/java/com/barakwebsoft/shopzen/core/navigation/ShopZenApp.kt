@@ -21,6 +21,7 @@ import androidx.navigation.navArgument
 import com.barakwebsoft.shopzen.feature.history.HistoryScreen
 import com.barakwebsoft.shopzen.feature.home.HomeScreen
 import com.barakwebsoft.shopzen.feature.lists.AddEditListScreen
+import com.barakwebsoft.shopzen.feature.lists.details.ListDetailsScreen
 import com.barakwebsoft.shopzen.feature.settings.SettingsScreen
 
 @Composable
@@ -66,8 +67,24 @@ fun ShopZenApp(
                         navController.navigate(ShopZenRoutes.editList(listId))
                     },
                     onListClick = { listId ->
-                        // Navigates to list details in SZ-023
+                        navController.navigate(ShopZenRoutes.listDetails(listId))
                     }
+                )
+            }
+            composable(
+                route = ShopZenRoutes.LIST_DETAILS,
+                arguments = listOf(
+                    navArgument("listId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val listId = backStackEntry.arguments?.getString("listId") ?: ""
+                ListDetailsScreen(
+                    listId = listId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onEditListClick = { id -> navController.navigate(ShopZenRoutes.editList(id)) },
+                    onAddItemClick = { id -> navController.navigate(ShopZenRoutes.addEditItem(id)) },
+                    onStartMarketModeClick = { id -> navController.navigate(ShopZenRoutes.marketMode(id)) },
+                    onItemClick = { itemId -> navController.navigate(ShopZenRoutes.addEditItem(listId, itemId)) }
                 )
             }
             composable(ShopZenRoutes.CREATE_LIST) {

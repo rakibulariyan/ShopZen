@@ -207,6 +207,15 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
 - **Failures/Issues:** None. `DuplicateListDialog`, Home card 3-dots menu "Duplicate list" trigger, and atomic duplication logic fully operational.
 
+### List Details & Item Ordering Verification: 2026-11-09 (Task SZ-023)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 100 unit/integration tests (90 existing + 9 new unit tests in `ListDetailsViewModelTest` verifying list detail observation, pending/purchased counts calculation, purchase toggle with inverted state, category filtering, sort orders including `NAME_ASC`, `PRICE_DESC`, and `PENDING_FIRST`, and lifecycle operations `archiveList`, `deleteList`, and `duplicateList` + 1 domain model test)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
+- **Failures/Issues:** None. `FinancialMetricsCard`, `ShoppingItemRow` (with 48dp check toggle and unpriced disclosure badge), `ListDetailsEmptyState`, category filter chips, sort order dropdown menu, and `ShopZenRoutes.LIST_DETAILS` navigation fully operational.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

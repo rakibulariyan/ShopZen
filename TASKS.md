@@ -22,7 +22,7 @@
 - [x] SZ-020 Home list overview and empty state.
 - [x] SZ-021 Create, edit, archive and delete shopping lists.
 - [x] SZ-022 Duplicate list with new IDs and reset purchase state/prices.
-- [ ] SZ-023 List details and item ordering.
+- [x] SZ-023 List details and item ordering.
 - [ ] SZ-024 Add, edit and delete shopping items.
 - [ ] SZ-025 Categories and category selection.
 - [ ] SZ-026 Search and filtering.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-023 — list details and item ordering.
-- **Next:** SZ-024 — add, edit and delete shopping items.
-- **Blockers:** None. SZ-022 completed with 90 passing unit/integration tests and clean debug APK build.
+- **Current:** SZ-024 — add, edit and delete shopping items.
+- **Next:** SZ-025 — categories and category selection.
+- **Blockers:** None. SZ-023 completed with 100 passing unit/integration tests and clean debug APK build.
