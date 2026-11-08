@@ -71,6 +71,12 @@ class HomeViewModel(
             shoppingListRepository.deleteList(listId)
         }
     }
+
+    fun duplicateList(listId: String, newName: String? = null) {
+        viewModelScope.launch {
+            shoppingListRepository.duplicateList(listId, newName)
+        }
+    }
 }
 
 

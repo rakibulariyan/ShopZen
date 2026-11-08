@@ -166,6 +166,15 @@ class HomeViewModelTest {
         assertEquals(listOf("list-delete-99"), fakeRepository.deletedListIds)
     }
 
+    @Test
+    fun duplicateList_callsRepositoryDuplicateWithCustomName() = runTest {
+        viewModel.duplicateList("list-dup-1", "New Custom List Name")
+        advanceUntilIdle()
+
+        assertEquals(listOf("list-dup-1"), fakeRepository.duplicatedListIds)
+        assertEquals(listOf("New Custom List Name"), fakeRepository.duplicatedListNames)
+    }
+
     private fun createTestListDetail(
         id: String,
         name: String,
@@ -201,6 +210,7 @@ class HomeViewModelTest {
         private val activeListsFlow = MutableStateFlow<List<ShoppingListDetail>>(emptyList())
         val deletedListIds = mutableListOf<String>()
         val duplicatedListIds = mutableListOf<String>()
+        val duplicatedListNames = mutableListOf<String?>()
 
         fun emit(lists: List<ShoppingListDetail>) {
             activeListsFlow.value = lists
@@ -231,6 +241,7 @@ class HomeViewModelTest {
         }
         override suspend fun duplicateList(listId: String, newName: String?): String {
             duplicatedListIds.add(listId)
+            duplicatedListNames.add(newName)
             return "$listId-copy"
         }
     }

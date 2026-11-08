@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.CloudOff
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
@@ -75,6 +76,7 @@ import com.barakwebsoft.shopzen.domain.model.ShoppingList
 import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
 import com.barakwebsoft.shopzen.feature.lists.components.ArchiveListDialog
 import com.barakwebsoft.shopzen.feature.lists.components.DeleteListDialog
+import com.barakwebsoft.shopzen.feature.lists.components.DuplicateListDialog
 import java.text.DateFormat
 import java.util.Date
 
@@ -90,6 +92,7 @@ fun HomeScreen(
 
     var listToArchive by remember { mutableStateOf<ShoppingListDetail?>(null) }
     var listToDelete by remember { mutableStateOf<ShoppingListDetail?>(null) }
+    var listToDuplicate by remember { mutableStateOf<ShoppingListDetail?>(null) }
 
     HomeScreenContent(
         uiState = uiState,
@@ -100,6 +103,7 @@ fun HomeScreen(
         onEditListClick = onEditListClick,
         onArchiveListClick = { listToArchive = it },
         onDeleteListClick = { listToDelete = it },
+        onDuplicateListClick = { listToDuplicate = it },
         modifier = modifier
     )
 
@@ -125,6 +129,18 @@ fun HomeScreen(
             onDismiss = { listToDelete = null }
         )
     }
+
+    listToDuplicate?.let { detail ->
+        DuplicateListDialog(
+            list = detail.list,
+            totalItemsCount = detail.totalItemsCount,
+            onConfirmDuplicate = { newName ->
+                viewModel.duplicateList(detail.list.id, newName)
+                listToDuplicate = null
+            },
+            onDismiss = { listToDuplicate = null }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -138,6 +154,7 @@ fun HomeScreenContent(
     onEditListClick: (String) -> Unit = {},
     onArchiveListClick: (ShoppingListDetail) -> Unit = {},
     onDeleteListClick: (ShoppingListDetail) -> Unit = {},
+    onDuplicateListClick: (ShoppingListDetail) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -250,6 +267,7 @@ fun HomeScreenContent(
                         onEditListClick = onEditListClick,
                         onArchiveListClick = onArchiveListClick,
                         onDeleteListClick = onDeleteListClick,
+                        onDuplicateListClick = onDuplicateListClick,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -362,6 +380,7 @@ fun HomeListsOverview(
     onEditListClick: (String) -> Unit = {},
     onArchiveListClick: (ShoppingListDetail) -> Unit = {},
     onDeleteListClick: (ShoppingListDetail) -> Unit = {},
+    onDuplicateListClick: (ShoppingListDetail) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -497,7 +516,8 @@ fun HomeListsOverview(
                     onClick = { onListClick(listDetail.list.id) },
                     onEditClick = { onEditListClick(listDetail.list.id) },
                     onArchiveClick = { onArchiveListClick(listDetail) },
-                    onDeleteClick = { onDeleteListClick(listDetail) }
+                    onDeleteClick = { onDeleteListClick(listDetail) },
+                    onDuplicateClick = { onDuplicateListClick(listDetail) }
                 )
             }
         }
@@ -514,6 +534,7 @@ fun ShoppingListCard(
     onEditClick: () -> Unit = {},
     onArchiveClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
+    onDuplicateClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val list: ShoppingList = listDetail.list
@@ -623,6 +644,20 @@ fun ShoppingListCard(
                                 onClick = {
                                     menuExpanded = false
                                     onArchiveClick()
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Duplicate list") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.ContentCopy,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                onClick = {
+                                    menuExpanded = false
+                                    onDuplicateClick()
                                 }
                             )
                             HorizontalDivider()

@@ -127,6 +127,62 @@ class RepositoriesTest {
     }
 
     @Test
+    fun shoppingListRepository_duplicateList_blankNameUsesDefaultCopyFormat() = runBlocking {
+        val originalList = ShoppingList(
+            id = "list_blank_name",
+            name = "Weekly Groceries",
+            currencyCode = "USD"
+        )
+        listRepository.createList(originalList)
+
+        val dupIdNull = listRepository.duplicateList("list_blank_name", null)
+        assertEquals("Weekly Groceries (Copy)", listRepository.getListById(dupIdNull)?.name)
+
+        val dupIdBlank = listRepository.duplicateList("list_blank_name", "   ")
+        assertEquals("Weekly Groceries (Copy)", listRepository.getListById(dupIdBlank)?.name)
+    }
+
+    @Test
+    fun shoppingListRepository_duplicateList_emptyListDuplicatedSuccessfully() = runBlocking {
+        val emptyList = ShoppingList(
+            id = "list_empty",
+            name = "Empty Cart",
+            currencyCode = "EUR"
+        )
+        listRepository.createList(emptyList)
+
+        val dupId = listRepository.duplicateList("list_empty")
+        val dupList = listRepository.getListById(dupId)
+        assertNotNull(dupList)
+        assertEquals("Empty Cart (Copy)", dupList?.name)
+        val dupItems = itemRepository.getItemsForList(dupId).first()
+        assertTrue("Duplicated empty list must have zero items", dupItems.isEmpty())
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun shoppingListRepository_duplicateList_nonExistentListThrowsException() = runBlocking {
+        listRepository.duplicateList("completely_unknown_id")
+        Unit
+    }
+
+    @Test
+    fun shoppingListRepository_duplicateList_archivedListResetsStatusToActive() = runBlocking {
+        val archivedList = ShoppingList(
+            id = "archived_list",
+            name = "Thanksgiving Dinner",
+            status = ListStatus.ARCHIVED,
+            completedAt = 999999L
+        )
+        listRepository.createList(archivedList)
+
+        val dupId = listRepository.duplicateList("archived_list")
+        val dupList = listRepository.getListById(dupId)
+        assertNotNull(dupList)
+        assertEquals(ListStatus.ACTIVE, dupList?.status)
+        assertNull(dupList?.completedAt)
+    }
+
+    @Test
     fun shoppingItemRepository_addItem_autoAssignsSortOrder() = runBlocking {
         val item1 = ShoppingItem(id = "item_1", listId = "list_1", name = "First Item", sortOrder = 0)
         itemRepository.addItem(item1)

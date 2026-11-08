@@ -754,5 +754,115 @@ class RoomSqliteIntegrationTest {
             return if (rs.next()) rs.getInt(1) else 0
         }
     }
+
+    @Test
+    fun duplicateList_nativeSqlite_createsNewIdsAndResetsPurchaseStateAndPrices() {
+        val origListId = insertShoppingList(
+            name = "Weekly Groceries",
+            currencyCode = "USD",
+            budgetMinor = 10000L,
+            status = "COMPLETED"
+        )
+
+        // Add 2 items: 1 purchased with actual price, 1 unpurchased
+        val item1Id = insertShoppingItem(origListId, "Apples", "2.5", "kg", 300L, actualPrice = 280L, isPurchased = true)
+        val item2Id = insertShoppingItem(origListId, "Milk", "1", "gallon", 450L, actualPrice = null, isPurchased = false)
+
+        // Perform duplicate workflow in transaction
+        connection.autoCommit = false
+        val newListId = UUID.randomUUID().toString()
+        val now = System.currentTimeMillis()
+
+        try {
+            // Duplicate list record
+            connection.prepareStatement(
+                "INSERT INTO shopping_lists (id, name, description, currency_code, budget_minor, status, created_at, updated_at, completed_at) " +
+                    "SELECT ?, name || ' (Copy)', description, currency_code, budget_minor, 'ACTIVE', ?, ?, NULL FROM shopping_lists WHERE id = ?;"
+            ).use { stmt ->
+                stmt.setString(1, newListId)
+                stmt.setLong(2, now)
+                stmt.setLong(3, now)
+                stmt.setString(4, origListId)
+                stmt.executeUpdate()
+            }
+
+            // Duplicate items with reset purchase state and cleared actual price
+            connection.prepareStatement(
+                "SELECT id, name, quantity, unit, category_id, estimated_unit_price_minor, notes, sort_order FROM shopping_items WHERE list_id = ?;"
+            ).use { selectStmt ->
+                selectStmt.setString(1, origListId)
+                val rs = selectStmt.executeQuery()
+                while (rs.next()) {
+                    val newItemId = UUID.randomUUID().toString()
+                    connection.prepareStatement(
+                        "INSERT INTO shopping_items (id, list_id, name, quantity, unit, category_id, estimated_unit_price_minor, actual_unit_price_minor, is_purchased, notes, sort_order, created_at, updated_at) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 0, ?, ?, ?, ?);"
+                    ).use { insertStmt ->
+                        insertStmt.setString(1, newItemId)
+                        insertStmt.setString(2, newListId)
+                        insertStmt.setString(3, rs.getString("name"))
+                        insertStmt.setString(4, rs.getString("quantity"))
+                        insertStmt.setString(5, rs.getString("unit"))
+                        val catId = rs.getString("category_id")
+                        if (catId != null) insertStmt.setString(6, catId) else insertStmt.setNull(6, java.sql.Types.VARCHAR)
+                        val estPrice = rs.getLong("estimated_unit_price_minor")
+                        if (!rs.wasNull()) insertStmt.setLong(7, estPrice) else insertStmt.setNull(7, java.sql.Types.BIGINT)
+                        val notes = rs.getString("notes")
+                        if (notes != null) insertStmt.setString(8, notes) else insertStmt.setNull(8, java.sql.Types.VARCHAR)
+                        insertStmt.setInt(9, rs.getInt("sort_order"))
+                        insertStmt.setLong(10, now)
+                        insertStmt.setLong(11, now)
+                        insertStmt.executeUpdate()
+                    }
+                }
+            }
+
+            connection.commit()
+        } catch (e: Exception) {
+            connection.rollback()
+            fail("Transaction failed: ${e.message}")
+        } finally {
+            connection.autoCommit = true
+        }
+
+        // Verify duplicated list in SQLite
+        connection.prepareStatement("SELECT name, status, completed_at, budget_minor FROM shopping_lists WHERE id = ?;").use { stmt ->
+            stmt.setString(1, newListId)
+            val rs = stmt.executeQuery()
+            assertTrue(rs.next())
+            assertEquals("Weekly Groceries (Copy)", rs.getString("name"))
+            assertEquals("ACTIVE", rs.getString("status"))
+            assertNull("completed_at must be reset to NULL", rs.getString("completed_at"))
+            assertEquals(10000L, rs.getLong("budget_minor"))
+        }
+
+        // Verify duplicated items in SQLite
+        val duplicatedItems = mutableListOf<Triple<String, Int, Long?>>()
+        connection.prepareStatement("SELECT name, is_purchased, actual_unit_price_minor FROM shopping_items WHERE list_id = ? ORDER BY name ASC;").use { stmt ->
+            stmt.setString(1, newListId)
+            val rs = stmt.executeQuery()
+            while (rs.next()) {
+                val name = rs.getString("name")
+                val isPurchased = rs.getInt("is_purchased")
+                val actual = rs.getLong("actual_unit_price_minor")
+                val actualNullable = if (rs.wasNull()) null else actual
+                duplicatedItems.add(Triple(name, isPurchased, actualNullable))
+            }
+        }
+
+        assertEquals(2, duplicatedItems.size)
+        for (item in duplicatedItems) {
+            assertEquals("Item '${item.first}' must have is_purchased = 0", 0, item.second)
+            assertNull("Item '${item.first}' must have actual_unit_price_minor = null", item.third)
+        }
+
+        // Verify original list and items were not altered
+        connection.prepareStatement("SELECT status FROM shopping_lists WHERE id = ?;").use { stmt ->
+            stmt.setString(1, origListId)
+            val rs = stmt.executeQuery()
+            assertTrue(rs.next())
+            assertEquals("COMPLETED", rs.getString("status"))
+        }
+    }
 }
 

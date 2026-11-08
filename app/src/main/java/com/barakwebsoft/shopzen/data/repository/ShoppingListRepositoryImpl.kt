@@ -153,9 +153,12 @@ class ShoppingListRepositoryImpl(
 
         val now = System.currentTimeMillis()
         val newListId = UUID.randomUUID().toString()
+        val trimmedName = newName?.trim()
+        val finalName = if (!trimmedName.isNullOrBlank()) trimmedName else "${originalList.name} (Copy)"
+
         val duplicatedList = originalList.copy(
             id = newListId,
-            name = newName ?: "${originalList.name} (Copy)",
+            name = finalName,
             status = ListStatus.ACTIVE.name,
             createdAt = now,
             updatedAt = now,

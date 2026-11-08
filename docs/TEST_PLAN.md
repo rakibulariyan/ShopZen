@@ -198,6 +198,15 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 6 executed, 31 up-to-date)
 - **Failures/Issues:** None. `ArchiveListDialog` (with headroom saved/over-budget context and duplicate copy option), `DeleteListDialog`, `CurrencySelectionDialog`, `AddEditListScreen`, `AddEditListViewModel`, `CREATE_LIST` and `EDIT_LIST` navigation, and 3-dots card overflow actions fully operational.
 
+### Duplicate List Workflow & State Reset Verification: 2026-11-09 (Task SZ-022)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 90 unit/integration tests (84 existing + 1 new native SQLite integration test in `RoomSqliteIntegrationTest` verifying atomic duplication, foreign key linkage, status reset to `ACTIVE`, and complete purchase state (`is_purchased = 0`) & actual price (`actual_unit_price_minor = null`) reset in SQLite + 4 new repository tests in `RepositoriesTest` verifying blank name fallback to `${name} (Copy)`, empty list duplication, non-existent list rejection with `IllegalArgumentException`, and archived list reactivation + 1 new ViewModel test in `HomeViewModelTest` verifying `duplicateList` invocation with custom name)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
+- **Failures/Issues:** None. `DuplicateListDialog`, Home card 3-dots menu "Duplicate list" trigger, and atomic duplication logic fully operational.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
