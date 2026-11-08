@@ -16,7 +16,7 @@
 - [x] SZ-012 Implement repositories and domain models/mappers.
 - [x] SZ-013 Implement database migrations and migration tests.
 - [x] SZ-014 Implement DataStore preferences.
-- [ ] SZ-015 Test CRUD, foreign keys, transactions and persistence.
+- [x] SZ-015 Test CRUD, foreign keys, transactions and persistence.
 
 ## Phase 2 — Shopping list workflows
 - [ ] SZ-020 Home list overview and empty state.

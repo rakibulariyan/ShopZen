@@ -171,6 +171,15 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 18 executed, 19 up-to-date)
 - **Failures/Issues:** None. AndroidX DataStore preferences 1.1.3 integrated and verified. Non-relational preferences (theme mode, default currency, haptic feedback, and completed items visibility) fully operational.
 
+### SQLite CRUD, Foreign Keys, Transactions & Persistence Verification: 2026-11-09 (Task SZ-015)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks executed)
+- **Passed:** 59 unit tests (including `RoomSqliteIntegrationTest` with 12 end-to-end integration tests executing against SQLite engine with Room schema v1 DDL: schema and index creation, foreign key orphan rejection, cascade delete on list items, set null on category delete, cascade delete on history items, CRUD on lists/items/categories, transaction atomicity and rollback on archive failure, and cross-session file persistence across database reopens)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 18 executed, 19 up-to-date)
+- **Failures/Issues:** None. Phase 1 (Local data foundation) fully implemented and verified against native SQLite. Ready for Phase 2 (Shopping list workflows).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
