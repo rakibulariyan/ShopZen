@@ -445,6 +445,26 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date in 30s)
 - **Failures/Issues:** None. Appearance and app preferences verified. Ready to proceed to `SZ-044`.
 
+### 2026-11-09 — Task SZ-044: Resolve data export/import scope against approved MVP boundary
+- **Verification:** Audited `docs/PRD.md` Section 6 ("Out of scope for MVP: Advanced sharing unless separately approved") and Section 7 ("V1 candidates: Sharing and export improvements"), along with `AGENTS.md` ("Do not add placeholder controls that appear functional but do nothing.").
+- **Formal Record:** Created and committed `ADR-014` in `docs/DECISIONS.md`.
+- **Result:** Data export and import are confirmed as deferred to V1. No dead controls or unnecessary runtime storage permissions added. Resolved as deferred per approved product scope. Ready to proceed to `SZ-045`.
+
+### 2026-11-09 — Task SZ-045: Test archive, snapshot integrity and deletion behavior
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 212 unit tests (+9 new unit/integration tests across `RoomSqliteIntegrationTest` and `HistorySnapshotAndDeletionIntegrationTest` verifying:
+  - Native SQLite foreign key test `foreignKey_shoppingList_deletionLeavesHistorySnapshotIntact`: Confirmed that Room schema v1 defines no cascading foreign key from `shopping_history` to `shopping_lists`, ensuring permanent deletion of an active list cascades to `shopping_items` while leaving `shopping_history` headers and child `history_items` 100% intact with preserved `original_list_id` audit reference.
+  - Snapshot creation with mixed pricing: Dot and comma decimal quantities (`2.5`, `1,5`), integer minor unit calculations matching `MoneyCalculator`, category snapshot retention, and explicit unpriced purchased item counting.
+  - Snapshot immutability: Post-archive modifications to active lists (renaming, changing budgets, adding items, updating prices, deleting items) do not mutate historical snapshots.
+  - Deletion behavior: Deleting an individual historical trip cascades to all child snapshot items in `history_items` without touching active lists or items.
+  - Complete history purge: `deleteAllHistory()` removes all trips and snapshot items while leaving active shopping lists intact.
+  - Archive state machine guardrails: Re-archiving an already archived list throws `IllegalStateException`; archiving a non-existent list ID throws `IllegalArgumentException`.
+  - Trip restoration decoupling: "Start New List from this Trip" action generates new distinct UUIDs, sets list status to `ACTIVE`, resets `isPurchased = false` and `actualUnitPriceMinor = null`, and initializes `estimatedUnitPriceMinor` from previous actual unit price.)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks up-to-date in 16s)
+- **Failures/Issues:** None. Phase 4 (History and settings) is 100% complete! All 212 unit tests passing. Ready to advance to Phase 5 (Monetization: `SZ-050`).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

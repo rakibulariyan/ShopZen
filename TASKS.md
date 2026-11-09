@@ -42,8 +42,8 @@
 - [x] SZ-041 Implement history list and historical detail screens.
 - [x] SZ-042 Implement currency selection per list and locale-based default.
 - [x] SZ-043 Implement appearance and app preferences.
-- [ ] SZ-044 Implement data export/import only if confirmed in the approved MVP scope.
-- [ ] SZ-045 Test archive, snapshot integrity and deletion behavior.
+- [x] SZ-044 Implement data export/import only if confirmed in the approved MVP scope (Resolved: Deferred to V1 per ADR-014 and PRD Section 7).
+- [x] SZ-045 Test archive, snapshot integrity and deletion behavior.
 
 ## Phase 5 — Monetization
 - [ ] SZ-050 Verify current Google Mobile Ads SDK and UMP integration guidance.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-044 — implement data export/import only if confirmed in the approved MVP scope.
-- **Next:** SZ-045 — test archive, snapshot integrity and deletion behavior.
-- **Blockers:** None. SZ-043 complete with 203 passing unit tests and clean debug APK build.
+- **Current:** SZ-050 — Verify current Google Mobile Ads SDK and UMP integration guidance.
+- **Next:** SZ-051 — Implement consent flow and privacy-safe ad initialization.
+- **Blockers:** None. Phase 4 complete with 212 passing unit tests and clean debug APK build.

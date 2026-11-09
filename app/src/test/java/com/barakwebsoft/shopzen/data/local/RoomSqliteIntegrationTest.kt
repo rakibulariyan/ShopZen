@@ -228,6 +228,43 @@ class RoomSqliteIntegrationTest {
         assertEquals("History items must be cascade deleted", 0, countRows("history_items", "history_id = '$historyId'"))
     }
 
+    @Test
+    fun foreignKey_shoppingList_deletionLeavesHistorySnapshotIntact() {
+        // 1. Insert original shopping list and items
+        val listId = insertShoppingList("List for History", "USD", 5000L)
+        val itemId = insertShoppingItem(listId, "Oranges", "3", "kg", 200L, isPurchased = true, actualPrice = 250L)
+
+        // 2. Insert historical snapshot referencing original_list_id
+        val historyId = insertHistory("List for History", "USD", 5000L, 750L, 1, 0, originalListId = listId)
+        insertHistoryItem(historyId, "Oranges", "3", "kg", 250L, 750L, true, originalItemId = itemId)
+
+        assertEquals(1, countRows("shopping_lists", "id = '$listId'"))
+        assertEquals(1, countRows("shopping_items", "list_id = '$listId'"))
+        assertEquals(1, countRows("shopping_history", "id = '$historyId'"))
+        assertEquals(1, countRows("history_items", "history_id = '$historyId'"))
+
+        // 3. Delete original active shopping list (which cascades to shopping_items)
+        connection.createStatement().use { stmt ->
+            stmt.executeUpdate("DELETE FROM shopping_lists WHERE id = '$listId';")
+        }
+
+        // Active list and its items are deleted
+        assertEquals(0, countRows("shopping_lists", "id = '$listId'"))
+        assertEquals(0, countRows("shopping_items", "list_id = '$listId'"))
+
+        // Historical snapshot and its items remain 100% intact!
+        assertEquals("shopping_history row must remain intact after active list deletion", 1, countRows("shopping_history", "id = '$historyId'"))
+        assertEquals("history_items row must remain intact after active list deletion", 1, countRows("history_items", "history_id = '$historyId'"))
+
+        // Verify original_list_id in the history record still preserves list identifier
+        connection.prepareStatement("SELECT original_list_id FROM shopping_history WHERE id = ?;").use { stmt ->
+            stmt.setString(1, historyId)
+            val rs = stmt.executeQuery()
+            assertTrue(rs.next())
+            assertEquals(listId, rs.getString("original_list_id"))
+        }
+    }
+
     // =========================================================================
     // 3. CRUD Operations Tests
     // =========================================================================
@@ -700,21 +737,23 @@ class RoomSqliteIntegrationTest {
         budgetMinor: Long?,
         totalSpentMinor: Long,
         purchasedCount: Int,
-        unpricedCount: Int
+        unpricedCount: Int,
+        originalListId: String? = null
     ): String {
         val id = UUID.randomUUID().toString()
         connection.prepareStatement(
-            "INSERT INTO shopping_history (id, list_name, currency_code, budget_minor, total_spent_minor, purchased_count, unpriced_purchased_count, completed_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+            "INSERT INTO shopping_history (id, original_list_id, list_name, currency_code, budget_minor, total_spent_minor, purchased_count, unpriced_purchased_count, completed_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
         ).use { stmt ->
             stmt.setString(1, id)
-            stmt.setString(2, listName)
-            stmt.setString(3, currencyCode)
-            if (budgetMinor != null) stmt.setLong(4, budgetMinor) else stmt.setNull(4, java.sql.Types.BIGINT)
-            stmt.setLong(5, totalSpentMinor)
-            stmt.setInt(6, purchasedCount)
-            stmt.setInt(7, unpricedCount)
-            stmt.setLong(8, System.currentTimeMillis())
+            if (originalListId != null) stmt.setString(2, originalListId) else stmt.setNull(2, java.sql.Types.VARCHAR)
+            stmt.setString(3, listName)
+            stmt.setString(4, currencyCode)
+            if (budgetMinor != null) stmt.setLong(5, budgetMinor) else stmt.setNull(5, java.sql.Types.BIGINT)
+            stmt.setLong(6, totalSpentMinor)
+            stmt.setInt(7, purchasedCount)
+            stmt.setInt(8, unpricedCount)
+            stmt.setLong(9, System.currentTimeMillis())
             stmt.executeUpdate()
         }
         return id
@@ -727,21 +766,23 @@ class RoomSqliteIntegrationTest {
         unit: String,
         actualPrice: Long?,
         lineTotal: Long?,
-        isPurchased: Boolean
+        isPurchased: Boolean,
+        originalItemId: String? = null
     ): String {
         val id = UUID.randomUUID().toString()
         connection.prepareStatement(
-            "INSERT INTO history_items (id, history_id, item_name, quantity, unit, actual_unit_price_minor, line_total_minor, is_purchased) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+            "INSERT INTO history_items (id, history_id, original_item_id, item_name, quantity, unit, actual_unit_price_minor, line_total_minor, is_purchased) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
         ).use { stmt ->
             stmt.setString(1, id)
             stmt.setString(2, historyId)
-            stmt.setString(3, name)
-            stmt.setString(4, quantity)
-            stmt.setString(5, unit)
-            if (actualPrice != null) stmt.setLong(6, actualPrice) else stmt.setNull(6, java.sql.Types.BIGINT)
-            if (lineTotal != null) stmt.setLong(7, lineTotal) else stmt.setNull(7, java.sql.Types.BIGINT)
-            stmt.setInt(8, if (isPurchased) 1 else 0)
+            if (originalItemId != null) stmt.setString(3, originalItemId) else stmt.setNull(3, java.sql.Types.VARCHAR)
+            stmt.setString(4, name)
+            stmt.setString(5, quantity)
+            stmt.setString(6, unit)
+            if (actualPrice != null) stmt.setLong(7, actualPrice) else stmt.setNull(7, java.sql.Types.BIGINT)
+            if (lineTotal != null) stmt.setLong(8, lineTotal) else stmt.setNull(8, java.sql.Types.BIGINT)
+            stmt.setInt(9, if (isPurchased) 1 else 0)
             stmt.executeUpdate()
         }
         return id

@@ -79,3 +79,9 @@ Record durable product and technical decisions here. Use newest entries at the b
 - **Decision:** Use Room `2.7.2` with KSP `2.2.10-2.0.2` and export schemas to `app/schemas/`.
 - **Reason:** AGP 9.3 and Kotlin 2.2 require KSP2 analysis API; Room 2.7.2 resolves KSP2 void return signature compilation issues, provides full SQLite foreign key / index code generation, and exports immutable schema JSON artifacts for version verification.
 - **Consequences:** Room annotations use `BINARY` retention. Schema integrity and migrations are verified against exported JSON schema files. Incremental compilation cache is stabilized via `kotlin.incremental=false` on Windows.
+
+## ADR-014 — Data export and import deferred from MVP to V1
+- **Status:** Accepted
+- **Decision:** Data export and import (e.g. JSON/CSV backup, file picker export) are deferred to V1 per PRD Section 7 ("V1 candidates: Sharing and export improvements").
+- **Reason:** Maintain strict MVP offline-first boundary, avoid unapproved file storage permissions or dead controls, and prioritize core list creation, market shopping, budgeting, and history snapshots.
+- **Consequences:** Task SZ-044 is resolved as deferred per approved product scope. No placeholder or incomplete export/import UI is rendered in MVP.
