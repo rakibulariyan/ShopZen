@@ -238,6 +238,58 @@ class MarketModeViewModelTest {
         assertTrue(viewModel.uiState.value.isFinished)
     }
 
+    @Test
+    fun openPriceEntry_and_closePriceEntry_updatesActivePriceItem() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-price-1",
+            items = listOf(
+                createItemDetail("item-apple", "Honeycrisp Apples", catProduce, isPurchased = false)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-price-1")
+        advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.priceEntryItemId)
+        assertNull(viewModel.uiState.value.activePriceEntryItem)
+
+        viewModel.openPriceEntry("item-apple")
+        assertEquals("item-apple", viewModel.uiState.value.priceEntryItemId)
+        assertEquals("Honeycrisp Apples", viewModel.uiState.value.activePriceEntryItem?.item?.name)
+
+        viewModel.closePriceEntry()
+        assertNull(viewModel.uiState.value.priceEntryItemId)
+        assertNull(viewModel.uiState.value.activePriceEntryItem)
+    }
+
+    @Test
+    fun saveActualPrice_updatesPriceInRepository_and_marksPurchased() = runTest {
+        viewModel.saveActualPrice("item-1", actualUnitPriceMinor = 250L, markPurchased = true)
+        advanceUntilIdle()
+
+        assertEquals(listOf("item-1" to 250L), fakeItemRepository.actualPrices)
+        assertEquals(listOf("item-1" to true), fakeItemRepository.toggledItems)
+        assertNull(viewModel.uiState.value.priceEntryItemId)
+    }
+
+    @Test
+    fun saveActualPrice_withNullPrice_marksUnpricedInCart() = runTest {
+        viewModel.saveActualPrice("item-2", actualUnitPriceMinor = null, markPurchased = true)
+        advanceUntilIdle()
+
+        assertEquals(listOf("item-2" to null), fakeItemRepository.actualPrices)
+        assertEquals(listOf("item-2" to true), fakeItemRepository.toggledItems)
+    }
+
+    @Test
+    fun saveActualPrice_withoutMarkingPurchased_onlyUpdatesPrice() = runTest {
+        viewModel.saveActualPrice("item-3", actualUnitPriceMinor = 400L, markPurchased = false)
+        advanceUntilIdle()
+
+        assertEquals(listOf("item-3" to 400L), fakeItemRepository.actualPrices)
+        assertTrue(fakeItemRepository.toggledItems.isEmpty())
+    }
+
     private fun createTestDetail(
         listId: String,
         items: List<ShoppingItemDetail>
@@ -314,6 +366,7 @@ class MarketModeViewModelTest {
 
     private class FakeShoppingItemRepository : ShoppingItemRepository {
         val toggledItems = mutableListOf<Pair<String, Boolean>>()
+        val actualPrices = mutableListOf<Pair<String, Long?>>()
 
         override fun getItemsForList(listId: String): Flow<List<ShoppingItem>> = MutableStateFlow(emptyList())
         override fun getItemsWithCategoryForList(listId: String): Flow<List<ShoppingItemDetail>> = MutableStateFlow(emptyList())
@@ -337,7 +390,9 @@ class MarketModeViewModelTest {
         override suspend fun toggleItemPurchased(id: String, isPurchased: Boolean) {
             toggledItems.add(id to isPurchased)
         }
-        override suspend fun updateActualPrice(id: String, actualUnitPriceMinor: Long?) {}
+        override suspend fun updateActualPrice(id: String, actualUnitPriceMinor: Long?) {
+            actualPrices.add(id to actualUnitPriceMinor)
+        }
         override suspend fun updateItemSortOrder(id: String, sortOrder: Int) {}
         override suspend fun deleteItem(id: String) {}
         override suspend fun deleteItemsForList(listId: String) {}

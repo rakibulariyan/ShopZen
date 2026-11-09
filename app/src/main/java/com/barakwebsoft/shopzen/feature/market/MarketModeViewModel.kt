@@ -123,5 +123,23 @@ class MarketModeViewModel(
     fun finishShopping() {
         _uiState.update { it.copy(isFinished = true) }
     }
+
+    fun openPriceEntry(itemId: String) {
+        _uiState.update { it.copy(priceEntryItemId = itemId) }
+    }
+
+    fun closePriceEntry() {
+        _uiState.update { it.copy(priceEntryItemId = null) }
+    }
+
+    fun saveActualPrice(itemId: String, actualUnitPriceMinor: Long?, markPurchased: Boolean = true) {
+        viewModelScope.launch {
+            shoppingItemRepository.updateActualPrice(itemId, actualUnitPriceMinor)
+            if (markPurchased) {
+                shoppingItemRepository.toggleItemPurchased(itemId, true)
+            }
+            _uiState.update { it.copy(priceEntryItemId = null) }
+        }
+    }
 }
 

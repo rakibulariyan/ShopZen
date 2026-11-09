@@ -327,6 +327,21 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
 - **Failures/Issues:** None. In-store Market Mode shopping experience fully verified. Ready to proceed to `SZ-033`.
 
+### Actual Price Entry Verification: 2026-11-09 (Task SZ-033)
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 8 executed, 18 up-to-date)
+- **Passed:** 156 unit/integration tests (152 existing + 4 new unit tests in `MarketModeViewModelTest` verifying:
+  - Opening and closing price entry sheet updates `priceEntryItemId` and resolves `activePriceEntryItem`
+  - Saving actual price updates item in repository with exact minor units (`Long`) and automatically marks item as purchased in cart
+  - Saving item with null price allows setting purchased item as unpriced without losing cart state
+  - Option to update price without altering purchased state
+  - Modal bottom sheet `ActualPriceEntryBottomSheet` integration with quick-apply estimated price chip, clear/unpriced chip, live line total calculation via `MoneyCalculator.calculateLineTotal`, and price variance badge
+  - Zero-decimal (e.g. JPY) vs decimal currency keyboard handling and numeric formatting via `CurrencyFormatter`)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
+- **Failures/Issues:** None. Actual price entry modal sheet and repository updates verified. Ready to proceed to `SZ-034`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

@@ -67,6 +67,7 @@ import com.barakwebsoft.shopzen.core.di.AppViewModelProvider
 import com.barakwebsoft.shopzen.core.util.CurrencyFormatter
 import com.barakwebsoft.shopzen.feature.categories.CategoryVisuals
 import com.barakwebsoft.shopzen.feature.categories.components.CategoryChip
+import com.barakwebsoft.shopzen.feature.market.components.ActualPriceEntryBottomSheet
 import com.barakwebsoft.shopzen.feature.market.components.MarketFinancialHud
 import com.barakwebsoft.shopzen.feature.market.components.MarketShoppingItemRow
 
@@ -336,7 +337,7 @@ fun MarketModeScreen(
                                     it.item.isPurchased && it.item.actualUnitPriceMinor == null
                                 }
                                 if (firstUnpriced != null) {
-                                    onEditItemPrice(firstUnpriced.item.id)
+                                    viewModel.openPriceEntry(firstUnpriced.item.id)
                                 }
                             }
                         )
@@ -475,7 +476,7 @@ fun MarketModeScreen(
                                     viewModel.toggleItemPurchased(itemDetail.item.id, current)
                                 },
                                 onPriceClick = {
-                                    onEditItemPrice(itemDetail.item.id)
+                                    viewModel.openPriceEntry(itemDetail.item.id)
                                 }
                             )
                         }
@@ -488,6 +489,19 @@ fun MarketModeScreen(
                 }
             }
         }
+    }
+
+    // Modal Bottom Sheet for Actual Price Entry
+    val activePriceItem = uiState.activePriceEntryItem
+    if (activePriceItem != null && listDetail != null) {
+        ActualPriceEntryBottomSheet(
+            itemDetail = activePriceItem,
+            currencyCode = listDetail.list.currencyCode,
+            onDismiss = { viewModel.closePriceEntry() },
+            onConfirmPrice = { actualMinor, markPurchased ->
+                viewModel.saveActualPrice(activePriceItem.item.id, actualMinor, markPurchased)
+            }
+        )
     }
 }
 

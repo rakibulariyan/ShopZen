@@ -15,8 +15,12 @@ data class MarketModeUiState(
     val isKeepScreenOn: Boolean = true,
     val selectedCategoryId: String? = null,
     val lastPurchaseToggleAction: PurchaseToggleAction? = null,
+    val priceEntryItemId: String? = null,
     val isFinished: Boolean = false
 ) {
+    val activePriceEntryItem: ShoppingItemDetail?
+        get() = priceEntryItemId?.let { id -> listDetail?.items?.find { it.item.id == id } }
+
     val totalItemsCount: Int get() = listDetail?.totalItemsCount ?: 0
     val purchasedItemsCount: Int get() = listDetail?.purchasedItemsCount ?: 0
     val pendingItemsCount: Int get() = listDetail?.pendingItemsCount ?: 0
