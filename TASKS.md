@@ -31,7 +31,7 @@
 ## Phase 3 — Market Mode and budget
 - [x] SZ-030 Implement exact money and quantity calculation utilities.
 - [x] SZ-031 Implement purchased/pending item state and undo.
-- [ ] SZ-032 Implement Market Mode, large touch targets and haptic feedback.
+- [x] SZ-032 Implement Market Mode, large touch targets and haptic feedback.
 - [ ] SZ-033 Implement actual price entry.
 - [ ] SZ-034 Implement budget summary, over-budget warning and unpriced-item handling.
 - [ ] SZ-035 Ensure Market Mode, Add/Edit Item and Budget screens contain no ads.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-032 — implement Market Mode, large touch targets and haptic feedback.
-- **Next:** SZ-033 — implement actual price entry.
-- **Blockers:** None. SZ-031 complete with 142 passing tests and clean debug APK build.
+- **Current:** SZ-033 — implement actual price entry.
+- **Next:** SZ-034 — implement budget summary, over-budget warning and unpriced-item handling.
+- **Blockers:** None. SZ-032 complete with 152 passing tests and clean debug APK build.

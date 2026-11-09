@@ -307,6 +307,26 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
 - **Failures/Issues:** None. Purchase toggling, undo mechanisms, and haptic feedback verified. Ready to proceed to `SZ-032`.
 
+### Market Mode, Large Touch Targets & Haptic Feedback Verification: 2026-11-09 (Task SZ-032)
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 9 executed, 17 up-to-date)
+- **Passed:** 152 unit/integration tests (142 existing + 10 new unit tests in `MarketModeViewModelTest` verifying:
+  - Observation of list detail, item counts calculation, and live progress percentage
+  - Item purchase toggling with inverted status updates in repository
+  - Emitting `MarketModeEvent.ItemPurchaseToggled` for snackbar notifications
+  - Instant undo via `undoLastToggle()` and `undoPurchaseToggle(action)` reverting repository state
+  - Haptic feedback enablement and user toggle (`isHapticEnabled`)
+  - Screen keep-awake toggle (`isKeepScreenOn`) and automatic `FLAG_KEEP_SCREEN_ON` lifecycle cleanup
+  - Category / aisle filtering with pending-first sorting
+  - Precise calculation and disclosure of unpriced purchased items in cart
+  - Shopping run finish transition
+  - Integration with sticky `MarketFinancialHud`, 52dp `MarketShoppingItemRow`, and `ShopZenRoutes.MARKET_MODE` navigation
+  - Strict compliance with protected screen policy: zero advertisements in Market Mode)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
+- **Failures/Issues:** None. In-store Market Mode shopping experience fully verified. Ready to proceed to `SZ-033`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

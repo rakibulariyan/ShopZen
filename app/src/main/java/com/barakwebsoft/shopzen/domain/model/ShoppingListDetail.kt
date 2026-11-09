@@ -24,5 +24,14 @@ data class ShoppingListDetail(
 
     val budgetMetrics: BudgetMetrics
         get() = MoneyCalculator.calculateBudgetMetrics(list.budgetMinor, rawItems)
+
+    val remainingBudgetMinor: Long?
+        get() = budgetMetrics.remainingBudgetMinor
+
+    val isOverBudget: Boolean
+        get() = budgetMetrics.isOverBudget
+
+    val budgetProgress: Float?
+        get() = budgetMetrics.budgetProgress
 }
 

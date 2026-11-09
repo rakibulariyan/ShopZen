@@ -23,6 +23,7 @@ import com.barakwebsoft.shopzen.feature.home.HomeScreen
 import com.barakwebsoft.shopzen.feature.items.AddEditItemScreen
 import com.barakwebsoft.shopzen.feature.lists.AddEditListScreen
 import com.barakwebsoft.shopzen.feature.lists.details.ListDetailsScreen
+import com.barakwebsoft.shopzen.feature.market.MarketModeScreen
 import com.barakwebsoft.shopzen.feature.settings.SettingsScreen
 
 @Composable
@@ -86,6 +87,21 @@ fun ShopZenApp(
                     onAddItemClick = { id -> navController.navigate(ShopZenRoutes.addEditItem(id)) },
                     onStartMarketModeClick = { id -> navController.navigate(ShopZenRoutes.marketMode(id)) },
                     onItemClick = { itemId -> navController.navigate(ShopZenRoutes.addEditItem(listId, itemId)) }
+                )
+            }
+            composable(
+                route = ShopZenRoutes.MARKET_MODE,
+                arguments = listOf(
+                    navArgument("listId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val listId = backStackEntry.arguments?.getString("listId") ?: ""
+                MarketModeScreen(
+                    listId = listId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onEditItemPrice = { itemId ->
+                        navController.navigate(ShopZenRoutes.addEditItem(listId, itemId))
+                    }
                 )
             }
             composable(ShopZenRoutes.CREATE_LIST) {
