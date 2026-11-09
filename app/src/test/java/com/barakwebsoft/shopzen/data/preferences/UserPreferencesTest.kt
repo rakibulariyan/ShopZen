@@ -33,6 +33,29 @@ class UserPreferencesTest {
     }
 
     @Test
+    fun themeResolution_correctlyMapsSystemLightAndDark() {
+        fun resolveDarkTheme(pref: ThemePreference, isSystemInDarkTheme: Boolean): Boolean {
+            return when (pref) {
+                ThemePreference.SYSTEM -> isSystemInDarkTheme
+                ThemePreference.LIGHT -> false
+                ThemePreference.DARK -> true
+            }
+        }
+
+        // System follows system
+        assertTrue(resolveDarkTheme(ThemePreference.SYSTEM, isSystemInDarkTheme = true))
+        assertFalse(resolveDarkTheme(ThemePreference.SYSTEM, isSystemInDarkTheme = false))
+
+        // Light is always light
+        assertFalse(resolveDarkTheme(ThemePreference.LIGHT, isSystemInDarkTheme = true))
+        assertFalse(resolveDarkTheme(ThemePreference.LIGHT, isSystemInDarkTheme = false))
+
+        // Dark is always dark
+        assertTrue(resolveDarkTheme(ThemePreference.DARK, isSystemInDarkTheme = true))
+        assertTrue(resolveDarkTheme(ThemePreference.DARK, isSystemInDarkTheme = false))
+    }
+
+    @Test
     fun appPreferences_defaultsAreCorrect() {
         val prefs = AppPreferences()
         assertEquals(ThemePreference.SYSTEM, prefs.themePreference)

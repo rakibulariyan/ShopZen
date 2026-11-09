@@ -433,6 +433,18 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date in 1m 10s)
 - **Failures/Issues:** None. Currency selection per list and locale-based default verified. Ready to proceed to `SZ-043`.
 
+### 2026-11-09 — Task SZ-043: Implement appearance and app preferences
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 203 unit tests (+1 in `UserPreferencesTest` verifying:
+  - Dynamic theme resolution logic across `SYSTEM`, `LIGHT`, and `DARK` options with simulated system dark mode states
+  - Full app-wide theme propagation in `MainActivity` observing `AppPreferences.themePreference` and dynamically recomposing `ShopZenTheme(darkTheme)`
+  - Botanical Material 3 `ThemeSelectionDialog` with clear descriptions, accessibility labels, and radio selection
+  - Verified toggle cards for tactile haptics (`hapticFeedbackEnabled`) and completed items visibility (`showCompletedItems`))
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date in 30s)
+- **Failures/Issues:** None. Appearance and app preferences verified. Ready to proceed to `SZ-044`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

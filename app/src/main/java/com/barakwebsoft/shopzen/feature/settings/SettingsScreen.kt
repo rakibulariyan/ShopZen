@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.barakwebsoft.shopzen.core.di.AppViewModelProvider
 import com.barakwebsoft.shopzen.feature.lists.components.CurrencySelectionDialog
+import com.barakwebsoft.shopzen.feature.settings.components.ThemeSelectionDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -177,6 +178,15 @@ fun SettingsScreen(
             selectedCurrencyCode = uiState.defaultCurrencyCode,
             onCurrencySelected = { viewModel.setDefaultCurrency(it) },
             onDismiss = { viewModel.setCurrencyPickerVisible(false) }
+        )
+    }
+
+    // Theme Selection Dialog
+    if (uiState.isThemeDialogVisible) {
+        ThemeSelectionDialog(
+            selectedTheme = uiState.themePreference,
+            onThemeSelected = { viewModel.setThemePreference(it) },
+            onDismiss = { viewModel.setThemeDialogVisible(false) }
         )
     }
 }

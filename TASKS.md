@@ -41,7 +41,7 @@
 - [x] SZ-040 Implement atomic archive and immutable history snapshots.
 - [x] SZ-041 Implement history list and historical detail screens.
 - [x] SZ-042 Implement currency selection per list and locale-based default.
-- [ ] SZ-043 Implement appearance and app preferences.
+- [x] SZ-043 Implement appearance and app preferences.
 - [ ] SZ-044 Implement data export/import only if confirmed in the approved MVP scope.
 - [ ] SZ-045 Test archive, snapshot integrity and deletion behavior.
 
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-043 — implement appearance and app preferences.
-- **Next:** SZ-044 — implement data export/import only if confirmed in the approved MVP scope.
-- **Blockers:** None. SZ-042 complete with 202 passing unit tests and clean debug APK build.
+- **Current:** SZ-044 — implement data export/import only if confirmed in the approved MVP scope.
+- **Next:** SZ-045 — test archive, snapshot integrity and deletion behavior.
+- **Blockers:** None. SZ-043 complete with 203 passing unit tests and clean debug APK build.
