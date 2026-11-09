@@ -235,6 +235,15 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
 - **Failures/Issues:** None. Material 3 `AddEditItemScreen`, `DeleteItemDialog`, and `ShopZenRoutes.ADD_EDIT_ITEM` navigation fully integrated.
 
+### Categories & Category Selection Verification: 2026-11-09 (Task SZ-025)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 9 executed, 17 up-to-date)
+- **Passed:** 116 unit/integration tests (110 existing + 5 new unit tests in `CategoryVisualsTest` verifying icon mapping, theme token color resolution, and preset uniqueness + 1 new unit test in `AddEditItemViewModelTest` verifying custom category creation, persistence via repository, category list refresh, and auto-selection of the new category)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
+- **Failures/Issues:** None. `CategoryVisuals`, `CategoryChip` (with 48dp touch target, leading icons, and badge counts), `CreateCategoryDialog`, and `CategorySelector` integrated cleanly into `AddEditItemScreen` and `ListDetailsScreen`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

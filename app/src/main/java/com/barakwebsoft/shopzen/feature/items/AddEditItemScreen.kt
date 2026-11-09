@@ -307,34 +307,14 @@ fun AddEditItemScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        FilterChip(
-                            selected = uiState.categoryId == null,
-                            onClick = { viewModel.onCategoryChange(null) },
-                            label = { Text("None") },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                            )
-                        )
-
-                        uiState.categories.forEach { category ->
-                            FilterChip(
-                                selected = uiState.categoryId == category.id,
-                                onClick = { viewModel.onCategoryChange(category.id) },
-                                label = { Text(category.name) },
-                                colors = FilterChipDefaults.filterChipColors(
-                                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                                )
-                            )
+                    com.barakwebsoft.shopzen.feature.categories.components.CategorySelector(
+                        categories = uiState.categories,
+                        selectedCategoryId = uiState.categoryId,
+                        onCategorySelected = { viewModel.onCategoryChange(it) },
+                        onCreateCategory = { name, icon, color ->
+                            viewModel.createCategory(name, icon, color)
                         }
-                    }
+                    )
                 }
 
                 // 3. Quantity & Unit

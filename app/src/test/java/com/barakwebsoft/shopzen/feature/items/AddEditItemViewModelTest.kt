@@ -301,6 +301,30 @@ class AddEditItemViewModelTest {
         assertFalse(fakeItemRepository.items.containsKey("item-to-delete"))
     }
 
+    @Test
+    fun createCategory_persistsAndSelectsNewCategory() = runTest {
+        viewModel.loadItem(listId = "list-1", itemId = null)
+        advanceUntilIdle()
+
+        val initialCategoryCount = viewModel.uiState.value.categories.size
+
+        viewModel.createCategory(
+            name = "Frozen Foods",
+            iconName = "local_cafe",
+            colorToken = "sky"
+        )
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertEquals(initialCategoryCount + 1, state.categories.size)
+
+        val createdCat = state.categories.find { it.name == "Frozen Foods" }
+        assertNotNull(createdCat)
+        assertEquals("local_cafe", createdCat!!.iconName)
+        assertEquals("sky", createdCat.colorToken)
+        assertEquals(createdCat.id, state.categoryId)
+    }
+
     // ---------------- Fake Implementations ----------------
 
     private class FakeShoppingItemRepository(

@@ -3,6 +3,7 @@ package com.barakwebsoft.shopzen.feature.items
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barakwebsoft.shopzen.core.util.CurrencyFormatter
+import com.barakwebsoft.shopzen.domain.model.Category
 import com.barakwebsoft.shopzen.domain.model.ShoppingItem
 import com.barakwebsoft.shopzen.domain.repository.CategoryRepository
 import com.barakwebsoft.shopzen.domain.repository.ShoppingItemRepository
@@ -136,6 +137,27 @@ class AddEditItemViewModel(
 
     fun onCategoryChange(categoryId: String?) {
         _uiState.update { it.copy(categoryId = categoryId) }
+    }
+
+    fun createCategory(name: String, iconName: String, colorToken: String) {
+        viewModelScope.launch {
+            val newCategory = Category(
+                id = "cat_${UUID.randomUUID()}",
+                name = name,
+                iconName = iconName,
+                colorToken = colorToken,
+                isDefault = false,
+                sortOrder = (_uiState.value.categories.maxOfOrNull { it.sortOrder } ?: 0) + 1
+            )
+            categoryRepository.addCategory(newCategory)
+            val updatedCategories = categoryRepository.getAllCategoriesSync()
+            _uiState.update {
+                it.copy(
+                    categories = updatedCategories,
+                    categoryId = newCategory.id
+                )
+            }
+        }
     }
 
     fun onEstimatedPriceChange(price: String) {

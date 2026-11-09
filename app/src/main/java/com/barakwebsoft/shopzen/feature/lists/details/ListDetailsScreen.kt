@@ -1,5 +1,6 @@
 package com.barakwebsoft.shopzen.feature.lists.details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,6 +49,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.draw.clip
+import com.barakwebsoft.shopzen.feature.categories.CategoryVisuals
+import com.barakwebsoft.shopzen.feature.categories.components.CategoryChip
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -367,27 +371,22 @@ fun ListDetailsScreen(
                                     .horizontalScroll(rememberScrollState()),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                FilterChip(
+                                CategoryChip(
+                                    category = null,
                                     selected = uiState.selectedCategoryId == null,
                                     onClick = { viewModel.setCategoryFilter(null) },
-                                    label = { Text("All (${uiState.totalItemsCount})") },
-                                    colors = FilterChipDefaults.filterChipColors(
-                                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                                    )
+                                    count = uiState.totalItemsCount,
+                                    noneLabel = "All"
                                 )
 
                                 uiState.availableCategories.forEach { (cat, count) ->
                                     val catId = cat?.id
-                                    val catName = cat?.name ?: "Uncategorized"
-                                    FilterChip(
+                                    CategoryChip(
+                                        category = cat,
                                         selected = uiState.selectedCategoryId == catId,
                                         onClick = { viewModel.setCategoryFilter(catId) },
-                                        label = { Text("$catName ($count)") },
-                                        colors = FilterChipDefaults.filterChipColors(
-                                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                                        )
+                                        count = count,
+                                        noneLabel = "Uncategorized"
                                     )
                                 }
                             }
@@ -495,6 +494,8 @@ private fun CategorySectionHeader(
 ) {
     val purchasedCount = items.count { it.item.isPurchased }
     val totalCount = items.size
+    val icon = CategoryVisuals.getCategoryIcon(category?.iconName)
+    val iconColor = CategoryVisuals.getCategoryColor(category?.colorToken)
 
     Row(
         modifier = modifier
@@ -503,12 +504,29 @@ private fun CategorySectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = category?.name ?: "Uncategorized",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(iconColor.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = iconColor,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = category?.name ?: "Uncategorized",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
 
         Surface(
             shape = RoundedCornerShape(8.dp),
