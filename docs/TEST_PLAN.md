@@ -244,6 +244,21 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
 - **Failures/Issues:** None. `CategoryVisuals`, `CategoryChip` (with 48dp touch target, leading icons, and badge counts), `CreateCategoryDialog`, and `CategorySelector` integrated cleanly into `AddEditItemScreen` and `ListDetailsScreen`.
 
+### Search & Filtering Verification: 2026-11-09 (Task SZ-026)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 8 executed, 18 up-to-date)
+- **Passed:** 122 unit/integration tests (116 existing + 6 new unit tests in `ListDetailsViewModelTest` verifying:
+  - In-list real-time item search by name (case-insensitive)
+  - In-list item search matching notes content
+  - Item purchase status filtering (`ALL`, `PENDING`, `PURCHASED`)
+  - Combined multi-criteria filtering across category, purchase status, and search query
+  - `resetFilters` resetting all criteria back to default
+  - `isFilterEmpty` detection when active filters yield no matching items)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
+- **Failures/Issues:** None. `ShopZenSearchBar`, botanical `SearchNoResultsView` (per `docs/android_ui_system/search_no_results`), status filter chips, and search toggle integrated into `ListDetailsScreen` and `HomeScreen`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

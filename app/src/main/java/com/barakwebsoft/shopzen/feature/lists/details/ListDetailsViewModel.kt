@@ -51,6 +51,39 @@ class ListDetailsViewModel(
         _uiState.update { it.copy(selectedCategoryId = categoryId) }
     }
 
+    fun setPurchaseFilter(filter: ItemPurchaseFilter) {
+        _uiState.update { it.copy(purchaseFilter = filter) }
+    }
+
+    fun onSearchQueryChange(query: String) {
+        _uiState.update { it.copy(searchQuery = query) }
+    }
+
+    fun clearSearchQuery() {
+        _uiState.update { it.copy(searchQuery = "") }
+    }
+
+    fun toggleSearchExpanded(expanded: Boolean? = null) {
+        _uiState.update {
+            val newExpanded = expanded ?: !it.isSearchExpanded
+            it.copy(
+                isSearchExpanded = newExpanded,
+                searchQuery = if (!newExpanded) "" else it.searchQuery
+            )
+        }
+    }
+
+    fun resetFilters() {
+        _uiState.update {
+            it.copy(
+                searchQuery = "",
+                selectedCategoryId = null,
+                purchaseFilter = ItemPurchaseFilter.ALL,
+                isSearchExpanded = false
+            )
+        }
+    }
+
     fun setSortOrder(sortOrder: ItemSortOrder) {
         _uiState.update { it.copy(sortOrder = sortOrder) }
     }

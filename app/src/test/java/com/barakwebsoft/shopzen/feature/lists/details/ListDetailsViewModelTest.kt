@@ -216,6 +216,152 @@ class ListDetailsViewModelTest {
         assertEquals("list-dup-1-copy", viewModel.uiState.value.duplicatedListId)
     }
 
+    @Test
+    fun searchQuery_filtersItemsByName() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-search-1",
+            items = listOf(
+                createItemDetail("1", "Almond Milk", catDairy),
+                createItemDetail("2", "Whole Milk", catDairy),
+                createItemDetail("3", "Cheddar Cheese", catDairy)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-search-1")
+        advanceUntilIdle()
+
+        viewModel.onSearchQueryChange("milk")
+
+        val state = viewModel.uiState.value
+        assertEquals("milk", state.searchQuery)
+        assertEquals(2, state.filteredAndSortedItems.size)
+        assertTrue(state.filteredAndSortedItems.all { it.item.name.contains("Milk", ignoreCase = true) })
+
+        viewModel.clearSearchQuery()
+        assertEquals("", viewModel.uiState.value.searchQuery)
+        assertEquals(3, viewModel.uiState.value.filteredAndSortedItems.size)
+    }
+
+    @Test
+    fun searchQuery_filtersItemsByNotes() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-search-2",
+            items = listOf(
+                createItemDetail("1", "Apples", catProduce, notes = "Honeycrisp organic"),
+                createItemDetail("2", "Bananas", catProduce, notes = "Ripe yellow"),
+                createItemDetail("3", "Milk", catDairy)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-search-2")
+        advanceUntilIdle()
+
+        viewModel.onSearchQueryChange("organic")
+
+        val items = viewModel.uiState.value.filteredAndSortedItems
+        assertEquals(1, items.size)
+        assertEquals("Apples", items.first().item.name)
+    }
+
+    @Test
+    fun purchaseFilter_filtersPendingAndPurchased() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-filter-1",
+            items = listOf(
+                createItemDetail("1", "Bread", catProduce, isPurchased = false),
+                createItemDetail("2", "Butter", catDairy, isPurchased = true),
+                createItemDetail("3", "Eggs", catDairy, isPurchased = false)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-filter-1")
+        advanceUntilIdle()
+
+        viewModel.setPurchaseFilter(ItemPurchaseFilter.PENDING)
+        val pendingItems = viewModel.uiState.value.filteredAndSortedItems
+        assertEquals(2, pendingItems.size)
+        assertTrue(pendingItems.none { it.item.isPurchased })
+
+        viewModel.setPurchaseFilter(ItemPurchaseFilter.PURCHASED)
+        val purchasedItems = viewModel.uiState.value.filteredAndSortedItems
+        assertEquals(1, purchasedItems.size)
+        assertEquals("Butter", purchasedItems.first().item.name)
+
+        viewModel.setPurchaseFilter(ItemPurchaseFilter.ALL)
+        assertEquals(3, viewModel.uiState.value.filteredAndSortedItems.size)
+    }
+
+    @Test
+    fun combinedFilters_categoryStatusAndSearch() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-combined",
+            items = listOf(
+                createItemDetail("1", "Organic Apples", catProduce, isPurchased = false),
+                createItemDetail("2", "Organic Bananas", catProduce, isPurchased = true),
+                createItemDetail("3", "Organic Milk", catDairy, isPurchased = false)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-combined")
+        advanceUntilIdle()
+
+        viewModel.setCategoryFilter("cat-produce")
+        viewModel.setPurchaseFilter(ItemPurchaseFilter.PENDING)
+        viewModel.onSearchQueryChange("organic")
+
+        val state = viewModel.uiState.value
+        assertEquals(1, state.filteredAndSortedItems.size)
+        assertEquals("Organic Apples", state.filteredAndSortedItems.first().item.name)
+        assertTrue(state.isFilterActive)
+        assertFalse(state.isFilterEmpty)
+    }
+
+    @Test
+    fun resetFilters_clearsAllFiltersBackToDefault() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-reset",
+            items = listOf(createItemDetail("1", "Item", catProduce))
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-reset")
+        advanceUntilIdle()
+
+        viewModel.setCategoryFilter("cat-produce")
+        viewModel.setPurchaseFilter(ItemPurchaseFilter.PURCHASED)
+        viewModel.onSearchQueryChange("Item")
+        viewModel.toggleSearchExpanded(true)
+
+        assertTrue(viewModel.uiState.value.isFilterActive)
+
+        viewModel.resetFilters()
+
+        val state = viewModel.uiState.value
+        assertNull(state.selectedCategoryId)
+        assertEquals(ItemPurchaseFilter.ALL, state.purchaseFilter)
+        assertEquals("", state.searchQuery)
+        assertFalse(state.isSearchExpanded)
+        assertFalse(state.isFilterActive)
+    }
+
+    @Test
+    fun isFilterEmpty_detectedWhenNoItemsMatchActiveFilters() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-no-match",
+            items = listOf(createItemDetail("1", "Item", catProduce))
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-no-match")
+        advanceUntilIdle()
+
+        viewModel.onSearchQueryChange("Dragonfruit")
+
+        val state = viewModel.uiState.value
+        assertTrue(state.isFilterActive)
+        assertTrue(state.isFilterEmpty)
+        assertEquals(0, state.filteredAndSortedItems.size)
+        assertEquals(1, state.totalItemsCount)
+    }
+
     private fun createTestDetail(
         listId: String,
         items: List<ShoppingItemDetail>
@@ -237,7 +383,8 @@ class ListDetailsViewModelTest {
         category: Category?,
         isPurchased: Boolean = false,
         estPrice: Long? = null,
-        actualPrice: Long? = null
+        actualPrice: Long? = null,
+        notes: String? = null
     ): ShoppingItemDetail {
         return ShoppingItemDetail(
             item = ShoppingItem(
@@ -247,7 +394,8 @@ class ListDetailsViewModelTest {
                 categoryId = category?.id,
                 isPurchased = isPurchased,
                 estimatedUnitPriceMinor = estPrice,
-                actualUnitPriceMinor = actualPrice
+                actualUnitPriceMinor = actualPrice,
+                notes = notes
             ),
             category = category
         )

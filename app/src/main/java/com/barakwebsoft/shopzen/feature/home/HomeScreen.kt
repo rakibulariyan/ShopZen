@@ -71,6 +71,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.barakwebsoft.shopzen.core.di.AppViewModelProvider
+import com.barakwebsoft.shopzen.core.ui.components.SearchNoResultsView
+import com.barakwebsoft.shopzen.core.ui.components.ShopZenSearchBar
 import com.barakwebsoft.shopzen.core.util.CurrencyFormatter
 import com.barakwebsoft.shopzen.domain.model.ShoppingList
 import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
@@ -405,39 +407,11 @@ fun HomeListsOverview(
         }
 
         item(key = "search_box") {
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = onSearchQueryChange,
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search lists...") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search icon",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                trailingIcon = {
-                    AnimatedVisibility(
-                        visible = searchQuery.isNotEmpty(),
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        IconButton(onClick = onClearSearch) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = "Clear search",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                },
-                singleLine = true,
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
-                )
+            ShopZenSearchBar(
+                query = searchQuery,
+                onQueryChange = onSearchQueryChange,
+                onClearQuery = onClearSearch,
+                placeholder = "Search lists..."
             )
         }
 
@@ -477,34 +451,11 @@ fun HomeListsOverview(
 
         if (lists.isEmpty() && searchQuery.isNotBlank()) {
             item(key = "empty_search") {
-                Card(
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "No matching lists",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "No lists found for \"$searchQuery\"",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
+                SearchNoResultsView(
+                    query = searchQuery,
+                    onResetFilters = onClearSearch,
+                    message = "We couldn't find any shopping lists matching “$searchQuery”. Check spelling or create a new list."
+                )
             }
         } else {
             items(

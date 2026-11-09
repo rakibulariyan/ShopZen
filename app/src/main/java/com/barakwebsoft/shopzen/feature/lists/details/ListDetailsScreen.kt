@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -50,6 +51,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.draw.clip
+import com.barakwebsoft.shopzen.core.ui.components.SearchNoResultsView
+import com.barakwebsoft.shopzen.core.ui.components.ShopZenSearchBar
 import com.barakwebsoft.shopzen.feature.categories.CategoryVisuals
 import com.barakwebsoft.shopzen.feature.categories.components.CategoryChip
 import androidx.compose.runtime.getValue
@@ -136,6 +139,19 @@ fun ListDetailsScreen(
                 },
                 actions = {
                     if (list != null) {
+                        // Search Action Toggle
+                        IconButton(onClick = { viewModel.toggleSearchExpanded() }) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = if (uiState.isSearchExpanded) "Close search" else "Search items",
+                                tint = if (uiState.isSearchExpanded || uiState.searchQuery.isNotEmpty()) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                }
+                            )
+                        }
+
                         // Quick Edit List Button
                         IconButton(onClick = { onEditListClick(listId) }) {
                             Icon(
@@ -357,9 +373,66 @@ fun ListDetailsScreen(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
+                    // Search Bar (when expanded or search query is present)
+                    if (uiState.isSearchExpanded || uiState.searchQuery.isNotEmpty()) {
+                        item(key = "search_bar") {
+                            ShopZenSearchBar(
+                                query = uiState.searchQuery,
+                                onQueryChange = viewModel::onSearchQueryChange,
+                                onClearQuery = viewModel::clearSearchQuery,
+                                placeholder = "Search items in list..."
+                            )
+                        }
+                    }
+
                     // 1. Financial Metrics Bento Card
                     item(key = "financial_metrics") {
                         FinancialMetricsCard(listDetail = listDetail)
+                    }
+
+                    // Purchase Status Filter Chips (All, Pending, Purchased)
+                    if (uiState.totalItemsCount > 0) {
+                        item(key = "purchase_status_filters") {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(rememberScrollState()),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                ItemPurchaseFilter.values().forEach { filter ->
+                                    val count = when (filter) {
+                                        ItemPurchaseFilter.ALL -> uiState.totalItemsCount
+                                        ItemPurchaseFilter.PENDING -> uiState.pendingItemsCount
+                                        ItemPurchaseFilter.PURCHASED -> uiState.purchasedItemsCount
+                                    }
+                                    val selected = uiState.purchaseFilter == filter
+                                    FilterChip(
+                                        selected = selected,
+                                        onClick = { viewModel.setPurchaseFilter(filter) },
+                                        shape = RoundedCornerShape(20.dp),
+                                        label = {
+                                            Text(
+                                                text = "${filter.displayName} ($count)",
+                                                style = MaterialTheme.typography.labelMedium,
+                                                fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
+                                            )
+                                        },
+                                        colors = FilterChipDefaults.filterChipColors(
+                                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                                            containerColor = MaterialTheme.colorScheme.surface,
+                                            labelColor = MaterialTheme.colorScheme.onSurface
+                                        ),
+                                        border = FilterChipDefaults.filterChipBorder(
+                                            enabled = true,
+                                            selected = selected,
+                                            borderColor = MaterialTheme.colorScheme.outlineVariant,
+                                            selectedBorderColor = MaterialTheme.colorScheme.primary
+                                        )
+                                    )
+                                }
+                            }
+                        }
                     }
 
                     // 2. Category Filter Chips Row
@@ -398,6 +471,14 @@ fun ListDetailsScreen(
                         item(key = "empty_list") {
                             ListDetailsEmptyState(
                                 onAddFirstItemClick = { onAddItemClick(listId) }
+                            )
+                        }
+                    } else if (uiState.isFilterEmpty) {
+                        item(key = "search_no_results") {
+                            SearchNoResultsView(
+                                query = uiState.searchQuery,
+                                onResetFilters = { viewModel.resetFilters() },
+                                onCreateItemClick = { onAddItemClick(listId) }
                             )
                         }
                     } else if (uiState.sortOrder == ItemSortOrder.CATEGORY) {
