@@ -136,7 +136,7 @@ object MoneyCalculator {
      * Returns null if [unitPriceMinor] or [quantity] is null/invalid.
      */
     fun calculateLineTotal(unitPriceMinor: Long?, quantity: BigDecimal?): Long? {
-        if (unitPriceMinor == null || quantity == null || quantity <= BigDecimal.ZERO) return null
+        if (unitPriceMinor == null || unitPriceMinor < 0L || quantity == null || quantity <= BigDecimal.ZERO) return null
         return (BigDecimal.valueOf(unitPriceMinor) * quantity)
             .setScale(0, RoundingMode.HALF_UP)
             .toLong()

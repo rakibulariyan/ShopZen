@@ -374,6 +374,19 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
 - **Failures/Issues:** None. Protected screens verified to forbid ads. Ready to proceed to `SZ-036`.
 
+### 2026-11-09 — Task SZ-036: Test rounding, zero-decimal currencies, large values and edge cases
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 183 unit tests (+16 in `FinancialEdgeCasesAndCurrenciesTest` verifying:
+  - Zero-decimal currencies (JPY, KRW): 0 fraction digits, currency symbols (¥, ₩), zero decimal point formatting (e.g. `¥15000`), integer minor unit parsing and HALF_UP rounding for fractional inputs, and complete shopping list financial metrics in JPY
+  - Three-decimal currencies (BHD, KWD, OMR): 3 fraction digits, 3-decimal formatted amounts (e.g. `KWD 1.250`, `0.005`), exact parsing preserving 3 decimals, and 4th decimal place HALF_UP rounding
+  - Rounding behavior: exact `HALF_UP` verification (0.5 -> 1, 0.49 -> 0, 1.5 -> 2, 2.5 -> 3, 3.5 -> 4), repeating fraction quantities (1/3 kg -> 333 minor, 2/3 kg -> 667 minor)
+  - Large values & overflow safety: 100-billion minor unit calculations without 64-bit integer overflow, non-scientific currency string formatting, and extreme budget overrun handling (e.g. 50,000% utilization)
+  - Boundary edge cases: zero budget (`budgetMinor = 0L` or `null`) handled safely with null budget progress to prevent division-by-zero, empty item lists, extreme fractional quantities (`0.0001` -> 1 minor, `0.00004` -> 0 minor), European comma vs standard period decimal separator handling, negative unit price rejection in `MoneyCalculator.calculateLineTotal`)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
+- **Failures/Issues:** None. All money edge cases, zero-decimal and three-decimal currencies verified. Phase 3 is 100% complete! Ready to proceed to Phase 4 (`SZ-040`).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

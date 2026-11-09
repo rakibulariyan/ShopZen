@@ -35,7 +35,7 @@
 - [x] SZ-033 Implement actual price entry.
 - [x] SZ-034 Implement budget summary, over-budget warning and unpriced-item handling.
 - [x] SZ-035 Ensure Market Mode, Add/Edit Item and Budget screens contain no ads.
-- [ ] SZ-036 Test rounding, zero-decimal currencies, large values and edge cases.
+- [x] SZ-036 Test rounding, zero-decimal currencies, large values and edge cases.
 
 ## Phase 4 — History and settings
 - [ ] SZ-040 Implement atomic archive and immutable history snapshots.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-036 — test rounding, zero-decimal currencies, large values and edge cases.
-- **Next:** SZ-040 — implement atomic archive and immutable history snapshots (Phase 4).
-- **Blockers:** None. SZ-035 complete with 167 passing tests and clean debug APK build.
+- **Current:** SZ-040 — implement atomic archive and immutable history snapshots.
+- **Next:** SZ-041 — implement history list and historical detail screens.
+- **Blockers:** None. Phase 3 (SZ-030 through SZ-036) complete with 183 passing unit tests and clean debug APK build.
