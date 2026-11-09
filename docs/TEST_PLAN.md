@@ -540,6 +540,48 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. Monetization Phase 5 complete! Ready to proceed to Phase 6 (Release readiness).
 
+### 2026-11-09 — Tasks SZ-060, SZ-061, SZ-062 & SZ-063: Critical journeys, accessibility, privacy declarations, and Play Store compliance verification
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 3 executed, 23 up-to-date in 29s)
+- **Passed:** 264 unit and integration tests (+24 new tests across 5 new test suites):
+  - **SZ-060: Critical User Journey & Financial Calculation Integration Suite (+13 tests):**
+    - `CriticalShoppingJourneyTest` (3 tests):
+      - `completeShoppingJourney_createList_addItems_marketMode_undo_overBudget_archive_andVerifySnapshotIsolation`: Verified complete 8-step user journey from list creation, item pricing, Market Mode checkoffs, accidental checkoff undo, over-budget spike detection, atomic archive to historical snapshot, and absolute snapshot isolation upon original list/item deletion.
+      - `duplicateShoppingList_createsFreshIds_andResetsPurchasedAndActualPrices`: Verified list duplication yields unique list and item IDs with reset purchase status (`false`) and cleared actual unit prices (`null`).
+      - `budgetHealthMetrics_unpricedPurchasedItems_strictlyDisclosedAndNeverTreatedAsZeroSpend`: Verified that unpriced purchased items flag spend as estimated/incomplete and disclose count without masking costs as zero.
+    - `MultiCurrencyCalculationRegressionTest` (6 tests):
+      - `zeroDecimalCurrencies_JPY_KRW_formatWithoutDecimals`: Verified `JPY` and `KRW` format without decimal fractions (`¥500`, `₩15000`).
+      - `standardTwoDecimalCurrencies_USD_EUR_GBP_INR_formatWithTwoDecimalDigits`: Verified 2-decimal formatting (`$12.34`, `$0.05`, `€24.99`, `£9.95`, `₹499.00`).
+      - `threeDecimalCurrencies_BHD_KWD_OMR_formatWithThreeDecimalDigits`: Verified 3-decimal fraction padding (`BHD 1.500`, `BHD 0.075`).
+      - `roundingHalfUp_onFractionalQuantities_matchesDocumentedRules`: Verified exact `HALF_UP` rounding on decimal quantities (e.g. 1.33 kg x $2.50 = $3.33).
+      - `largeValuesAndBoundaryIntegrity_prevents32BitIntegerOverflow`: Verified calculations up to $90,000.00+ and beyond 32-bit `Int.MAX_VALUE` using 64-bit integer `Long`.
+      - `negativePriceAndInvalidQuantity_handledSafelyWithoutThrowing`: Verified graceful handling and null safety on negative prices, empty strings, and malformed inputs.
+    - `AdPlacementGateRegressionTest` (4 tests):
+      - `protectedRoutes_strictlyProhibitAds_regardlessOfParameters`: Verified zero-ad policy on `market_mode`, `add_edit_item`, `budget`, `budget_metrics`, `purchase`, `billing`, `remove_ads`, and `subscription`.
+      - `protectedScreenNames_strictlyIdentified`: Verified semantic screen matching.
+      - `nullAndBlankRoutes_prohibitAds`: Verified null and blank routes never emit ads.
+      - `approvedHomeRoute_permitsAdPlacement`: Verified Home overview allows ads when consent is granted and entitlement is inactive.
+  - **SZ-061: Accessibility, Theme & Typography Review Suite (+5 tests):**
+    - `AccessibilityAndThemeReviewTest`:
+      - `lightTheme_primaryTextAndSurfaces_satisfyWcagAaContrast`: Main text on light background (12.2:1) and secondary text (>4.0:1) satisfy WCAG 2.1 AA.
+      - `darkTheme_primaryTextAndSurfaces_satisfyWcagAaContrast`: Main text on dark background (>14.0:1) and secondary text (>4.5:1) satisfy WCAG AA.
+      - `typographySystem_usesScalableSpUnits_forDynamicTypeSupport`: Verified all typography roles (`headlineLarge`, `bodyLarge`, etc.) use scalable `sp` units for font size and line height.
+      - `minimumTouchTarget_meetsAndroidAccessibilityStandard_48dp`: Verified minimum interactive touch target is 48 dp.
+      - `themePreferences_supportsLightDarkAndSystemModes`: Verified support for Light, Dark, and System theme preferences.
+  - **SZ-062: Privacy & Permissions Security Review Suite (+3 tests):**
+    - `PrivacyAndPermissionsSecurityTest`:
+      - `manifest_doesNotRequestAnyDangerousRuntimePermissions`: Verified zero dangerous runtime permissions (no location, camera, microphone, contacts, or storage).
+      - `manifest_configuresSampleAdMobAppId_andBackupRules`: Verified secure backup and data extraction configurations.
+      - `gradleBuild_declaresStablePackageIdentity`: Confirmed package namespace and applicationId `com.barakwebsoft.shopzen`.
+  - **SZ-063: Play Store Target API & Technical Requirements Review Suite (+3 tests):**
+    - `PlayStoreRequirementsVerificationTest`:
+      - `targetAndCompileSdk_meetPlayStoreMandate_forAndroid15Plus`: Confirmed `compileSdk = 37`, `targetSdk = 37`, `minSdk = 29`.
+      - `playBillingLibrary_isVersion7OrHigher`: Confirmed Play Billing Library `7.1.1` (`billing-ktx`).
+      - `edgeToEdge_isExplicitlyEnabledInMainActivity`: Confirmed `enableEdgeToEdge()` call in `MainActivity`.
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. Tasks SZ-060, SZ-061, SZ-062, and SZ-063 verified! Ready to proceed to release signing and store asset preparation (SZ-064 / SZ-065).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

@@ -32,6 +32,7 @@ object ProtectedScreenPolicy {
         "market_mode",
         "add_edit_item",
         "budget",
+        "budget_metrics",
         "purchase",
         "billing",
         "remove_ads",

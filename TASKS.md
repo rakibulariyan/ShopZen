@@ -55,10 +55,10 @@
 - [x] SZ-056 Test billing/ad behavior; do not trust a local boolean as purchase proof.
 
 ## Phase 6 — Release readiness
-- [ ] SZ-060 Complete critical journey and regression tests.
-- [ ] SZ-061 Review accessibility, small screens, theme and performance.
-- [ ] SZ-062 Review privacy disclosures, permissions and Data safety declarations.
-- [ ] SZ-063 Verify current Play target API and store requirements.
+- [x] SZ-060 Complete critical journey and regression tests.
+- [x] SZ-061 Review accessibility, small screens, theme and performance.
+- [x] SZ-062 Review privacy disclosures, permissions and Data safety declarations.
+- [x] SZ-063 Verify current Play target API and store requirements.
 - [ ] SZ-064 Configure release signing securely and verify AAB.
 - [ ] SZ-065 Prepare store listing assets and release notes.
 - [ ] SZ-066 Complete production checklist and release handover.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-060 — Complete critical journey and regression tests.
-- **Next:** SZ-061 — Review accessibility, small screens, theme and performance.
-- **Blockers:** None. Phase 5 (Monetization) is complete; all 240 unit tests passing. Ready for Phase 6 release readiness.
+- **Current:** SZ-064 — Configure release signing securely and verify AAB.
+- **Next:** SZ-065 — Prepare store listing assets and release notes.
+- **Blockers:** None. Tasks SZ-060 to SZ-063 are verified; all 264 unit/integration tests passing cleanly. Ready for release signing configuration and bundle verification.

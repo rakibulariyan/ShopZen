@@ -107,3 +107,13 @@ Record durable product and technical decisions here. Use newest entries at the b
   3. Pending purchases (e.g. slow payment methods, cash payments) do not unlock the entitlement until verified as `PURCHASED`.
   4. Expired or cancelled subscriptions immediately revoke the Remove Ads entitlement upon next Play query sync.
   5. Offline resilience: Google Play caches verified purchases on the device, ensuring returning subscribers stay ad-free offline while maintaining cryptographic purchase integrity.
+
+## ADR-017 — Target Android 15+ (API 37) and Google Play 2026 Compliance
+- **Status:** Accepted
+- **Decision:** Target Android API 37 (`targetSdk = 37`, `compileSdk = 37`) with `minSdk = 29` (Android 10), enforce edge-to-edge system window insets via `enableEdgeToEdge()` and Material 3 `Scaffold`, and bundle Google Play Billing Library 7.x (`7.1.1`).
+- **Reason:** Comply with Google Play Store 2025/2026 target API guidelines, 64-bit architecture mandates, and Android 15 edge-to-edge display requirements.
+- **Consequences:**
+  1. Modern edge-to-edge presentation is active across all screens with zero deprecated window flag hacks.
+  2. Build toolchain (AGP 9.3, Kotlin 2.2, Room 2.7.2, KSP 2.3.9) outputs clean, 64-bit ABI compliant Android App Bundles (AAB).
+  3. Zero dangerous runtime permissions keep Play Store review risk minimal and adhere to strict data minimization.
+  4. Verified by `PlayStoreRequirementsVerificationTest`.

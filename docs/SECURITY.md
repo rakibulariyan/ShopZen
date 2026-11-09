@@ -65,3 +65,25 @@ If a privacy/security issue is found:
 3. Avoid destructive remediation without preserving necessary evidence.
 4. Document root cause and corrective action.
 5. Update this file and relevant tests.
+
+## 11. Google Play Data Safety Declaration
+
+| Data Category | Data Type | Collected by ShopZen? | Shared with Third Parties? | Purpose / Handling | Ephemeral / Stored | User Deletion Mechanism |
+|---|---|---|---|---|---|---|
+| **Personal Info** | Name, Email, Phone, Address, User IDs | **No** | **No** | N/A (No user account or login in MVP) | N/A | N/A |
+| **Financial Info** | Credit/Debit Card, Bank Details, Purchase History | **No** | **No** | Payments are processed exclusively by Google Play Core service; ShopZen never sees or stores card numbers | N/A | Google Play account management |
+| **App Activity** | Shopping lists, item names, prices, categories, budget metrics | **No** | **No** | Stored 100% locally on device in Room SQLite (`shopzen.db`). Never transmitted to any cloud or remote server | Stored locally | In-app list/history deletion or Android "Clear Storage" |
+| **Device or other IDs** | Advertising ID (`AD_ID`), IP Address | Yes (by Google Mobile Ads SDK only) | Yes (by Google for AdMob) | Ad serving, frequency capping, fraud prevention, and regional consent management via UMP | Managed by Google SDK | Reset Advertising ID in Android OS Settings or revoke consent |
+| **Diagnostics** | Crash logs, performance metrics | No (ShopZen has no analytics SDK) | SDK internal only | Handled by Google Play Services / AdMob SDK if an unhandled crash occurs | Managed by Google | N/A |
+
+### Security Practices
+- **Data encrypted in transit:** Yes (AdMob SDK and Play Billing communicate strictly via HTTPS/TLS).
+- **Data deletion request:** Yes (All user shopping data is strictly local; user can delete any list, clear history, or wipe app data completely in Android Settings).
+- **Committed to Play Families Policy:** Ads are family-safe and consent-gated; no children targeted.
+
+## 12. Android Manifest Permissions Audit
+- `android.permission.INTERNET`: Required for Google Mobile Ads banner requests and Google Play Billing product details retrieval.
+- `android.permission.ACCESS_NETWORK_STATE`: Required to monitor network connectivity for UMP consent forms and Play Billing retry flows.
+- `com.google.android.gms.permission.AD_ID`: Required by Google Mobile Ads SDK for Android 13+ advertising ID access (subject to UMP consent).
+- `com.android.vending.BILLING`: Merged by Google Play Billing Library for in-app subscription processing.
+- **Dangerous permissions requested:** **ZERO** (Verified by `PrivacyAndPermissionsSecurityTest`). No camera, contacts, microphone, coarse/fine location, or external storage permissions exist in the manifest.

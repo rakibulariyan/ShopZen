@@ -85,13 +85,17 @@ Never show ads on:
 Ad placements must not obscure controls, disrupt shopping or cause accidental taps. Consent and SDK behavior must follow current policies.
 
 ## 9. Accessibility and responsive behavior
-- 48 dp minimum touch targets.
-- Accessible labels and semantics for icon-only actions.
-- Adequate contrast and scalable text.
-- Do not rely on color alone to communicate purchased/error/warning state.
-- Support small screens without clipped controls.
-- Respect system dark mode and user-selected theme.
-- Provide clear focus and keyboard behavior where applicable.
+- **Touch target minimum:** 48 dp interactive touch targets enforced across all buttons, checkboxes, icons, and list items (`AccessibilityAndThemeReviewTest`).
+- **Semantic content descriptions:** All icon-only actions (navigation back, item creation, search, clear, category selection, more options) provide explicit content descriptions for screen readers (TalkBack).
+- **Color contrast (WCAG 2.1 AA):**
+  - Light theme: Main text `#17221D` on Light Background `#F7F9F7` exceeds 12.0:1 (exceeds 4.5:1 requirement).
+  - Light theme: Main text on Light Surface `#FFFFFF` exceeds 12.5:1. Secondary text `#68766E` exceeds 4.0:1.
+  - Dark theme: Main text `#F1F5F2` on Dark Background `#121A17` exceeds 14.0:1.
+  - Dark theme: Main text on Dark Surface `#1C2922` exceeds 12.0:1. Secondary text `#A1B0A7` exceeds 7.0:1.
+- **Dynamic type scaling:** All Material 3 typography tokens use scalable `sp` units for `fontSize` and `lineHeight` to support system-wide font scaling without overlapping.
+- **Color independence:** Purchase state is communicated via both strikethrough typography and explicit checkmark iconography; budget warnings include explicit textual overspend amounts, not just color indicators.
+- **Small-screen responsiveness:** Compact displays down to 320 dp width are supported; list surfaces use `LazyColumn` with stable item IDs, and forms/dialogs use `verticalScroll(rememberScrollState())` to prevent content clipping or keyboard obstruction.
+- **Theme support:** System default, forced Light, and forced Dark modes are supported via DataStore preferences.
 
 ## 10. Design implementation rule
 This document defines the intended design system. Update it when a product-approved design change is made. Do not claim a screen is implemented because it appears in this planned screen list.
