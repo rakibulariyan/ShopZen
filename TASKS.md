@@ -34,7 +34,7 @@
 - [x] SZ-032 Implement Market Mode, large touch targets and haptic feedback.
 - [x] SZ-033 Implement actual price entry.
 - [x] SZ-034 Implement budget summary, over-budget warning and unpriced-item handling.
-- [ ] SZ-035 Ensure Market Mode, Add/Edit Item and Budget screens contain no ads.
+- [x] SZ-035 Ensure Market Mode, Add/Edit Item and Budget screens contain no ads.
 - [ ] SZ-036 Test rounding, zero-decimal currencies, large values and edge cases.
 
 ## Phase 4 — History and settings
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-035 — ensure Market Mode, Add/Edit Item and Budget screens contain no ads.
-- **Next:** SZ-036 — test rounding, zero-decimal currencies, large values and edge cases.
-- **Blockers:** None. SZ-034 complete with 160 passing tests and clean debug APK build.
+- **Current:** SZ-036 — test rounding, zero-decimal currencies, large values and edge cases.
+- **Next:** SZ-040 — implement atomic archive and immutable history snapshots (Phase 4).
+- **Blockers:** None. SZ-035 complete with 167 passing tests and clean debug APK build.

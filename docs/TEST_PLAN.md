@@ -357,6 +357,23 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
 - **Failures/Issues:** None. Budget summary, over-budget warnings, and unpriced disclosures verified. Ready to proceed to `SZ-035`.
 
+### 2026-11-09 — Task SZ-035: Ensure Market Mode, Add/Edit Item and Budget screens contain no ads
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 167 unit tests (+7 in `ProtectedScreenPolicyTest` verifying:
+  - Strict zero-ads policy enforcement on Market Mode pattern route (`ShopZenRoutes.MARKET_MODE`), instantiated routes, and custom path segments per ADR-009, PRD Section 7 & 8, and DESIGN Section 8
+  - Strict zero-ads policy enforcement on Add/Edit Item pattern route (`ShopZenRoutes.ADD_EDIT_ITEM`), creation routes, and editing routes with query parameters
+  - Strict zero-ads policy enforcement on Budget routes (`budget`, `budget/summary`, `budget/breakdown`)
+  - Strict zero-ads policy enforcement on Purchase and In-App Billing routes (`purchase`, `billing`, `remove_ads`, `subscription`)
+  - Semantic screen name checks for `MARKET_MODE`, `ADD_EDIT_ITEM`, `BUDGET`, `FINANCIAL_METRICS`, `PURCHASE`, `BILLING`, `REMOVE_ADS`
+  - Approved ad surfaces (`HOME`, `HISTORY`, `SETTINGS`, `LIST_DETAILS`) allow ad placement when eligible
+  - Null, empty, and malformed route safety prevents unauthorized ad displays
+  - Exception assertion: `ProtectedScreenPolicy.assertNoAdsAllowed` throws `ProtectedScreenAdException` on protected screens
+  - Introduced `SafeAdPlacementContainer` composable guard preventing ad rendering and ad SDK initialization on protected screens)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
+- **Failures/Issues:** None. Protected screens verified to forbid ads. Ready to proceed to `SZ-036`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
