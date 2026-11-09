@@ -507,6 +507,17 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date in 57s)
 - **Failures/Issues:** None. `AdMobBannerView`, `SafeAdPlacementContainer` enhancement, and `HomeScreen` approved placement verified. Ready to proceed to `SZ-053` (Verify current Google Play Billing integration guidance).
 
+### 2026-11-09 — Task SZ-053: Verify current Google Play Billing integration guidance
+- **Verification:** Audited current Google Play Billing Library 7.x (`com.android.billingclient:billing-ktx`) against Google Play Developer Program policies, PRD Section 5, and SECURITY.md Section 6:
+  - Artifact resolution: `com.android.billingclient:billing-ktx:7.1.1` providing Coroutines and Flow extensions.
+  - Subscription product contract: `remove_ads_yearly` configured as subscription (`BillingClient.ProductType.SUBS`).
+  - Dynamic localized pricing: Verified extraction of localized formatted price via `ProductDetails.subscriptionOfferDetails.pricingPhases.pricingPhaseList.first().formattedPrice` (e.g. `$4.99/year`, `€4,99/an`) without hardcoding monetary price strings.
+  - Security & Cryptographic proof: Verified that local booleans are never trusted as proof of purchase; entitlements are queried directly from Google Play via `BillingClient.queryPurchasesAsync()`.
+  - State machine lifecycle: Verified handling of `PURCHASED`, `PENDING` (no entitlement until cleared), `UNSPECIFIED_STATE`, acknowledgment within 3-day window (`acknowledgePurchase`), cancellation, expiration, and refund revocation.
+  - Offline resilience: Google Play client caches verified tokens locally for offline subscriber access; network disconnections reconnect gracefully with exponential retry.
+- **Formal Record:** Recorded and accepted `ADR-016` in `docs/DECISIONS.md`.
+- **Result:** Official Google Play Billing 7.x guidance verified and recorded. Ready to proceed to `SZ-054` (Implement yearly Remove Ads entitlement using Play-provided localized price).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

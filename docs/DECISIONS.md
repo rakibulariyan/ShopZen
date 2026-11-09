@@ -96,3 +96,14 @@ Record durable product and technical decisions here. Use newest entries at the b
   3. Offline resilience: Consent or network request failures never impede offline list creation, shopping, editing, or budget calculations.
   4. Data minimization: Zero shopping list contents, item names, notes, prices, or user data are ever passed to ad requests.
   5. Entitlement suppression: An active Remove Ads subscription completely prevents all ad requests and hides all ad containers.
+
+## ADR-016 — Google Play Billing 7 Architecture and Dynamic Localized Pricing
+- **Status:** Accepted
+- **Decision:** Integrate Google Play Billing Library 7.x (`com.android.billingclient:billing-ktx`) for the yearly Remove Ads subscription (`remove_ads_yearly`). Render exclusively the dynamic localized price from Play (`ProductDetails.subscriptionOfferDetails.pricingPhases.formattedPrice`) without hardcoding any monetary price strings.
+- **Reason:** Comply with Google Play policy, PRD Section 5, and SECURITY.md Section 6. A locally stored boolean must never be trusted as proof of purchase. Entitlement state must be queried dynamically via `BillingClient.queryPurchasesAsync()` and verified across `PURCHASED`, `PENDING`, `UNSPECIFIED_STATE`, and acknowledgment lifecycles.
+- **Consequences:**
+  1. The subscription UI displays the user's localized price and currency as returned by Google Play Console.
+  2. Purchase token acknowledgment is strictly enforced within the 3-day window to prevent automatic refund and cancellation.
+  3. Pending purchases (e.g. slow payment methods, cash payments) do not unlock the entitlement until verified as `PURCHASED`.
+  4. Expired or cancelled subscriptions immediately revoke the Remove Ads entitlement upon next Play query sync.
+  5. Offline resilience: Google Play caches verified purchases on the device, ensuring returning subscribers stay ad-free offline while maintaining cryptographic purchase integrity.

@@ -49,7 +49,7 @@
 - [x] SZ-050 Verify current Google Mobile Ads SDK and UMP integration guidance.
 - [x] SZ-051 Implement consent flow and privacy-safe ad initialization.
 - [x] SZ-052 Add ads only to approved placements; never in protected screens.
-- [ ] SZ-053 Verify current Google Play Billing integration guidance.
+- [x] SZ-053 Verify current Google Play Billing integration guidance.
 - [ ] SZ-054 Implement yearly Remove Ads entitlement using Play-provided localized price.
 - [ ] SZ-055 Handle pending, purchased, cancelled, expired, restored and unavailable states.
 - [ ] SZ-056 Test billing/ad behavior; do not trust a local boolean as purchase proof.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-053 — Verify current Google Play Billing integration guidance.
-- **Next:** SZ-054 — Implement yearly Remove Ads entitlement using Play-provided localized price.
-- **Blockers:** None. SZ-052 complete with 227 passing unit tests and clean debug APK build.
+- **Current:** SZ-054 — Implement yearly Remove Ads entitlement using Play-provided localized price.
+- **Next:** SZ-055 — Handle pending, purchased, cancelled, expired, restored and unavailable states.
+- **Blockers:** None. SZ-053 complete with verified Google Play Billing 7.x guidance and ADR-016 recorded.
