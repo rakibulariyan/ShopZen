@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.barakwebsoft.shopzen.feature.history.HistoryScreen
+import com.barakwebsoft.shopzen.feature.history.details.HistoricalDetailsScreen
 import com.barakwebsoft.shopzen.feature.home.HomeScreen
 import com.barakwebsoft.shopzen.feature.items.AddEditItemScreen
 import com.barakwebsoft.shopzen.feature.lists.AddEditListScreen
@@ -143,7 +144,26 @@ fun ShopZenApp(
                 )
             }
             composable(ShopZenRoutes.HISTORY) {
-                HistoryScreen()
+                HistoryScreen(
+                    onHistoryClick = { historyId ->
+                        navController.navigate(ShopZenRoutes.historicalDetails(historyId))
+                    }
+                )
+            }
+            composable(
+                route = ShopZenRoutes.HISTORICAL_DETAILS,
+                arguments = listOf(
+                    navArgument("historyId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val historyId = backStackEntry.arguments?.getString("historyId") ?: ""
+                HistoricalDetailsScreen(
+                    historyId = historyId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToListDetails = { listId ->
+                        navController.navigate(ShopZenRoutes.listDetails(listId))
+                    }
+                )
             }
             composable(ShopZenRoutes.SETTINGS) {
                 SettingsScreen()

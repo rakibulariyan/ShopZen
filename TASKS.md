@@ -39,7 +39,7 @@
 
 ## Phase 4 — History and settings
 - [x] SZ-040 Implement atomic archive and immutable history snapshots.
-- [ ] SZ-041 Implement history list and historical detail screens.
+- [x] SZ-041 Implement history list and historical detail screens.
 - [ ] SZ-042 Implement currency selection per list and locale-based default.
 - [ ] SZ-043 Implement appearance and app preferences.
 - [ ] SZ-044 Implement data export/import only if confirmed in the approved MVP scope.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-041 — implement history list and historical detail screens.
-- **Next:** SZ-042 — implement currency selection per list and locale-based default.
-- **Blockers:** None. SZ-040 complete with 188 passing unit tests and clean debug APK build.
+- **Current:** SZ-042 — implement currency selection per list and locale-based default.
+- **Next:** SZ-043 — implement appearance and app preferences.
+- **Blockers:** None. SZ-041 complete with 196 passing unit tests and clean debug APK build.

@@ -402,6 +402,22 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
 - **Failures/Issues:** None. Atomic archive and snapshot immutability verified. Ready to proceed to `SZ-041`.
 
+### 2026-11-09 — Task SZ-041: Implement history list and historical detail screens
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 196 unit tests (+8 in `HistoryViewModelTest` and `HistoricalDetailsViewModelTest` verifying:
+  - History list observation, reactive loading state, and trip counting in `HistoryViewModel`
+  - Real-time case-insensitive trip name search filtering and clear query restoration
+  - Delete trip confirmation flow, dismiss action, and repository deletion invocation
+  - Historical detail loading with complete item snapshots in `HistoricalDetailsViewModel`
+  - History deletion state management (`isDeleted = true`) and confirmation dialog lifecycle
+  - Re-creating an active shopping list from a historical trip (`duplicateAsNewList`), generating new UUIDs, copying items with reset purchase states (`isPurchased = false`, `actualUnitPriceMinor = null`), and setting previous actual price as estimated price
+  - Verified `HistoryScreen` botanical UI with search bar, empty states, `HistoryCard`, and delete dialog
+  - Verified `HistoricalDetailsScreen` botanical UI with snapshot summary card, unpriced spend warning banner, item list with strikethrough for unpurchased items, and 'Start New List from this Trip' bottom CTA)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date in 35s)
+- **Failures/Issues:** None. History list and historical detail screens verified. Ready to proceed to `SZ-042`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

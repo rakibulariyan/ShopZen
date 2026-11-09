@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.barakwebsoft.shopzen.ShopZenApplication
+import com.barakwebsoft.shopzen.feature.history.HistoryViewModel
 import com.barakwebsoft.shopzen.feature.home.HomeViewModel
 import com.barakwebsoft.shopzen.feature.items.AddEditItemViewModel
 import com.barakwebsoft.shopzen.feature.lists.AddEditListViewModel
@@ -52,6 +53,12 @@ object AppViewModelProvider {
             MarketModeViewModel(
                 shoppingListRepository = app.container.shoppingListRepository,
                 shoppingItemRepository = app.container.shoppingItemRepository
+            )
+        }
+        initializer {
+            val app = shopZenApplication()
+            HistoryViewModel(
+                historyRepository = app.container.historyRepository
             )
         }
     }
