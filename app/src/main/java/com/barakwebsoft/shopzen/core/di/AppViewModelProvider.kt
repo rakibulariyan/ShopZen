@@ -65,7 +65,8 @@ object AppViewModelProvider {
         initializer {
             val app = shopZenApplication()
             SettingsViewModel(
-                userPreferencesRepository = app.container.userPreferencesRepository
+                userPreferencesRepository = app.container.userPreferencesRepository,
+                billingManager = app.container.billingManager
             )
         }
     }

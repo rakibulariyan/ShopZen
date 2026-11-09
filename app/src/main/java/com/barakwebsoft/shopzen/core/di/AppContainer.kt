@@ -1,6 +1,8 @@
 package com.barakwebsoft.shopzen.core.di
 
 import android.content.Context
+import com.barakwebsoft.shopzen.core.billing.BillingManager
+import com.barakwebsoft.shopzen.core.billing.GooglePlayBillingManager
 import com.barakwebsoft.shopzen.core.monetization.AdConsentManager
 import com.barakwebsoft.shopzen.core.monetization.GoogleAdConsentManager
 import com.barakwebsoft.shopzen.data.local.database.ShopZenDatabase
@@ -27,6 +29,7 @@ interface AppContainer {
     val historyRepository: HistoryRepository
     val userPreferencesRepository: UserPreferencesRepository
     val adConsentManager: AdConsentManager
+    val billingManager: BillingManager
 }
 
 /**
@@ -65,6 +68,10 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
 
     override val adConsentManager: AdConsentManager by lazy {
         GoogleAdConsentManager(context)
+    }
+
+    override val billingManager: BillingManager by lazy {
+        GooglePlayBillingManager(context)
     }
 }
 

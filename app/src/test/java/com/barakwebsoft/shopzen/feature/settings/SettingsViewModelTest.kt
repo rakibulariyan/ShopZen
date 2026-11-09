@@ -1,5 +1,10 @@
 package com.barakwebsoft.shopzen.feature.settings
 
+import android.app.Activity
+import com.barakwebsoft.shopzen.core.billing.BillingManager
+import com.barakwebsoft.shopzen.core.billing.BillingState
+import com.barakwebsoft.shopzen.core.billing.PurchaseStatus
+import com.barakwebsoft.shopzen.core.billing.SubscriptionDetails
 import com.barakwebsoft.shopzen.domain.model.AppPreferences
 import com.barakwebsoft.shopzen.domain.model.ThemePreference
 import com.barakwebsoft.shopzen.domain.repository.UserPreferencesRepository
@@ -101,6 +106,123 @@ class SettingsViewModelTest {
         advanceUntilIdle()
         assertFalse(viewModel.uiState.value.showCompletedItems)
         assertFalse(fakePrefsRepository.currentPreferences.showCompletedItems)
+    }
+
+    @Test
+    fun billingState_reflectsActiveEntitlementAndDynamicPrice() = runTest(testDispatcher) {
+        val fakeBilling = FakeBillingManager()
+        fakeBilling.updateState(
+            BillingState(
+                isAdsRemoved = true,
+                purchaseStatus = PurchaseStatus.PURCHASED,
+                subscriptionDetails = SubscriptionDetails(
+                    productId = "remove_ads_yearly",
+                    formattedPrice = "$4.99",
+                    priceCurrencyCode = "USD",
+                    priceAmountMicros = 4990000L,
+                    title = "Remove Ads (ShopZen)",
+                    description = "Remove ads yearly",
+                    offerToken = "test_token"
+                )
+            )
+        )
+
+        val vmWithBilling = SettingsViewModel(
+            userPreferencesRepository = fakePrefsRepository,
+            billingManager = fakeBilling,
+            sharingStarted = SharingStarted.Eagerly
+        )
+        advanceUntilIdle()
+
+        val state = vmWithBilling.uiState.value
+        assertTrue(state.isAdsRemoved)
+        assertEquals(PurchaseStatus.PURCHASED, state.purchaseStatus)
+        assertEquals("$4.99", state.subscriptionPriceFormatted)
+        assertEquals("Remove Ads (ShopZen)", state.subscriptionTitle)
+    }
+
+    @Test
+    fun billingState_reflectsPendingStatusWithoutAdsRemoved() = runTest(testDispatcher) {
+        val fakeBilling = FakeBillingManager()
+        fakeBilling.updateState(
+            BillingState(
+                isAdsRemoved = false,
+                purchaseStatus = PurchaseStatus.PENDING,
+                subscriptionDetails = SubscriptionDetails(
+                    productId = "remove_ads_yearly",
+                    formattedPrice = "€5.49",
+                    priceCurrencyCode = "EUR",
+                    priceAmountMicros = 5490000L,
+                    title = "Remove Ads (ShopZen)",
+                    description = "Remove ads yearly",
+                    offerToken = "test_token"
+                )
+            )
+        )
+
+        val vmWithBilling = SettingsViewModel(
+            userPreferencesRepository = fakePrefsRepository,
+            billingManager = fakeBilling,
+            sharingStarted = SharingStarted.Eagerly
+        )
+        advanceUntilIdle()
+
+        val state = vmWithBilling.uiState.value
+        assertFalse(state.isAdsRemoved)
+        assertEquals(PurchaseStatus.PENDING, state.purchaseStatus)
+        assertEquals("€5.49", state.subscriptionPriceFormatted)
+    }
+
+    @Test
+    fun launchSubscriptionAndRestorePurchases_forwardToBillingManager() = runTest(testDispatcher) {
+        val fakeBilling = FakeBillingManager()
+        val vmWithBilling = SettingsViewModel(
+            userPreferencesRepository = fakePrefsRepository,
+            billingManager = fakeBilling,
+            sharingStarted = SharingStarted.Eagerly
+        )
+        advanceUntilIdle()
+
+        // Mock Activity can be null or dummy since FakeBillingManager records invocation
+        vmWithBilling.restorePurchases()
+        assertTrue(fakeBilling.queryPurchasesCalled)
+
+        class DummyActivity : Activity()
+        val dummyActivity = DummyActivity()
+        vmWithBilling.launchSubscription(dummyActivity)
+        assertTrue(fakeBilling.launchBillingFlowCalled)
+    }
+
+    private class FakeBillingManager : BillingManager {
+        private val _billingState = MutableStateFlow(BillingState())
+        override val billingState: kotlinx.coroutines.flow.StateFlow<BillingState> = _billingState
+
+        var startConnectionCalled = false
+        var queryPurchasesCalled = false
+        var launchBillingFlowCalled = false
+        var endConnectionCalled = false
+
+        fun updateState(state: BillingState) {
+            _billingState.value = state
+        }
+
+        override fun startConnection(onReady: () -> Unit) {
+            startConnectionCalled = true
+            onReady()
+        }
+
+        override fun queryPurchases() {
+            queryPurchasesCalled = true
+        }
+
+        override fun launchBillingFlow(activity: Activity): Boolean {
+            launchBillingFlowCalled = true
+            return true
+        }
+
+        override fun endConnection() {
+            endConnectionCalled = true
+        }
     }
 
     private class FakeUserPreferencesRepository : UserPreferencesRepository {

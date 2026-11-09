@@ -95,12 +95,19 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val app = context.applicationContext as? com.barakwebsoft.shopzen.ShopZenApplication
+    val billingState by (app?.container?.billingManager?.billingState ?: kotlinx.coroutines.flow.MutableStateFlow(com.barakwebsoft.shopzen.core.billing.BillingState())).collectAsState()
+    val canRequestAds = app?.container?.adConsentManager?.canRequestAds() ?: true
+
     var listToArchive by remember { mutableStateOf<ShoppingListDetail?>(null) }
     var listToDelete by remember { mutableStateOf<ShoppingListDetail?>(null) }
     var listToDuplicate by remember { mutableStateOf<ShoppingListDetail?>(null) }
 
     HomeScreenContent(
         uiState = uiState,
+        isAdsRemoved = billingState.isAdsRemoved,
+        canRequestAds = canRequestAds,
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onClearSearch = viewModel::clearSearchQuery,
         onCreateListClick = onCreateListClick,
@@ -152,6 +159,8 @@ fun HomeScreen(
 @Composable
 fun HomeScreenContent(
     uiState: HomeUiState,
+    isAdsRemoved: Boolean = false,
+    canRequestAds: Boolean = true,
     onSearchQueryChange: (String) -> Unit,
     onClearSearch: () -> Unit,
     onCreateListClick: () -> Unit,
@@ -266,6 +275,8 @@ fun HomeScreenContent(
                         lists = uiState.filteredLists,
                         totalCount = uiState.totalActiveLists,
                         searchQuery = uiState.searchQuery,
+                        isAdsRemoved = isAdsRemoved,
+                        canRequestAds = canRequestAds,
                         onSearchQueryChange = onSearchQueryChange,
                         onClearSearch = onClearSearch,
                         onListClick = onListClick,
@@ -379,6 +390,8 @@ fun HomeListsOverview(
     lists: List<ShoppingListDetail>,
     totalCount: Int,
     searchQuery: String,
+    isAdsRemoved: Boolean = false,
+    canRequestAds: Boolean = true,
     onSearchQueryChange: (String) -> Unit,
     onClearSearch: () -> Unit,
     onListClick: (String) -> Unit,
@@ -479,6 +492,8 @@ fun HomeListsOverview(
             item(key = "home_approved_ad_banner") {
                 SafeAdPlacementContainer(
                     currentRoute = ShopZenRoutes.HOME,
+                    isAdsRemoved = isAdsRemoved,
+                    canRequestAds = canRequestAds,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)

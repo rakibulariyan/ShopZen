@@ -518,6 +518,28 @@ For each run, record:
 - **Formal Record:** Recorded and accepted `ADR-016` in `docs/DECISIONS.md`.
 - **Result:** Official Google Play Billing 7.x guidance verified and recorded. Ready to proceed to `SZ-054` (Implement yearly Remove Ads entitlement using Play-provided localized price).
 
+### 2026-11-09 — Task SZ-054, SZ-055 & SZ-056: Play Billing 7 Remove Ads subscription, state machine, dynamic price & security verification
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 240 unit tests (+13 new unit tests across billing & settings suites:
+  - 10 unit tests in `GooglePlayBillingManagerTest` verifying:
+    - `onBillingSetupFinished_whenOk_queriesProductDetailsAndPurchases`: Setup completion triggers dynamic product details query and active purchase check.
+    - `onBillingSetupFinished_whenUnavailable_updatesStateToUnavailable`: Billing unavailable error code maps to `PurchaseStatus.UNAVAILABLE` without granting ads removal.
+    - `queryProductDetails_parsesLocalizedDynamicPriceAndOfferDetails`: Dynamic Play-provided localized price string (`$4.99`, `USD`, `4990000L`) and offer token are accurately extracted.
+    - `processPlayPurchases_whenPurchasedAndUnacknowledged_acknowledgesAndGrantsEntitlement`: Cryptographically verified active subscription grants `isAdsRemoved = true`, sets `PurchaseStatus.PURCHASED`, and triggers automatic purchase acknowledgment.
+    - `processPlayPurchases_whenAlreadyAcknowledged_doesNotAcknowledgeAgain`: Already-acknowledged purchases do not send redundant network acknowledgment requests.
+    - `processPlayPurchases_whenPending_doesNotGrantEntitlement`: Strict security rule — pending purchases strictly do NOT grant `isAdsRemoved` (`PurchaseStatus.PENDING`).
+    - `onPurchasesUpdated_whenUserCancelled_setsCancelledStatus`: User cancellation maps to `PurchaseStatus.CANCELLED` without granting entitlement.
+    - `queryPurchases_whenPreviousWasActiveAndNowEmpty_setsExpired`: Previously active user whose subscription lapsed/cancelled transitions to `isAdsRemoved = false` and `PurchaseStatus.EXPIRED`.
+    - `launchBillingFlow_whenProductDetailsAvailable_launchesAndReturnsTrue`: Billing flow launches on provided Activity when details are cached.
+    - `launchBillingFlow_whenProductDetailsNotAvailable_returnsFalseWithError`: Returns false and emits friendly error when subscription details have not yet loaded.
+  - 3 new unit tests in `SettingsViewModelTest` (+4 existing, 7 total) verifying:
+    - `billingState_reflectsActiveEntitlementAndDynamicPrice`: Active entitlement and Play Store localized formatted price propagate to Settings UI state.
+    - `billingState_reflectsPendingStatusWithoutAdsRemoved`: Pending state propagates correctly without prematurely hiding ads.
+    - `launchSubscriptionAndRestorePurchases_forwardToBillingManager`: Settings UI actions invoke Play Billing flows and purchase queries.)
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. Monetization Phase 5 complete! Ready to proceed to Phase 6 (Release readiness).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

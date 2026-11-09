@@ -1,5 +1,6 @@
 package com.barakwebsoft.shopzen.feature.settings
 
+import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +19,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ColorLens
+import androidx.compose.material.icons.outlined.HourglassTop
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.WorkspacePremium
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,6 +39,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -42,11 +49,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.barakwebsoft.shopzen.core.billing.PurchaseStatus
 import com.barakwebsoft.shopzen.core.di.AppViewModelProvider
 import com.barakwebsoft.shopzen.feature.lists.components.CurrencySelectionDialog
 import com.barakwebsoft.shopzen.feature.settings.components.ThemeSelectionDialog
@@ -58,6 +67,8 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val activity = context as? Activity
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -153,7 +164,29 @@ fun SettingsScreen(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Section 3: About
+                // Section 3: Premium & Monetization
+                Text(
+                    text = "ShopZen Premium",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+
+                PremiumSubscriptionCard(
+                    isAdsRemoved = uiState.isAdsRemoved,
+                    purchaseStatus = uiState.purchaseStatus,
+                    priceFormatted = uiState.subscriptionPriceFormatted,
+                    onSubscribeClick = {
+                        activity?.let { viewModel.launchSubscription(it) }
+                    },
+                    onRestoreClick = {
+                        viewModel.restorePurchases()
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Section 4: About
                 Text(
                     text = "About",
                     style = MaterialTheme.typography.labelLarge,
@@ -333,6 +366,142 @@ private fun SettingToggleCard(
                     contentDescription = "$title toggle"
                 }
             )
+        }
+    }
+}
+
+@Composable
+private fun PremiumSubscriptionCard(
+    isAdsRemoved: Boolean,
+    purchaseStatus: PurchaseStatus,
+    priceFormatted: String?,
+    onSubscribeClick: () -> Unit,
+    onRestoreClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isAdsRemoved) {
+                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f)
+            } else {
+                MaterialTheme.colorScheme.surfaceContainerLow
+            }
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    shape = CircleShape,
+                    color = if (isAdsRemoved) {
+                        MaterialTheme.colorScheme.primary
+                    } else if (purchaseStatus == PurchaseStatus.PENDING) {
+                        MaterialTheme.colorScheme.tertiary
+                    } else {
+                        MaterialTheme.colorScheme.primaryContainer
+                    },
+                    modifier = Modifier.size(44.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = when {
+                                isAdsRemoved -> Icons.Outlined.CheckCircle
+                                purchaseStatus == PurchaseStatus.PENDING -> Icons.Outlined.HourglassTop
+                                else -> Icons.Outlined.WorkspacePremium
+                            },
+                            contentDescription = null,
+                            tint = if (isAdsRemoved) {
+                                MaterialTheme.colorScheme.onPrimary
+                            } else if (purchaseStatus == PurchaseStatus.PENDING) {
+                                MaterialTheme.colorScheme.onTertiary
+                            } else {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            },
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = when {
+                            isAdsRemoved -> "ShopZen Premium • Active"
+                            purchaseStatus == PurchaseStatus.PENDING -> "Subscription Pending"
+                            else -> "Remove Advertisements"
+                        },
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = when {
+                            isAdsRemoved -> "Yearly ad-free entitlement active"
+                            purchaseStatus == PurchaseStatus.PENDING -> "Payment is being processed by Google Play"
+                            priceFormatted != null -> "$priceFormatted / year"
+                            else -> "Fetching localized price..."
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                text = when {
+                    isAdsRemoved -> "All advertisements are disabled across ShopZen. Thank you for supporting independent, offline-first development!"
+                    purchaseStatus == PurchaseStatus.PENDING -> "Google Play is confirming your transaction. Your ad-free status will unlock automatically once payment is finalized."
+                    purchaseStatus == PurchaseStatus.UNAVAILABLE -> "Google Play Billing is currently unavailable on this device. Please check your network or Play Store app."
+                    else -> "Enjoy an uninterrupted shopping and budgeting experience. Remove all banner ads across the app with an auto-renewing yearly subscription."
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (!isAdsRemoved && purchaseStatus != PurchaseStatus.PENDING) {
+                    Button(
+                        onClick = onSubscribeClick,
+                        enabled = priceFormatted != null && purchaseStatus != PurchaseStatus.UNAVAILABLE,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(
+                            text = if (priceFormatted != null) "Subscribe ($priceFormatted)" else "Subscribe",
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+
+                TextButton(
+                    onClick = onRestoreClick,
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = if (purchaseStatus == PurchaseStatus.PENDING) "Check Status" else "Restore Purchases",
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
         }
     }
 }

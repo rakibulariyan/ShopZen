@@ -28,6 +28,9 @@ class MainActivity : ComponentActivity() {
         // Request UMP consent and privacy-safely initialize Google Mobile Ads SDK
         app.container.adConsentManager.requestConsentAndInitAds(this)
 
+        // Connect to Google Play Billing to verify active entitlements and fetch localized subscription pricing
+        app.container.billingManager.startConnection()
+
         setContent {
             val preferences by preferencesRepository.getPreferences().collectAsState(initial = AppPreferences())
 
