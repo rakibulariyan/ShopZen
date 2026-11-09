@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+
+    <!-- Circular Badge Background -->
+    <path
+        android:fillColor="#16845B"
+        android:pathData="M144,64 A80,80 0 1,1 143.9,64 Z" />
+
+    <!-- Basket Handle -->
+    <path
+        android:pathData="M117,126 C117,105 128,94 144,94 C160,94 171,105 171,126"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Basket Rim -->
+    <path
+        android:pathData="M106,128 L182,128"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="7"
+        android:strokeLineCap="round" />
+
+    <!-- Basket Body -->
+    <path
+        android:pathData="M111,135 L121,177 C122,182 126,185 131,185 L157,185 C162,185 166,182 167,177 L177,135"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="6.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Checkmark (ShopZen Accent Green) -->
+    <path
+        android:pathData="M125,157 L137,169 L163,141"
+        android:strokeColor="#B8E986"
+        android:strokeWidth="8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

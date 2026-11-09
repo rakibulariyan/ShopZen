@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base dark application theme -->
+    <style name="Theme.ShopZen" parent="android:Theme.Material.NoActionBar" />
+
+    <!-- Official Android SplashScreen Starting Theme (Dark Mode) -->
+    <style name="Theme.ShopZen.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.ShopZen</item>
+    </style>
+</resources>

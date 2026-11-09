@@ -97,5 +97,39 @@ Ad placements must not obscure controls, disrupt shopping or cause accidental ta
 - **Small-screen responsiveness:** Compact displays down to 320 dp width are supported; list surfaces use `LazyColumn` with stable item IDs, and forms/dialogs use `verticalScroll(rememberScrollState())` to prevent content clipping or keyboard obstruction.
 - **Theme support:** System default, forced Light, and forced Dark modes are supported via DataStore preferences.
 
-## 10. Design implementation rule
+## 10. Brand Identity, App Icon & Splash Screen
+
+### 10.1 Brand Identity
+- **App Name:** ShopZen
+- **Tagline:** Plan Smart. Shop Easy.
+- **Product:** Shopping List & Grocery Budget Planner
+- **Personality:** Modern, Minimal, Friendly, Trustworthy, Premium, Fresh & Organized.
+- **Palette Alignment:**
+  - Primary Green: `#16845B`
+  - Dark Green: `#105C43`
+  - Accent Green: `#B8E986`
+  - Light Splash Background: `#F7F9F7`
+  - Dark Splash Background: `#121A17`
+  - Dark Surface: `#1C2922`
+
+### 10.2 App Icon Architecture
+The ShopZen launcher icon combines a clean geometric shopping basket silhouette with an integrated checkmark badge, communicating effortless shopping organization and task completion.
+- **Adaptive Icon Specification:**
+  - Standard Android 108 × 108 dp viewport with an inner 72 dp safe zone (masked by launcher circles, squircles, or rounded rects without clipping).
+  - Background (`ic_launcher_background.xml`): Linear diagonal gradient flowing from Primary Green `#16845B` to Dark Green `#105C43`.
+  - Foreground (`ic_launcher_foreground.xml`): Crisp white geometric basket wireframe with handle and rim, paired with a vibrant Accent Green `#B8E986` checkmark at center right.
+  - Monochrome (`ic_launcher_monochrome.xml`): Pure flat silhouette with alpha transparency for Android 13+ (API 33+) Material You dynamic themed icons.
+- **Legacy Raster Mipmaps:**
+  - Densities generated: `mdpi` (48px), `hdpi` (72px), `xhdpi` (96px), `xxhdpi` (144px), `xxxhdpi` (192px).
+  - Square (`ic_launcher.png`) and circular (`ic_launcher_round.png`) legacy fallbacks for Android 7.1 and older launchers.
+- **Store Listing Icon:**
+  - 512 × 512 px 32-bit PNG with rounded corner squircle mask, preserved at `store/icon/shopzen_play_store_icon_512.png` and `docs/assets/icon/shopzen_play_store_icon_512.png`.
+
+### 10.3 Android 12+ Official Splash Screen Experience
+Built using `androidx.core:core-splashscreen` to deliver a zero-flicker native launch experience without synthetic loading delays or redundant Activities:
+- **Light Theme:** Background `#F7F9F7` with centered botanical badge emblem (`ic_splash_icon.xml`, 288 × 288 dp viewport, 160 dp primary emblem circle containing basket and checkmark).
+- **Dark Theme:** Background `#121A17` (`values-night/themes.xml`) ensuring seamless contrast and parity with dark mode preferences.
+- **Theme Transition:** Theme inherits from `Theme.SplashScreen` with `postSplashScreenTheme = @style/Theme.ShopZen`, automatically resetting window decor and status bar styling upon app content readiness.
+
+## 11. Design implementation rule
 This document defines the intended design system. Update it when a product-approved design change is made. Do not claim a screen is implemented because it appears in this planned screen list.

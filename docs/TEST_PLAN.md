@@ -595,6 +595,20 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. All MVP release requirements verified.
 
+### 2026-11-09 — Task: Design & Implement App Icon and Splash Screen
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 1 executed, 25 up-to-date in 11s)
+- **Passed:** 274 unit and integration tests (+6 new tests in `AppIconAndSplashValidationTest`):
+  - `testAdaptiveLauncherIconsExistAndIncludeMonochrome`: Verified `ic_launcher.xml` and `ic_launcher_round.xml` in `mipmap-anydpi` with background, foreground, and monochrome for Android 13+ dynamic theming.
+  - `testVectorDrawablesExistAndHaveCorrectBrandTokens`: Verified `ic_launcher_foreground.xml` (108dp viewport, `#B8E986` checkmark), `ic_launcher_background.xml` (gradient `#16845B` to `#105C43`), `ic_launcher_monochrome.xml`, and `ic_splash_icon.xml` (288dp viewport, circular emblem badge).
+  - `testFallbackPngMipmapsExistAcrossAllStandardDensities`: Verified `ic_launcher.png` and `ic_launcher_round.png` across `mdpi` (48px), `hdpi` (72px), `xhdpi` (96px), `xxhdpi` (144px), `xxxhdpi` (192px).
+  - `testPlayStore512IconExistsAndHasExactDimensions`: Verified `store/icon/shopzen_play_store_icon_512.png` and `docs/assets/icon/shopzen_play_store_icon_512.png` have exact 512 × 512 px dimensions.
+  - `testSplashThemeConfigurationInLightAndDarkThemes`: Verified `Theme.ShopZen.Starting` inherits `Theme.SplashScreen`, declares `windowSplashScreenBackground` (`#F7F9F7` light, `#121A17` dark), sets `windowSplashScreenAnimatedIcon` (`@drawable/ic_splash_icon`), and configures `postSplashScreenTheme` (`@style/Theme.ShopZen`).
+  - `testAndroidManifestUsesSplashScreenTheme`: Verified `MainActivity` in `AndroidManifest.xml` specifies `android:theme="@style/Theme.ShopZen.Starting"`.
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. App icon and native splash screen fully verified!
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

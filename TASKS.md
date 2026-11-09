@@ -62,6 +62,7 @@
 - [ ] SZ-064 Configure release signing securely and verify AAB (Skipped per user instruction; handover signing runbook documented in `docs/PRODUCTION_CHECKLIST.md`).
 - [x] SZ-065 Prepare store listing assets and release notes.
 - [x] SZ-066 Complete production checklist and release handover.
+- [x] SZ-067 Design and implement ShopZen app icon & splash screen (Adaptive icon, monochrome dynamic theme, legacy mipmaps, Play Store 512px icon, Android 12+ SplashScreen API).
 
 ## Deferred / not MVP
 - [ ] Future: widgets, voice item entry, templates, sharing/export enhancements.
@@ -70,6 +71,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** Completed MVP Scope — Production Release Handover complete.
+- **Current:** Completed App Icon & Splash Screen Implementation (`SZ-067`).
 - **Next:** `SZ-064` when user provides release signing keystore / credentials for production AAB generation.
-- **Blockers:** None. All 268 unit and integration tests passing cleanly. Production checklist and store listing assets ready for publication.
+- **Blockers:** None. All 274 unit and integration tests passing cleanly. App launcher icons and native splash screen fully verified.

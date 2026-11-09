@@ -106,3 +106,4 @@ Output path: `app/build/outputs/bundle/release/app-release.aab`.
 - **Developer / Publisher:** Barak Web Soft
 - **Support URL:** `https://barakwebsoft.com/shopzen/support`
 - **Privacy Policy:** `https://barakwebsoft.com/shopzen/privacy-policy`
+

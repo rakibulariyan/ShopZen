@@ -154,3 +154,9 @@ No backend is required for MVP. Do not add a server, remote database, mandatory 
 
 ## 11. Monetization integration
 Ads and billing are isolated behind small interfaces/services where this improves testability. Follow current official SDK guidance. Do not let ad SDK initialization block core offline functionality. Never place ads on protected screens. Billing entitlement must reflect Play purchase state and restoration behavior.
+
+## 12. App Launch & Splash Screen Lifecycle
+- **Official Splash Library:** Uses `androidx.core:core-splashscreen` (`androidx-core-splashscreen:1.0.1`).
+- **Zero-Flicker Launch:** Splash screen initialization is performed via `installSplashScreen()` in `MainActivity.onCreate()` prior to `super.onCreate(savedInstanceState)`.
+- **System Backporting:** Provides backward compatibility from Android 10 (API 29) through Android 15+. On Android 12+, the platform native window splash screen is configured via window attributes (`windowSplashScreenBackground`, `windowSplashScreenAnimatedIcon`).
+- **Post-Splash Theme Swap:** `Theme.ShopZen.Starting` handles initial cold-start window drawing, then immediately delegates to `postSplashScreenTheme` (`@style/Theme.ShopZen`) as soon as Compose content begins drawing. No artificial delays or redundant splash Activities are introduced.
