@@ -48,7 +48,12 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     }
 
     override val historyRepository: HistoryRepository by lazy {
-        HistoryRepositoryImpl(database.historyDao(), database.shoppingListDao(), database.shoppingItemDao())
+        HistoryRepositoryImpl(
+            historyDao = database.historyDao(),
+            shoppingListDao = database.shoppingListDao(),
+            shoppingItemDao = database.shoppingItemDao(),
+            database = database
+        )
     }
 
     override val userPreferencesRepository: UserPreferencesRepository by lazy {

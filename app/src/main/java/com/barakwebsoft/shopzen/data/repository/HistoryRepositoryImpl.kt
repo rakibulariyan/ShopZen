@@ -1,11 +1,15 @@
 package com.barakwebsoft.shopzen.data.repository
 
+import androidx.room.RoomDatabase
+import androidx.room.withTransaction
+import com.barakwebsoft.shopzen.core.util.MoneyCalculator
 import com.barakwebsoft.shopzen.data.local.dao.HistoryDao
 import com.barakwebsoft.shopzen.data.local.dao.ShoppingItemDao
 import com.barakwebsoft.shopzen.data.local.dao.ShoppingListDao
 import com.barakwebsoft.shopzen.data.local.entity.HistoryItemEntity
 import com.barakwebsoft.shopzen.data.local.entity.ListStatus
 import com.barakwebsoft.shopzen.data.local.entity.ShoppingHistoryEntity
+import com.barakwebsoft.shopzen.data.local.entity.ShoppingListEntity
 import com.barakwebsoft.shopzen.data.mapper.toDomain
 import com.barakwebsoft.shopzen.data.mapper.toDomainDetail
 import com.barakwebsoft.shopzen.domain.model.HistoryDetail
@@ -17,16 +21,28 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.math.BigDecimal
-import java.math.RoundingMode
 import java.util.UUID
 
 class HistoryRepositoryImpl(
     private val historyDao: HistoryDao,
     private val shoppingListDao: ShoppingListDao,
     private val shoppingItemDao: ShoppingItemDao,
+    private val database: RoomDatabase? = null,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : HistoryRepository {
+
+    constructor(
+        historyDao: HistoryDao,
+        shoppingListDao: ShoppingListDao,
+        shoppingItemDao: ShoppingItemDao,
+        ioDispatcher: CoroutineDispatcher
+    ) : this(
+        historyDao = historyDao,
+        shoppingListDao = shoppingListDao,
+        shoppingItemDao = shoppingItemDao,
+        database = null,
+        ioDispatcher = ioDispatcher
+    )
 
     override fun getAllHistory(): Flow<List<ShoppingHistory>> {
         return historyDao.getAllHistory()
@@ -73,6 +89,23 @@ class HistoryRepositoryImpl(
         val originalList = shoppingListDao.getListById(listId)
             ?: throw IllegalArgumentException("Cannot archive non-existent list with id: $listId")
 
+        if (originalList.status == ListStatus.ARCHIVED.name) {
+            throw IllegalStateException("Shopping list '$listId' is already archived")
+        }
+
+        if (database != null) {
+            database.withTransaction {
+                executeArchiveInternal(listId, originalList)
+            }
+        } else {
+            executeArchiveInternal(listId, originalList)
+        }
+    }
+
+    private suspend fun executeArchiveInternal(
+        listId: String,
+        originalList: ShoppingListEntity
+    ): String {
         val now = System.currentTimeMillis()
         val historyId = UUID.randomUUID().toString()
         val itemsWithCategory = shoppingItemDao.getItemsWithCategoryForListSync(listId)
@@ -86,16 +119,10 @@ class HistoryRepositoryImpl(
             val category = withCat.category
 
             val lineTotalMinor: Long? = if (item.isPurchased && item.actualUnitPriceMinor != null) {
-                val quantityDecimal = try {
-                    BigDecimal(item.quantity.trim())
-                } catch (_: Exception) {
-                    BigDecimal.ONE
+                val lineTotal = MoneyCalculator.calculateLineTotal(item.actualUnitPriceMinor, item.quantity)
+                if (lineTotal != null) {
+                    totalSpentMinor += lineTotal
                 }
-                val lineTotal = quantityDecimal
-                    .multiply(BigDecimal(item.actualUnitPriceMinor))
-                    .setScale(0, RoundingMode.HALF_UP)
-                    .toLong()
-                totalSpentMinor += lineTotal
                 lineTotal
             } else {
                 null
@@ -145,7 +172,7 @@ class HistoryRepositoryImpl(
             updatedAt = now
         )
 
-        historyId
+        return historyId
     }
 
     override suspend fun deleteHistory(id: String) = withContext(ioDispatcher) {

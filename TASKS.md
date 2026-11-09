@@ -38,7 +38,7 @@
 - [x] SZ-036 Test rounding, zero-decimal currencies, large values and edge cases.
 
 ## Phase 4 — History and settings
-- [ ] SZ-040 Implement atomic archive and immutable history snapshots.
+- [x] SZ-040 Implement atomic archive and immutable history snapshots.
 - [ ] SZ-041 Implement history list and historical detail screens.
 - [ ] SZ-042 Implement currency selection per list and locale-based default.
 - [ ] SZ-043 Implement appearance and app preferences.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-040 — implement atomic archive and immutable history snapshots.
-- **Next:** SZ-041 — implement history list and historical detail screens.
-- **Blockers:** None. Phase 3 (SZ-030 through SZ-036) complete with 183 passing unit tests and clean debug APK build.
+- **Current:** SZ-041 — implement history list and historical detail screens.
+- **Next:** SZ-042 — implement currency selection per list and locale-based default.
+- **Blockers:** None. SZ-040 complete with 188 passing unit tests and clean debug APK build.

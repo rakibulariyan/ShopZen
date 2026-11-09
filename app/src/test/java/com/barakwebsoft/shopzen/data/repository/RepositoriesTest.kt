@@ -55,7 +55,13 @@ class RepositoriesTest {
         listRepository = ShoppingListRepositoryImpl(fakeListDao, fakeItemDao, dispatcher)
         itemRepository = ShoppingItemRepositoryImpl(fakeItemDao, dispatcher)
         categoryRepository = CategoryRepositoryImpl(fakeCategoryDao, dispatcher)
-        historyRepository = HistoryRepositoryImpl(fakeHistoryDao, fakeListDao, fakeItemDao, dispatcher)
+        historyRepository = HistoryRepositoryImpl(
+            historyDao = fakeHistoryDao,
+            shoppingListDao = fakeListDao,
+            shoppingItemDao = fakeItemDao,
+            database = null,
+            ioDispatcher = dispatcher
+        )
     }
 
     @Test
@@ -288,6 +294,122 @@ class RepositoriesTest {
         assertEquals(1000L, historyItem1?.lineTotalMinor)
         val historyItem2 = detail?.items?.find { it.itemName == "Bananas" }
         assertNull(historyItem2?.lineTotalMinor)
+    }
+
+    @Test
+    fun historyRepository_archiveListToHistory_handlesCommaQuantitiesAndExactRounding() = runBlocking {
+        val list = ShoppingList(id = "list_comma", name = "Baking", currencyCode = "EUR", status = ListStatus.ACTIVE)
+        listRepository.createList(list)
+
+        // 1,5 kg flour @ 300 minor units = 450 minor units
+        val item = ShoppingItem(
+            id = "item_flour",
+            listId = "list_comma",
+            name = "Flour",
+            quantity = "1,5",
+            unit = "kg",
+            actualUnitPriceMinor = 300L,
+            isPurchased = true
+        )
+        itemRepository.addItem(item)
+
+        val historyId = historyRepository.archiveListToHistory("list_comma")
+        val history = historyRepository.getHistoryById(historyId)
+
+        assertNotNull(history)
+        assertEquals(450L, history?.totalSpentMinor)
+        assertEquals(1, history?.purchasedCount)
+        assertEquals(0, history?.unpricedPurchasedCount)
+
+        val detail = historyRepository.getHistoryDetailById(historyId)
+        assertEquals(450L, detail?.items?.first()?.lineTotalMinor)
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun historyRepository_archiveListToHistory_alreadyArchivedList_throwsIllegalStateException() {
+        runBlocking {
+            val list = ShoppingList(id = "list_already_archived", name = "Old List", status = ListStatus.ARCHIVED)
+            listRepository.createList(list)
+
+            historyRepository.archiveListToHistory("list_already_archived")
+        }
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun historyRepository_archiveListToHistory_nonExistentList_throwsIllegalArgumentException() {
+        runBlocking {
+            historyRepository.archiveListToHistory("non_existent_list_id")
+        }
+    }
+
+    @Test
+    fun historyRepository_archiveListToHistory_deletingOriginalListPreservesSnapshot() = runBlocking {
+        val list = ShoppingList(id = "list_to_delete", name = "One-time List", currencyCode = "USD", status = ListStatus.ACTIVE)
+        listRepository.createList(list)
+
+        val item = ShoppingItem(
+            id = "item_perm",
+            listId = "list_to_delete",
+            name = "Coffee",
+            quantity = "2",
+            actualUnitPriceMinor = 650L,
+            isPurchased = true
+        )
+        itemRepository.addItem(item)
+
+        val historyId = historyRepository.archiveListToHistory("list_to_delete")
+
+        // Delete the original active list
+        listRepository.deleteList("list_to_delete")
+
+        // Active list is gone
+        assertNull(listRepository.getListById("list_to_delete"))
+
+        // History snapshot remains completely intact!
+        val history = historyRepository.getHistoryById(historyId)
+        assertNotNull(history)
+        assertEquals("One-time List", history?.listName)
+        assertEquals(1300L, history?.totalSpentMinor)
+
+        val detail = historyRepository.getHistoryDetailById(historyId)
+        assertNotNull(detail)
+        assertEquals(1, detail?.items?.size)
+        assertEquals("Coffee", detail?.items?.first()?.itemName)
+        assertEquals(1300L, detail?.items?.first()?.lineTotalMinor)
+    }
+
+    @Test
+    fun historyRepository_archiveListToHistory_modifyingOriginalListItemsDoesNotMutateSnapshot() = runBlocking {
+        val list = ShoppingList(id = "list_to_modify", name = "Snapshot Test", currencyCode = "USD", status = ListStatus.ACTIVE)
+        listRepository.createList(list)
+
+        val item = ShoppingItem(
+            id = "item_mod",
+            listId = "list_to_modify",
+            name = "Butter",
+            quantity = "1",
+            actualUnitPriceMinor = 400L,
+            isPurchased = true
+        )
+        itemRepository.addItem(item)
+
+        val historyId = historyRepository.archiveListToHistory("list_to_modify")
+
+        // Modify original item in the active list table after archive
+        itemRepository.updateActualPrice("item_mod", 9999L)
+        itemRepository.toggleItemPurchased("item_mod", false)
+        itemRepository.deleteItem("item_mod")
+
+        // History snapshot remains unchanged and completely immutable
+        val historyDetail = historyRepository.getHistoryDetailById(historyId)
+        assertNotNull(historyDetail)
+        assertEquals(1, historyDetail?.items?.size)
+
+        val snapshotItem = historyDetail?.items?.first()
+        assertEquals("Butter", snapshotItem?.itemName)
+        assertEquals(400L, snapshotItem?.actualUnitPriceMinor)
+        assertEquals(400L, snapshotItem?.lineTotalMinor)
+        assertTrue(snapshotItem?.isPurchased == true)
     }
 
     // --- In-memory fake DAOs for unit testing ---

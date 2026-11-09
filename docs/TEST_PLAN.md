@@ -387,6 +387,21 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
 - **Failures/Issues:** None. All money edge cases, zero-decimal and three-decimal currencies verified. Phase 3 is 100% complete! Ready to proceed to Phase 4 (`SZ-040`).
 
+### 2026-11-09 — Task SZ-040: Implement atomic archive and immutable history snapshots
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 188 unit tests (+5 in `RepositoriesTest` verifying:
+  - Atomic archive execution via Room `database.withTransaction` binding in `HistoryRepositoryImpl`
+  - Accurate calculation of total spent and item line totals using `MoneyCalculator` with support for comma-separated decimal quantities (e.g. `1,5` kg) and exact `HALF_UP` rounding
+  - Preservation of unpriced items and accurate recording of `unpricedPurchasedCount`
+  - Snapshot immutability: deleting the original active shopping list does not delete or alter the historical snapshot
+  - Snapshot immutability: modifying or deleting active list items after archiving does not mutate the historical snapshot items
+  - State machine safety: attempting to archive an already-archived list throws `IllegalStateException`
+  - Validation: attempting to archive a non-existent list ID throws `IllegalArgumentException`)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
+- **Failures/Issues:** None. Atomic archive and snapshot immutability verified. Ready to proceed to `SZ-041`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
