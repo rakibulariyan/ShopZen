@@ -1,6 +1,7 @@
 package com.barakwebsoft.shopzen.core.util
 
 import com.barakwebsoft.shopzen.domain.model.ShoppingItem
+import com.barakwebsoft.shopzen.domain.model.ShoppingItemDetail
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -90,7 +91,36 @@ data class BudgetMetrics(
     val purchasedCount: Int,
     val pendingCount: Int,
     val unpricedItemsCount: Int,
-    val unpricedPurchasedCount: Int
+    val unpricedPurchasedCount: Int,
+    val countPurchasedLackingActualPrice: Int = 0
+) {
+    /**
+     * PRD mandate: If purchased items lack actual prices, the UI clearly discloses them
+     * and flags the spend total as incomplete or estimated; it must not silently treat unknown spend as zero.
+     */
+    val isSpendEstimated: Boolean get() = countPurchasedLackingActualPrice > 0
+}
+
+/**
+ * Department or category spend distribution metrics for high-level budget breakdown.
+ */
+data class CategorySpendDistribution(
+    val categoryId: String?,
+    val categoryName: String,
+    val totalSpendMinor: Long,
+    val percentageOfTotal: Int,
+    val colorToken: String? = null
+)
+
+/**
+ * Highlights high-cost items contributing significantly to budget consumption or overruns.
+ */
+data class SpendCulprit(
+    val itemId: String,
+    val itemName: String,
+    val lineTotalMinor: Long,
+    val percentOfBudget: Int,
+    val isPurchased: Boolean
 )
 
 /**
@@ -236,6 +266,7 @@ object MoneyCalculator {
 
         val unpricedTotal = countUnpricedItems(items)
         val unpricedPurchased = countUnpricedPurchasedItems(items)
+        val purchasedLackingActual = countPurchasedLackingActualPrice(items)
 
         return BudgetMetrics(
             budgetMinor = budgetMinor,
@@ -250,8 +281,64 @@ object MoneyCalculator {
             purchasedCount = purchasedCount,
             pendingCount = pendingCount,
             unpricedItemsCount = unpricedTotal,
-            unpricedPurchasedCount = unpricedPurchased
+            unpricedPurchasedCount = unpricedPurchased,
+            countPurchasedLackingActualPrice = purchasedLackingActual
         )
+    }
+
+    /**
+     * Calculates the distribution of spend across unique categories.
+     * Uses actual prices where available, falling back to estimated prices.
+     */
+    fun calculateCategorySpendDistribution(
+        items: Collection<ShoppingItemDetail>
+    ): List<CategorySpendDistribution> {
+        if (items.isEmpty()) return emptyList()
+        val totalSpend = items.fold(0L) { acc, itemDetail ->
+            val price = itemDetail.item.actualUnitPriceMinor ?: itemDetail.item.estimatedUnitPriceMinor ?: 0L
+            acc + (calculateLineTotal(price, itemDetail.item.quantity) ?: 0L)
+        }
+        if (totalSpend <= 0L) return emptyList()
+
+        val grouped = items.groupBy { it.category }
+        return grouped.map { (cat, catItems) ->
+            val catSpend = catItems.fold(0L) { acc, itemDetail ->
+                val price = itemDetail.item.actualUnitPriceMinor ?: itemDetail.item.estimatedUnitPriceMinor ?: 0L
+                acc + (calculateLineTotal(price, itemDetail.item.quantity) ?: 0L)
+            }
+            val pct = ((catSpend * 100) / totalSpend).toInt()
+            CategorySpendDistribution(
+                categoryId = cat?.id,
+                categoryName = cat?.name ?: "Uncategorized",
+                totalSpendMinor = catSpend,
+                percentageOfTotal = pct,
+                colorToken = cat?.colorToken
+            )
+        }.sortedByDescending { it.totalSpendMinor }
+    }
+
+    /**
+     * Identifies the highest-impact items consuming budget.
+     */
+    fun calculateTopSpendCulprits(
+        items: Collection<ShoppingItemDetail>,
+        budgetMinor: Long?,
+        limit: Int = 3
+    ): List<SpendCulprit> {
+        return items.mapNotNull { itemDetail ->
+            val price = itemDetail.item.actualUnitPriceMinor ?: itemDetail.item.estimatedUnitPriceMinor ?: return@mapNotNull null
+            val lineTotal = calculateLineTotal(price, itemDetail.item.quantity) ?: return@mapNotNull null
+            val percentOfBudget = if (budgetMinor != null && budgetMinor > 0L) {
+                ((lineTotal * 100) / budgetMinor).toInt()
+            } else 0
+            SpendCulprit(
+                itemId = itemDetail.item.id,
+                itemName = itemDetail.item.name,
+                lineTotalMinor = lineTotal,
+                percentOfBudget = percentOfBudget,
+                isPurchased = itemDetail.item.isPurchased
+            )
+        }.sortedByDescending { it.lineTotalMinor }.take(limit)
     }
 }
 

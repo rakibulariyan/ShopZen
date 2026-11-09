@@ -1,6 +1,8 @@
 package com.barakwebsoft.shopzen.core.util
 
+import com.barakwebsoft.shopzen.domain.model.Category
 import com.barakwebsoft.shopzen.domain.model.ShoppingItem
+import com.barakwebsoft.shopzen.domain.model.ShoppingItemDetail
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -231,6 +233,115 @@ class MoneyCalculatorTest {
         assertEquals(1, MoneyCalculator.countUnpricedPurchasedItems(items))
         val metrics = MoneyCalculator.calculateBudgetMetrics(5000L, items)
         assertEquals(1, metrics.unpricedPurchasedCount)
+    }
+
+    @Test
+    fun calculateBudgetMetrics_whenOverBudget_setsIsOverBudgetAndCalculatesOverBudgetMinor() {
+        val items = listOf(
+            ShoppingItem(
+                id = "1",
+                listId = "L1",
+                name = "Expensive Groceries",
+                quantity = "1",
+                estimatedUnitPriceMinor = 1500L,
+                actualUnitPriceMinor = 1850L,
+                isPurchased = true
+            )
+        )
+        val metrics = MoneyCalculator.calculateBudgetMetrics(budgetMinor = 1500L, items = items)
+
+        assertTrue(metrics.isOverBudget)
+        assertEquals(350L, metrics.overBudgetMinor)
+        assertEquals(-350L, metrics.remainingBudgetMinor)
+        assertEquals(1850L, metrics.actualSpentMinor)
+        assertNotNull(metrics.budgetProgress)
+        assertTrue(metrics.budgetProgress!! > 1.0f)
+    }
+
+    @Test
+    fun calculateBudgetMetrics_whenPurchasedItemsLacksActualPrice_flagsIsSpendEstimated() {
+        val items = listOf(
+            // Item 1: Purchased with confirmed actual price
+            ShoppingItem(
+                id = "1",
+                listId = "L1",
+                name = "Priced Item",
+                quantity = "1",
+                estimatedUnitPriceMinor = 200L,
+                actualUnitPriceMinor = 250L,
+                isPurchased = true
+            ),
+            // Item 2: Purchased but NO actual price
+            ShoppingItem(
+                id = "2",
+                listId = "L1",
+                name = "Unpriced Item",
+                quantity = "1",
+                estimatedUnitPriceMinor = 300L,
+                actualUnitPriceMinor = null,
+                isPurchased = true
+            )
+        )
+        val metrics = MoneyCalculator.calculateBudgetMetrics(budgetMinor = 1000L, items = items)
+
+        assertEquals(1, metrics.countPurchasedLackingActualPrice)
+        assertTrue(metrics.isSpendEstimated)
+    }
+
+    @Test
+    fun calculateCategorySpendDistribution_aggregatesSpendAndPercentages() {
+        val catProduce = Category(id = "c1", name = "Produce", colorToken = "primary")
+        val catDairy = Category(id = "c2", name = "Dairy", colorToken = "secondary")
+
+        val items = listOf(
+            ShoppingItemDetail(
+                item = ShoppingItem(id = "1", listId = "L1", name = "Apples", quantity = "2", actualUnitPriceMinor = 200L, isPurchased = true),
+                category = catProduce
+            ),
+            ShoppingItemDetail(
+                item = ShoppingItem(id = "2", listId = "L1", name = "Milk", quantity = "1", actualUnitPriceMinor = 600L, isPurchased = true),
+                category = catDairy
+            )
+        )
+        // Produce: 2 * 200 = 400. Dairy: 1 * 600 = 600. Total = 1000.
+        val dist = MoneyCalculator.calculateCategorySpendDistribution(items)
+        assertEquals(2, dist.size)
+
+        // Sorted descending by spend: Dairy first (600L, 60%), then Produce (400L, 40%)
+        assertEquals("Dairy", dist[0].categoryName)
+        assertEquals(600L, dist[0].totalSpendMinor)
+        assertEquals(60, dist[0].percentageOfTotal)
+
+        assertEquals("Produce", dist[1].categoryName)
+        assertEquals(400L, dist[1].totalSpendMinor)
+        assertEquals(40, dist[1].percentageOfTotal)
+    }
+
+    @Test
+    fun calculateTopSpendCulprits_identifiesHighestCostItems() {
+        val items = listOf(
+            ShoppingItemDetail(
+                item = ShoppingItem(id = "1", listId = "L1", name = "Cheap Item", quantity = "1", actualUnitPriceMinor = 100L, isPurchased = true),
+                category = null
+            ),
+            ShoppingItemDetail(
+                item = ShoppingItem(id = "2", listId = "L1", name = "Expensive Honey", quantity = "1", actualUnitPriceMinor = 800L, isPurchased = true),
+                category = null
+            ),
+            ShoppingItemDetail(
+                item = ShoppingItem(id = "3", listId = "L1", name = "Medium Coffee", quantity = "1", actualUnitPriceMinor = 500L, isPurchased = true),
+                category = null
+            )
+        )
+        val culprits = MoneyCalculator.calculateTopSpendCulprits(items, budgetMinor = 1000L, limit = 2)
+        assertEquals(2, culprits.size)
+        assertEquals("Expensive Honey", culprits[0].itemName)
+        assertEquals(800L, culprits[0].lineTotalMinor)
+        assertEquals(80, culprits[0].percentOfBudget)
+
+        assertEquals("Medium Coffee", culprits[1].itemName)
+        assertEquals(500L, culprits[1].lineTotalMinor)
+        assertEquals(50, culprits[1].percentOfBudget)
     }
 }
 

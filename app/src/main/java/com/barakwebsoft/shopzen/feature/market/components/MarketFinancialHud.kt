@@ -213,6 +213,37 @@ fun MarketFinancialHud(
                 }
             }
 
+            // Non-blocking Over-Budget Banner
+            if (isOverBudget && budgetMinor != null) {
+                val overAmount = actualSpentMinor - budgetMinor
+                Surface(
+                    shape = RoundedCornerShape(10.dp),
+                    color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.9f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Warning,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Text(
+                            text = "Over budget by ${CurrencyFormatter.format(overAmount, currencyCode)} (Non-blocking alert)",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                }
+            }
+
             // Unpriced Items Warning Pill
             AnimatedVisibility(
                 visible = unpricedPurchasedCount > 0,
@@ -221,7 +252,7 @@ fun MarketFinancialHud(
             ) {
                 Surface(
                     shape = RoundedCornerShape(10.dp),
-                    color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.85f),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.85f),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
@@ -243,13 +274,13 @@ fun MarketFinancialHud(
                                 modifier = Modifier
                                     .size(8.dp)
                                     .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.error)
+                                    .background(MaterialTheme.colorScheme.tertiary)
                             )
                             Text(
-                                text = "$unpricedPurchasedCount item(s) unpriced in cart",
+                                text = "Spend is estimated: $unpricedPurchasedCount unpriced in cart",
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onErrorContainer
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
 

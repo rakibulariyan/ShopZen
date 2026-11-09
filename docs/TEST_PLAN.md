@@ -342,6 +342,21 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
 - **Failures/Issues:** None. Actual price entry modal sheet and repository updates verified. Ready to proceed to `SZ-034`.
 
+### Budget Summary, Over-Budget Warning & Unpriced Item Handling Verification: 2026-11-09 (Task SZ-034)
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 7 executed, 19 up-to-date)
+- **Passed:** 160 unit/integration tests (156 existing + 4 new unit tests in `MoneyCalculatorTest` verifying:
+  - Non-blocking over-budget state calculation (`isOverBudget = true`, `overBudgetMinor`, deficit tracking in `remainingBudgetMinor`)
+  - Unpriced purchased items detection and PRD-mandated `isSpendEstimated` flag
+  - Category spend breakdown and proportional percentages calculation (`CategorySpendDistribution`)
+  - Top cost drivers / overrun culprits identification (`SpendCulprit`)
+  - Upgraded Material 3 botanical `FinancialMetricsCard` with non-blocking over-budget warning banner, unpriced items spend disclosure banner, high-precision multi-segment progress bar (settled vs pending vs headroom buffer), and expandable category breakdown
+  - Upgraded sticky `MarketFinancialHud` in Market Mode with non-blocking overrun banner and explicit unpriced spend warning)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
+- **Failures/Issues:** None. Budget summary, over-budget warnings, and unpriced disclosures verified. Ready to proceed to `SZ-035`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
