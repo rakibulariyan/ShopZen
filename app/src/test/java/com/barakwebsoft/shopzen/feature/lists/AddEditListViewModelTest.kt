@@ -184,6 +184,57 @@ class AddEditListViewModelTest {
         assertNull(viewModel.uiState.value.nameError)
     }
 
+    @Test
+    fun currencySelection_perList_overridesDefaultAndSavesCorrectly() = runTest {
+        // User preferences default is USD
+        fakePrefsRepository.setDefaultCurrency("USD")
+
+        viewModel.loadList(null)
+        advanceUntilIdle()
+        assertEquals("USD", viewModel.uiState.value.currencyCode)
+
+        // User explicitly changes list currency to JPY
+        viewModel.onCurrencyChange("JPY")
+        viewModel.onNameChange("Tokyo Trip Groceries")
+        viewModel.onBudgetChange("15000") // 15,000 JPY
+        viewModel.saveList()
+        advanceUntilIdle()
+
+        val created = fakeListRepository.createdLists.first()
+        assertEquals("JPY", created.currencyCode)
+        assertEquals(15000L, created.budgetMinor)
+        assertEquals("Tokyo Trip Groceries", created.name)
+    }
+
+    @Test
+    fun currencySelection_editExistingList_preservesListSpecificCurrency() = runTest {
+        val listJpy = ShoppingList(
+            id = "list-jpy",
+            name = "Japan List",
+            currencyCode = "JPY",
+            budgetMinor = 50000L
+        )
+        fakeListRepository.storedLists["list-jpy"] = listJpy
+
+        // Change global user preference to EUR
+        fakePrefsRepository.setDefaultCurrency("EUR")
+
+        viewModel.loadList("list-jpy")
+        advanceUntilIdle()
+
+        // Existing list should retain JPY, NOT be overwritten by the EUR global default
+        assertEquals("JPY", viewModel.uiState.value.currencyCode)
+        assertEquals("50000", viewModel.uiState.value.budgetString)
+
+        // User changes currency from JPY to KRW
+        viewModel.onCurrencyChange("KRW")
+        viewModel.saveList()
+        advanceUntilIdle()
+
+        val updated = fakeListRepository.updatedLists.first()
+        assertEquals("KRW", updated.currencyCode)
+    }
+
     private class FakeShoppingListRepository : ShoppingListRepository {
         val storedLists = mutableMapOf<String, ShoppingList>()
         val createdLists = mutableListOf<ShoppingList>()

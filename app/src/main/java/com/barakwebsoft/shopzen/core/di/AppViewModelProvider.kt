@@ -11,6 +11,7 @@ import com.barakwebsoft.shopzen.feature.items.AddEditItemViewModel
 import com.barakwebsoft.shopzen.feature.lists.AddEditListViewModel
 import com.barakwebsoft.shopzen.feature.lists.details.ListDetailsViewModel
 import com.barakwebsoft.shopzen.feature.market.MarketModeViewModel
+import com.barakwebsoft.shopzen.feature.settings.SettingsViewModel
 
 /**
  * Provides factory instances for ViewModels throughout the ShopZen app.
@@ -59,6 +60,12 @@ object AppViewModelProvider {
             val app = shopZenApplication()
             HistoryViewModel(
                 historyRepository = app.container.historyRepository
+            )
+        }
+        initializer {
+            val app = shopZenApplication()
+            SettingsViewModel(
+                userPreferencesRepository = app.container.userPreferencesRepository
             )
         }
     }

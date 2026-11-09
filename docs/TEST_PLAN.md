@@ -418,6 +418,21 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date in 35s)
 - **Failures/Issues:** None. History list and historical detail screens verified. Ready to proceed to `SZ-042`.
 
+### 2026-11-09 — Task SZ-042: Implement currency selection per list and locale-based default
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 202 unit tests (+6 in `SettingsViewModelTest` and `AddEditListViewModelTest` verifying:
+  - Locale-based currency default derivation via `UserPreferencesDataStore.getDefaultLocaleCurrencyCode()` falling back safely to `USD`
+  - Observation and retrieval of default currency preferences in `SettingsViewModel`
+  - Changing global default currency in settings updates `UserPreferencesRepository` and updates currency info symbol/display
+  - Currency picker dialog visibility and selection workflow
+  - Per-list currency override in `AddEditListViewModel`: lists can select any ISO 4217 currency (e.g. `JPY`, `EUR`, `GBP`) independently of the global default
+  - Editing an existing list preserves its specific currency without being overwritten by subsequent global default changes
+  - Verified `SettingsScreen` UI cards with default currency display and interactive currency selection dialog)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date in 1m 10s)
+- **Failures/Issues:** None. Currency selection per list and locale-based default verified. Ready to proceed to `SZ-043`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
