@@ -25,6 +25,9 @@ class MainActivity : ComponentActivity() {
         val app = application as ShopZenApplication
         val preferencesRepository = app.container.userPreferencesRepository
 
+        // Request UMP consent and privacy-safely initialize Google Mobile Ads SDK
+        app.container.adConsentManager.requestConsentAndInitAds(this)
+
         setContent {
             val preferences by preferencesRepository.getPreferences().collectAsState(initial = AppPreferences())
 

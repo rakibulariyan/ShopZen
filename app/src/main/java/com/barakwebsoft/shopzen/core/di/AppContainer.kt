@@ -1,6 +1,8 @@
 package com.barakwebsoft.shopzen.core.di
 
 import android.content.Context
+import com.barakwebsoft.shopzen.core.monetization.AdConsentManager
+import com.barakwebsoft.shopzen.core.monetization.GoogleAdConsentManager
 import com.barakwebsoft.shopzen.data.local.database.ShopZenDatabase
 import com.barakwebsoft.shopzen.data.preferences.UserPreferencesDataStore
 import com.barakwebsoft.shopzen.data.preferences.userPreferencesDataStore
@@ -24,6 +26,7 @@ interface AppContainer {
     val categoryRepository: CategoryRepository
     val historyRepository: HistoryRepository
     val userPreferencesRepository: UserPreferencesRepository
+    val adConsentManager: AdConsentManager
 }
 
 /**
@@ -58,6 +61,10 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
 
     override val userPreferencesRepository: UserPreferencesRepository by lazy {
         UserPreferencesRepositoryImpl(UserPreferencesDataStore(context.userPreferencesDataStore))
+    }
+
+    override val adConsentManager: AdConsentManager by lazy {
+        GoogleAdConsentManager(context)
     }
 }
 

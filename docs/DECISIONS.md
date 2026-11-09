@@ -85,3 +85,14 @@ Record durable product and technical decisions here. Use newest entries at the b
 - **Decision:** Data export and import (e.g. JSON/CSV backup, file picker export) are deferred to V1 per PRD Section 7 ("V1 candidates: Sharing and export improvements").
 - **Reason:** Maintain strict MVP offline-first boundary, avoid unapproved file storage permissions or dead controls, and prioritize core list creation, market shopping, budgeting, and history snapshots.
 - **Consequences:** Task SZ-044 is resolved as deferred per approved product scope. No placeholder or incomplete export/import UI is rendered in MVP.
+
+## ADR-015 — Google Mobile Ads SDK and UMP Consent Architecture
+- **Status:** Accepted
+- **Decision:** Integrate Google Mobile Ads SDK (GMA) and User Messaging Platform (UMP) using the privacy-safe consent-first initialization flow. Configure development/test AdMob App ID (`ca-app-pub-3940256099942544~3347511713`) and test banner unit ID (`ca-app-pub-3940256099942544/6300978111`).
+- **Reason:** Satisfy Google Play policy, EEA/UK GDPR and ePrivacy consent obligations. Ad requests and `MobileAds.initialize()` must strictly execute only when `consentInformation.canRequestAds()` is true or after `UserMessagingPlatform.loadAndShowConsentFormIfRequired()` completes.
+- **Consequences:**
+  1. Ads are strictly forbidden on protected screens (`MARKET_MODE`, `ADD_EDIT_ITEM`, `LIST_DETAILS` budget metrics, purchase screen) enforced via `ProtectedScreenPolicy`.
+  2. Ad initialization is single-invocation guarded per session using `AtomicBoolean`.
+  3. Offline resilience: Consent or network request failures never impede offline list creation, shopping, editing, or budget calculations.
+  4. Data minimization: Zero shopping list contents, item names, notes, prices, or user data are ever passed to ad requests.
+  5. Entitlement suppression: An active Remove Ads subscription completely prevents all ad requests and hides all ad containers.

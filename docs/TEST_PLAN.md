@@ -465,6 +465,32 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks up-to-date in 16s)
 - **Failures/Issues:** None. Phase 4 (History and settings) is 100% complete! All 212 unit tests passing. Ready to advance to Phase 5 (Monetization: `SZ-050`).
 
+### 2026-11-09 — Task SZ-050: Verify current Google Mobile Ads SDK and UMP integration guidance
+- **Verification:** Audited current Google Mobile Ads SDK (v23.x / v24.x) and User Messaging Platform (UMP) architecture against official documentation and Google Play policies:
+  - Artifact resolution: `com.google.android.gms:play-services-ads` with bundled UMP SDK support.
+  - Privacy-first initialization: Enforced that `MobileAds.initialize` must only run after `consentInformation.canRequestAds()` evaluates to true or following `loadAndShowConsentFormIfRequired`.
+  - Fast-path for returning users: Verified synchronous `canRequestAds()` check on startup to avoid blocking ad requests on network round-trips for existing consent.
+  - Single-invocation protection: Guarded with `AtomicBoolean(false)`.
+  - Offline resilience: Verified that consent/network failures fail gracefully without disrupting offline list creation, shopping, item editing, or budgeting.
+  - Protected screen compliance: Verified that ads remain strictly prohibited on `MARKET_MODE`, `ADD_EDIT_ITEM`, and `LIST_DETAILS` (budgeting) via `ProtectedScreenPolicy.isAdPermitted()`.
+  - Data minimization: Zero shopping list contents, item names, notes, quantities, or prices are ever passed to ad networks.
+- **Formal Record:** Recorded and accepted `ADR-015` in `docs/DECISIONS.md`.
+- **Result:** Official SDK guidance verified and codified. Ready to proceed to `SZ-051` (Implement consent flow and privacy-safe ad initialization).
+
+### 2026-11-09 — Task SZ-051: Implement consent flow and privacy-safe ad initialization
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 219 unit tests (+7 in `GoogleAdConsentManagerTest` verifying:
+  - Direct delegation of `canRequestAds()` to underlying UMP `ConsentInformation`
+  - Atomic initialization guard ensuring `MobileAds.initialize` executes strictly once per application lifecycle across concurrent or repeated triggers
+  - Synchronous fast-path: immediate initialization on app launch if consent was previously obtained without waiting for network round-trips
+  - Offline resilience: network/consent update failure does not throw or crash; completion callback executes safely to keep core list workflows fully operational
+  - Returning user offline support: returning users with saved consent initialize ads even when offline
+  - Privacy options requirement reflection for GDPR/EEA settings UI)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date in 1m 15s)
+- **Failures/Issues:** None. UMP consent flow, `GoogleAdConsentManager`, `AppContainer` wiring, and `MainActivity` lifecycle integration verified. Ready to proceed to `SZ-052` (Add ads only to approved placements; never in protected screens).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate
