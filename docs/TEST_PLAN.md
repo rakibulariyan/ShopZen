@@ -259,6 +259,18 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
 - **Failures/Issues:** None. `ShopZenSearchBar`, botanical `SearchNoResultsView` (per `docs/android_ui_system/search_no_results`), status filter chips, and search toggle integrated into `ListDetailsScreen` and `HomeScreen`.
 
+### Critical List & Item Flow Validation Verification: 2026-11-09 (Task SZ-027)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 3 executed, 23 up-to-date)
+- **Passed:** 125 unit/integration tests (122 existing + 3 new comprehensive flow integration tests in `CriticalListFlowIntegrationTest` verifying:
+  - Complete list lifecycle: List creation -> Rapid item entry ("Add & Create Another" with form reset retaining unit/category) -> Unpriced item handling -> Live financial metrics calculation (`estimatedTotalMinor`, `actualSpentMinor`, exact minor unit math) -> Search by name & notes -> Multi-filter across category and purchase status -> Purchase toggle & actual price updates -> Duplicate list verifying full state reset (new IDs, ACTIVE status, unpurchased state, null actual prices) -> Atomic archive creating immutable history snapshot with exact minor unit totals and counts -> Active list removal
+  - Item validation & error recovery: empty name validation, non-positive quantity validation, stepper increment/decrement bounds recovery
+  - Single item deletion cascading to list details and financial metrics updates)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
+- **Failures/Issues:** None. Phase 2 (Shopping list workflows: SZ-020 through SZ-027) is 100% complete and fully verified. Ready to proceed to Phase 3 (Market Mode & budget).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

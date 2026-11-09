@@ -26,7 +26,7 @@
 - [x] SZ-024 Add, edit and delete shopping items.
 - [x] SZ-025 Categories and category selection.
 - [x] SZ-026 Search and filtering.
-- [ ] SZ-027 Validate critical list/item flows with tests.
+- [x] SZ-027 Validate critical list/item flows with tests.
 
 ## Phase 3 — Market Mode and budget
 - [ ] SZ-030 Implement exact money and quantity calculation utilities.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-027 — validate critical list/item flows with tests.
-- **Next:** SZ-030 — implement exact money and quantity calculation utilities.
-- **Blockers:** None. SZ-026 completed with 122 passing unit/integration tests and clean debug APK build.
+- **Current:** SZ-030 — implement exact money and quantity calculation utilities.
+- **Next:** SZ-031 — implement purchased/pending item state and undo.
+- **Blockers:** None. Phase 2 (SZ-020 through SZ-027) 100% complete with 125 passing tests and clean debug APK build.

@@ -28,7 +28,19 @@ class AddEditItemViewModel(
     private var originalItem: ShoppingItem? = null
 
     fun loadItem(listId: String, itemId: String?) {
-        _uiState.update { it.copy(isLoading = true, listId = listId, itemId = itemId) }
+        _uiState.update {
+            it.copy(
+                isLoading = true,
+                listId = listId,
+                itemId = itemId,
+                isItemSaved = false,
+                isItemDeleted = false,
+                isSaving = false,
+                nameError = null,
+                quantityError = null,
+                priceError = null
+            )
+        }
 
         viewModelScope.launch {
             // Ensure default categories exist and observe them
@@ -81,6 +93,15 @@ class AddEditItemViewModel(
                         isLoading = false,
                         listId = listId,
                         itemId = null,
+                        name = "",
+                        quantity = "1",
+                        unit = "pcs",
+                        customUnit = "",
+                        categoryId = null,
+                        estimatedPriceString = "",
+                        actualPriceString = "",
+                        notes = "",
+                        isPurchased = false,
                         categories = categories,
                         currencyCode = currency
                     )
@@ -260,6 +281,7 @@ class AddEditItemViewModel(
                     _uiState.update {
                         it.copy(
                             isSaving = false,
+                            isItemSaved = false,
                             name = "",
                             quantity = "1",
                             estimatedPriceString = "",
