@@ -60,6 +60,7 @@ Run only commands supported by the current Gradle project. Instrumentation tests
 - `docs/DECISIONS.md` — architecture/product decision record.
 - `docs/STORE_LISTING.md` — Google Play Store listing metadata, descriptions and asset specifications.
 - `docs/PRODUCTION_CHECKLIST.md` — release readiness checklist and signing/rollout handover.
+- `shopzen-website/README.md` — official static website architecture, SEO, and Hostinger deployment runbook.
 
 There is intentionally no `MEMORY.md`. Current work status belongs in `TASKS.md`; durable decisions belong in `DECISIONS.md`.
 

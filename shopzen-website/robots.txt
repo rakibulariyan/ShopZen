@@ -1,0 +1,7 @@
+# robots.txt for https://shopzen.barakwebsoft.com
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://shopzen.barakwebsoft.com/sitemap.xml
+

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 800" width="100%" height="100%">
+  <defs>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <rect width="390" height="800" rx="36" fill="#F7F9F7"/>
+  <rect x="2" y="2" width="386" height="796" rx="34" fill="none" stroke="#D1DDD6" stroke-width="3"/>
+
+  <!-- Status Bar -->
+  <text x="28" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#17221D">09:44</text>
+  <circle cx="195" cy="22" r="7" fill="#17221D"/>
+  <g transform="translate(325, 17)">
+    <path d="M0,8 L4,4 L8,8 Z" fill="#17221D"/>
+    <rect x="12" y="2" width="16" height="9" rx="2" fill="none" stroke="#17221D" stroke-width="1.5"/>
+    <rect x="14" y="4" width="10" height="5" rx="1" fill="#16845B"/>
+  </g>
+
+  <!-- Top App Bar -->
+  <g transform="translate(20, 52)">
+    <path d="M12,18 L4,10 L12,2" fill="none" stroke="#17221D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="32" y="14" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#17221D">Budget &amp; Spend Summary</text>
+  </g>
+
+  <!-- Main Budget Card -->
+  <g transform="translate(20, 96)" filter="url(#cardShadow)">
+    <rect width="350" height="150" rx="18" fill="#1C2922"/>
+    <text x="20" y="30" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#B8E986">TARGET BUDGET ANALYSIS</text>
+    <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="800" fill="#FFFFFF">$94.20</text>
+    <text x="145" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" fill="#A1B0A7">of $130.00 budget</text>
+    
+    <!-- Progress Bar -->
+    <rect x="20" y="90" width="310" height="10" rx="5" fill="#2E4438"/>
+    <rect x="20" y="90" width="224" height="10" rx="5" fill="#B8E986"/>
+
+    <text x="20" y="126" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">$35.80 remaining</text>
+    <text x="236" y="126" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#A1B0A7">72.5% spent</text>
+  </g>
+
+  <!-- Calm Non-Blocking Advisory Banner -->
+  <g transform="translate(20, 260)" filter="url(#cardShadow)">
+    <rect width="350" height="58" rx="14" fill="#FEF8E7" stroke="#F5D88C" stroke-width="1"/>
+    <circle cx="28" cy="29" r="12" fill="#E5A323"/>
+    <text x="28" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle">!</text>
+    <text x="50" y="27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#8C5C00">Unpriced Items Notice</text>
+    <text x="50" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#8C5C00">2 purchased items have unconfirmed prices.</text>
+  </g>
+
+  <!-- Comparison Split Card -->
+  <g transform="translate(20, 332)">
+    <!-- Estimated Spend Column -->
+    <g filter="url(#cardShadow)">
+      <rect width="168" height="86" rx="14" fill="#FFFFFF" stroke="#E2ECE5" stroke-width="1"/>
+      <text x="14" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" fill="#68766E">TOTAL ESTIMATED</text>
+      <text x="14" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800" fill="#17221D">$112.50</text>
+      <text x="14" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#68766E">All 12 items</text>
+    </g>
+    <!-- Actual Spend Column -->
+    <g transform="translate(182, 0)" filter="url(#cardShadow)">
+      <rect width="168" height="86" rx="14" fill="#FFFFFF" stroke="#E2ECE5" stroke-width="1"/>
+      <text x="14" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" fill="#16845B">ACTUAL CONFIRMED</text>
+      <text x="14" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800" fill="#16845B">$94.20</text>
+      <text x="14" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#68766E">8 purchased items</text>
+    </g>
+  </g>
+
+  <!-- Category Breakdown Card -->
+  <g transform="translate(20, 434)" filter="url(#cardShadow)">
+    <rect width="350" height="270" rx="16" fill="#FFFFFF" stroke="#E2ECE5" stroke-width="1"/>
+    <text x="20" y="30" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#17221D">Category Distribution</text>
+
+    <!-- Category 1: Produce -->
+    <text x="20" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#17221D">Fresh Produce</text>
+    <text x="290" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#17221D">$38.40</text>
+    <rect x="20" y="76" width="310" height="6" rx="3" fill="#EBF2EE"/>
+    <rect x="20" y="76" width="126" height="6" rx="3" fill="#16845B"/>
+
+    <!-- Category 2: Dairy & Eggs -->
+    <text x="20" y="116" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#17221D">Dairy &amp; Eggs</text>
+    <text x="290" y="116" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#17221D">$24.80</text>
+    <rect x="20" y="126" width="310" height="6" rx="3" fill="#EBF2EE"/>
+    <rect x="20" y="126" width="81" height="6" rx="3" fill="#16845B"/>
+
+    <!-- Category 3: Bakery -->
+    <text x="20" y="166" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#17221D">Bakery &amp; Grains</text>
+    <text x="290" y="166" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#17221D">$18.50</text>
+    <rect x="20" y="176" width="310" height="6" rx="3" fill="#EBF2EE"/>
+    <rect x="20" y="176" width="60" height="6" rx="3" fill="#16845B"/>
+
+    <!-- Category 4: Pantry -->
+    <text x="20" y="216" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#17221D">Pantry &amp; Household</text>
+    <text x="290" y="216" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#17221D">$12.50</text>
+    <rect x="20" y="226" width="310" height="6" rx="3" fill="#EBF2EE"/>
+    <rect x="20" y="226" width="41" height="6" rx="3" fill="#16845B"/>
+
+    <text x="20" y="254" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500" fill="#68766E">All calculations performed in integer minor currency units.</text>
+  </g>
+
+  <!-- Android Navigation Home Indicator -->
+  <rect x="145" y="784" width="100" height="4" rx="2" fill="#17221D"/>
+</svg>
+

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Google Play Official 4-Color Triangle Logo -->
+  <!-- Blue Shape (Left) -->
+  <path d="M4.2,2.8 C3.8,3.3 3.5,4.1 3.5,5.2 L3.5,26.8 C3.5,27.9 3.8,28.7 4.2,29.2 L4.3,29.3 L17.5,16.1 L17.5,15.9 L4.3,2.7 Z" fill="#00D3FF"/>
+  <!-- Yellow Shape (Right) -->
+  <path d="M21.9,20.5 L17.5,16.1 L17.5,15.9 L21.9,11.5 L22.1,11.6 L27.3,14.6 C28.8,15.4 28.8,16.6 27.3,17.4 L22.1,20.4 Z" fill="#FFCE00"/>
+  <!-- Red Shape (Bottom) -->
+  <path d="M17.5,16 L4.2,29.3 C4.7,29.8 5.6,29.9 6.6,29.3 L22.1,20.5 L17.5,16 Z" fill="#FF334B"/>
+  <!-- Green Shape (Top) -->
+  <path d="M17.5,16 L22.1,11.5 L6.6,2.7 C5.6,2.1 4.7,2.2 4.2,2.7 L17.5,16 Z" fill="#00E676"/>
+</svg>
+

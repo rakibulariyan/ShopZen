@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 800" width="100%" height="100%">
+  <defs>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Market Mode Screen Background (Botanical Theme) -->
+  <rect width="390" height="800" rx="36" fill="#F7F9F7"/>
+  <rect x="2" y="2" width="386" height="796" rx="34" fill="none" stroke="#D1DDD6" stroke-width="3"/>
+
+  <!-- Status Bar -->
+  <text x="28" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#17221D">09:43</text>
+  <circle cx="195" cy="22" r="7" fill="#17221D"/>
+  <g transform="translate(325, 17)">
+    <path d="M0,8 L4,4 L8,8 Z" fill="#17221D"/>
+    <rect x="12" y="2" width="16" height="9" rx="2" fill="none" stroke="#17221D" stroke-width="1.5"/>
+    <rect x="14" y="4" width="10" height="5" rx="1" fill="#16845B"/>
+  </g>
+
+  <!-- Market Mode Top Header Banner -->
+  <g transform="translate(20, 50)">
+    <circle cx="18" cy="18" r="18" fill="#E8F6ED"/>
+    <path d="M12,18 L24,18 M16,12 L10,18 L16,24" fill="none" stroke="#16845B" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="46" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" fill="#17221D">Market Mode ⚡</text>
+    <!-- Protected Screen Zero-Ad Badge -->
+    <rect x="240" y="7" width="90" height="22" rx="11" fill="#EBF4EE"/>
+    <text x="252" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#16845B">🛡️ AD-FREE</text>
+  </g>
+
+  <!-- High-Visibility Live Cart & Budget HUD (One-Handed Focus) -->
+  <g transform="translate(20, 96)" filter="url(#cardShadow)">
+    <rect width="350" height="92" rx="18" fill="#16845B"/>
+    <!-- In Cart vs Pending Counters -->
+    <text x="20" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#B8E986">ONE-HANDED AISLE HUD</text>
+    <text x="20" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="800" fill="#FFFFFF">8 <tspan font-size="18" font-weight="500" fill="#D3F0E2">in cart</tspan></text>
+    <text x="140" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="800" fill="#FFFFFF">4 <tspan font-size="18" font-weight="500" fill="#D3F0E2">pending</tspan></text>
+    <!-- Real-time spend total in HUD -->
+    <rect x="244" y="24" width="90" height="48" rx="12" fill="#105C43"/>
+    <text x="256" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="600" fill="#B8E986">LIVE SPEND</text>
+    <text x="256" y="63" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="800" fill="#FFFFFF">$94.20</text>
+  </g>
+
+  <!-- Large-Target Interactive Item 1 (Pending: Crisp Bell Peppers) -->
+  <g transform="translate(20, 204)" filter="url(#cardShadow)">
+    <rect width="350" height="84" rx="16" fill="#FFFFFF" stroke="#16845B" stroke-width="2"/>
+    <!-- Giant 48dp Tap Target -->
+    <rect x="16" y="18" width="48" height="48" rx="12" fill="none" stroke="#16845B" stroke-width="3"/>
+    <text x="76" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="700" fill="#17221D">Bell Peppers (Mixed)</text>
+    <text x="76" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#68766E">3 pcs · Est. $4.50</text>
+    <rect x="250" y="28" width="84" height="30" rx="8" fill="#F0F5F2"/>
+    <text x="260" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#16845B">+ Price</text>
+  </g>
+
+  <!-- Large-Target Interactive Item 2 (Pending: Greek Yogurt) -->
+  <g transform="translate(20, 302)" filter="url(#cardShadow)">
+    <rect width="350" height="84" rx="16" fill="#FFFFFF" stroke="#E2ECE5" stroke-width="1.5"/>
+    <rect x="16" y="18" width="48" height="48" rx="12" fill="none" stroke="#16845B" stroke-width="3"/>
+    <text x="76" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="700" fill="#17221D">Greek Yogurt (Plain)</text>
+    <text x="76" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#68766E">900g tub · Est. $5.20</text>
+    <rect x="250" y="28" width="84" height="30" rx="8" fill="#F0F5F2"/>
+    <text x="260" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#16845B">+ Price</text>
+  </g>
+
+  <!-- Large-Target Item 3 (Purchased: Organic Avocados) -->
+  <g transform="translate(20, 400)" filter="url(#cardShadow)">
+    <rect width="350" height="84" rx="16" fill="#F0F4F2" stroke="#E2ECE5" stroke-width="1"/>
+    <!-- Checked Giant Target -->
+    <rect x="16" y="18" width="48" height="48" rx="12" fill="#16845B"/>
+    <path d="M26,42 L36,52 L54,32" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+    <text x="76" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="600" fill="#8A968F" text-decoration="line-through">Organic Avocados</text>
+    <text x="76" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#8A968F">4 pcs · Actual: $5.99</text>
+    <text x="270" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#8A968F">$5.99</text>
+  </g>
+
+  <!-- Large-Target Item 4 (Purchased: Roma Tomatoes) -->
+  <g transform="translate(20, 498)" filter="url(#cardShadow)">
+    <rect width="350" height="84" rx="16" fill="#F0F4F2" stroke="#E2ECE5" stroke-width="1"/>
+    <rect x="16" y="18" width="48" height="48" rx="12" fill="#16845B"/>
+    <path d="M26,42 L36,52 L54,32" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+    <text x="76" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="600" fill="#8A968F" text-decoration="line-through">Roma Tomatoes</text>
+    <text x="76" y="60" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#8A968F">1.5 kg · Actual: $4.20</text>
+    <text x="270" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#8A968F">$4.20</text>
+  </g>
+
+  <!-- Reversible Undo Snackbar -->
+  <g transform="translate(20, 600)" filter="url(#cardShadow)">
+    <rect width="350" height="52" rx="12" fill="#17221D"/>
+    <text x="18" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Tomatoes marked purchased</text>
+    <text x="286" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#B8E986">UNDO</text>
+  </g>
+
+  <!-- Complete Trip Button -->
+  <g transform="translate(20, 668)" filter="url(#cardShadow)">
+    <rect width="350" height="54" rx="14" fill="#16845B"/>
+    <text x="175" y="33" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="middle">Finish Shopping &amp; Save History</text>
+  </g>
+
+  <!-- Android Navigation Home Indicator -->
+  <rect x="145" y="784" width="100" height="4" rx="2" fill="#17221D"/>
+</svg>
+

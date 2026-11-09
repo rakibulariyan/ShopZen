@@ -63,6 +63,7 @@
 - [x] SZ-065 Prepare store listing assets and release notes.
 - [x] SZ-066 Complete production checklist and release handover.
 - [x] SZ-067 Design and implement ShopZen app icon & splash screen (Adaptive icon, monochrome dynamic theme, legacy mipmaps, Play Store 512px icon, Android 12+ SplashScreen API).
+- [x] SZ-068 Build ShopZen official static website (shopzen.barakwebsoft.com) with HTML5, CSS3, vanilla JS, SEO metadata, interactive app preview mockups, Hostinger .htaccess, and audited Google Play HTML Privacy Policy.
 
 ## Deferred / not MVP
 - [ ] Future: widgets, voice item entry, templates, sharing/export enhancements.
@@ -71,6 +72,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** Completed App Icon & Splash Screen Implementation (`SZ-067`).
+- **Current:** Completed ShopZen Official Static Website (`SZ-068`).
 - **Next:** `SZ-064` when user provides release signing keystore / credentials for production AAB generation.
-- **Blockers:** None. All 274 unit and integration tests passing cleanly. App launcher icons and native splash screen fully verified.
+- **Blockers:** None. All 274 unit/integration tests passing. Static website fully tested with automated route and semantic verifications.
