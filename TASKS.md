@@ -48,7 +48,7 @@
 ## Phase 5 — Monetization
 - [x] SZ-050 Verify current Google Mobile Ads SDK and UMP integration guidance.
 - [x] SZ-051 Implement consent flow and privacy-safe ad initialization.
-- [ ] SZ-052 Add ads only to approved placements; never in protected screens.
+- [x] SZ-052 Add ads only to approved placements; never in protected screens.
 - [ ] SZ-053 Verify current Google Play Billing integration guidance.
 - [ ] SZ-054 Implement yearly Remove Ads entitlement using Play-provided localized price.
 - [ ] SZ-055 Handle pending, purchased, cancelled, expired, restored and unavailable states.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-052 — Add ads only to approved placements; never in protected screens.
-- **Next:** SZ-053 — Verify current Google Play Billing integration guidance.
-- **Blockers:** None. SZ-051 complete with 219 passing unit tests and clean debug APK build.
+- **Current:** SZ-053 — Verify current Google Play Billing integration guidance.
+- **Next:** SZ-054 — Implement yearly Remove Ads entitlement using Play-provided localized price.
+- **Blockers:** None. SZ-052 complete with 227 passing unit tests and clean debug APK build.

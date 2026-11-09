@@ -491,6 +491,22 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date in 1m 15s)
 - **Failures/Issues:** None. UMP consent flow, `GoogleAdConsentManager`, `AppContainer` wiring, and `MainActivity` lifecycle integration verified. Ready to proceed to `SZ-052` (Add ads only to approved placements; never in protected screens).
 
+### 2026-11-09 — Task SZ-052: Add ads only to approved placements; never in protected screens
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Passed:** 227 unit tests (+8 in `SafeAdPlacementContainerTest` verifying:
+  - Strict prohibition: Market Mode (`ShopZenRoutes.MARKET_MODE`, `market_mode/{listId}`) never emits ads
+  - Strict prohibition: Add/Edit Item (`ShopZenRoutes.ADD_EDIT_ITEM`, `add_edit_item/{listId}?itemId=...`) never emits ads
+  - Strict prohibition: Budget & Financial Metrics screens (`budget`, `budget/summary`, `budget/breakdown`) never emit ads
+  - Strict prohibition: Purchase, Billing, and Remove Ads screens (`purchase`, `billing`, `remove_ads`, `subscription`) never emit ads
+  - Null and blank route safety: Undefined or blank navigation routes never emit ads
+  - Approved placement: Home overview screen (`ShopZenRoutes.HOME`) permits ad rendering only when consent is granted and Remove Ads is inactive
+  - Entitlement suppression: When `isAdsRemoved` is true, ads are 100% suppressed across all surfaces including approved Home overview
+  - UMP consent gating: When `canRequestAds` is false, ads are 100% suppressed across all surfaces)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date in 57s)
+- **Failures/Issues:** None. `AdMobBannerView`, `SafeAdPlacementContainer` enhancement, and `HomeScreen` approved placement verified. Ready to proceed to `SZ-053` (Verify current Google Play Billing integration guidance).
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

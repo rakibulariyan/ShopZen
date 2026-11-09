@@ -71,6 +71,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.barakwebsoft.shopzen.core.di.AppViewModelProvider
+import com.barakwebsoft.shopzen.core.navigation.ShopZenRoutes
+import com.barakwebsoft.shopzen.core.ui.components.AdMobBannerView
+import com.barakwebsoft.shopzen.core.ui.components.SafeAdPlacementContainer
 import com.barakwebsoft.shopzen.core.ui.components.SearchNoResultsView
 import com.barakwebsoft.shopzen.core.ui.components.ShopZenSearchBar
 import com.barakwebsoft.shopzen.core.util.CurrencyFormatter
@@ -470,6 +473,18 @@ fun HomeListsOverview(
                     onDeleteClick = { onDeleteListClick(listDetail) },
                     onDuplicateClick = { onDuplicateListClick(listDetail) }
                 )
+            }
+
+            // Approved ad placement on Home overview (PRD Section 5 & SZ-052)
+            item(key = "home_approved_ad_banner") {
+                SafeAdPlacementContainer(
+                    currentRoute = ShopZenRoutes.HOME,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                ) {
+                    AdMobBannerView()
+                }
             }
         }
     }
