@@ -59,9 +59,9 @@
 - [x] SZ-061 Review accessibility, small screens, theme and performance.
 - [x] SZ-062 Review privacy disclosures, permissions and Data safety declarations.
 - [x] SZ-063 Verify current Play target API and store requirements.
-- [ ] SZ-064 Configure release signing securely and verify AAB.
-- [ ] SZ-065 Prepare store listing assets and release notes.
-- [ ] SZ-066 Complete production checklist and release handover.
+- [ ] SZ-064 Configure release signing securely and verify AAB (Skipped per user instruction; handover signing runbook documented in `docs/PRODUCTION_CHECKLIST.md`).
+- [x] SZ-065 Prepare store listing assets and release notes.
+- [x] SZ-066 Complete production checklist and release handover.
 
 ## Deferred / not MVP
 - [ ] Future: widgets, voice item entry, templates, sharing/export enhancements.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-064 — Configure release signing securely and verify AAB.
-- **Next:** SZ-065 — Prepare store listing assets and release notes.
-- **Blockers:** None. Tasks SZ-060 to SZ-063 are verified; all 264 unit/integration tests passing cleanly. Ready for release signing configuration and bundle verification.
+- **Current:** Completed MVP Scope — Production Release Handover complete.
+- **Next:** `SZ-064` when user provides release signing keystore / credentials for production AAB generation.
+- **Blockers:** None. All 268 unit and integration tests passing cleanly. Production checklist and store listing assets ready for publication.

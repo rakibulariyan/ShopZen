@@ -1,0 +1,9 @@
+Welcome to ShopZen v1.0.0 — your calm, offline-first grocery list and budget planner!
+
+What's New:
+• Organized shopping lists with customizable categories
+• Market Mode: large touch targets for easy one-handed shopping
+• Live budget tracking with over-budget alerts & price adjustments
+• Multi-currency support (USD, EUR, GBP, JPY) with exact math
+• 100% offline-first: your data stays on your device
+• Calming Botanical Light & Dark themes

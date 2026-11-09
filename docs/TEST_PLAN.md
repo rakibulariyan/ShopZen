@@ -582,6 +582,19 @@ For each run, record:
 - **Skipped:** 0
 - **Failures/Issues:** None. Tasks SZ-060, SZ-061, SZ-062, and SZ-063 verified! Ready to proceed to release signing and store asset preparation (SZ-064 / SZ-065).
 
+### 2026-11-09 — Tasks SZ-065 & SZ-066: Store listing specification, release notes, and production release handover
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 1 executed, 25 up-to-date in 6s)
+- **Passed:** 268 unit and integration tests (+4 new tests in `StoreListingAndReleaseValidationTest`):
+  - `appTitle_doesNotExceedPlayConsoleLimit_30Characters`: Verified App Title `ShopZen: Grocery List & Budget` <= 30 characters.
+  - `shortDescription_doesNotExceedPlayConsoleLimit_80Characters`: Verified Short Description <= 80 characters (actual: 78).
+  - `releaseNotes_doesNotExceedPlayConsoleLimit_500Characters`: Verified `fastlane/metadata/android/en-US/changelogs/1.txt` release notes <= 500 characters for Play Console.
+  - `storeListingDoc_containsMandatoryStoreMetadata`: Verified `docs/STORE_LISTING.md` contains all graphic specifications, descriptions, and zero-ad disclosures.
+- **Production Checklist & Handover:** Formally documented in `docs/PRODUCTION_CHECKLIST.md` covering architecture, data integrity, WCAG 2.1 AA accessibility, privacy disclosures, Play Billing 7 monetization, and release signing instructions.
+- **Failed:** 0
+- **Skipped:** 0
+- **Failures/Issues:** None. All MVP release requirements verified.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

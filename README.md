@@ -58,6 +58,8 @@ Run only commands supported by the current Gradle project. Instrumentation tests
 - `docs/TEST_PLAN.md` — test strategy and cases.
 - `docs/SECURITY.md` — security and privacy requirements.
 - `docs/DECISIONS.md` — architecture/product decision record.
+- `docs/STORE_LISTING.md` — Google Play Store listing metadata, descriptions and asset specifications.
+- `docs/PRODUCTION_CHECKLIST.md` — release readiness checklist and signing/rollout handover.
 
 There is intentionally no `MEMORY.md`. Current work status belongs in `TASKS.md`; durable decisions belong in `DECISIONS.md`.
 
