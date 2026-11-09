@@ -29,7 +29,7 @@
 - [x] SZ-027 Validate critical list/item flows with tests.
 
 ## Phase 3 — Market Mode and budget
-- [ ] SZ-030 Implement exact money and quantity calculation utilities.
+- [x] SZ-030 Implement exact money and quantity calculation utilities.
 - [ ] SZ-031 Implement purchased/pending item state and undo.
 - [ ] SZ-032 Implement Market Mode, large touch targets and haptic feedback.
 - [ ] SZ-033 Implement actual price entry.
@@ -70,6 +70,6 @@
 - [ ] Explicitly avoid initially: AI assistant, grocery delivery marketplace, live retailer price comparison, retailer integrations and currency conversion.
 
 ## Current task
-- **Current:** SZ-030 — implement exact money and quantity calculation utilities.
-- **Next:** SZ-031 — implement purchased/pending item state and undo.
-- **Blockers:** None. Phase 2 (SZ-020 through SZ-027) 100% complete with 125 passing tests and clean debug APK build.
+- **Current:** SZ-031 — implement purchased/pending item state and undo.
+- **Next:** SZ-032 — implement Market Mode, large touch targets and haptic feedback.
+- **Blockers:** None. SZ-030 complete with 135 passing tests and clean debug APK build.

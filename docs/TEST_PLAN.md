@@ -271,6 +271,25 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
 - **Failures/Issues:** None. Phase 2 (Shopping list workflows: SZ-020 through SZ-027) is 100% complete and fully verified. Ready to proceed to Phase 3 (Market Mode & budget).
 
+### Exact Money & Quantity Calculation Utilities Verification: 2026-11-09 (Task SZ-030)
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 7 executed, 19 up-to-date)
+- **Passed:** 135 unit/integration tests (125 existing + 10 new unit tests in `MoneyCalculatorTest` verifying:
+  - Strict decimal and integer quantity parsing across comma and period delimiters (`1,5` -> `1.5`)
+  - Trailing zero stripping formatting (`2.000` -> `"2"`, `2.500` -> `"2.5"`)
+  - Stepper increment/decrement adjustments enforcing minimum positive bound (`0.001`)
+  - Exact line total calculations with `RoundingMode.HALF_UP` to minor units (`Long`) without binary floating-point drift
+  - Aggregates calculation (`estimatedTotalMinor`, `actualSpendMinor`, `pendingEstimatedTotalMinor`)
+  - Budget calculations (`remainingBudgetMinor`, `overBudgetMinor`, `isOverBudget`, `budgetProgress`)
+  - PRD unpriced item tracking (`countPurchasedLackingActualPrice`, `unpricedItemCount`, `hasUnpricedItems`)
+  - Mixed zero-decimal (JPY) and 3-decimal (KWD) currency support with no hardcoded decimals in line calculations
+  - Large value arithmetic safety without integer overflow
+  - Integration with `ShoppingListDetail` domain model and `AddEditItemUiState`)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
+- **Failures/Issues:** None. Integer minor unit rule strictly maintained; `Double`/`Float` arithmetic avoided completely. Ready to proceed to `SZ-031`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

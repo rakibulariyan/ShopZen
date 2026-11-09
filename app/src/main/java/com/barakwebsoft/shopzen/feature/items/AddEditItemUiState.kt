@@ -62,9 +62,7 @@ data class AddEditItemUiState(
     val estimatedLineTotalMinor: Long?
         get() {
             val priceMinor = CurrencyFormatter.parseToMinor(estimatedPriceString, currencyCode) ?: return null
-            val qtyDecimal = quantity.trim().replace(",", ".").toBigDecimalOrNull() ?: return null
-            if (qtyDecimal <= BigDecimal.ZERO) return null
-            return (BigDecimal.valueOf(priceMinor) * qtyDecimal).toLong()
+            return com.barakwebsoft.shopzen.core.util.MoneyCalculator.calculateLineTotal(priceMinor, quantity)
         }
 
     val formattedLineTotal: String

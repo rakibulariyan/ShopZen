@@ -1,6 +1,7 @@
 package com.barakwebsoft.shopzen.domain.model
 
-import java.math.BigDecimal
+import com.barakwebsoft.shopzen.core.util.BudgetMetrics
+import com.barakwebsoft.shopzen.core.util.MoneyCalculator
 
 data class ShoppingListDetail(
     val list: ShoppingList,
@@ -10,25 +11,18 @@ data class ShoppingListDetail(
     val purchasedItemsCount: Int get() = items.count { it.item.isPurchased }
     val pendingItemsCount: Int get() = items.count { !it.item.isPurchased }
 
+    private val rawItems: List<ShoppingItem> get() = items.map { it.item }
+
     val estimatedTotalMinor: Long
-        get() = items.fold(0L) { acc, detail ->
-            val price = detail.item.estimatedUnitPriceMinor ?: 0L
-            val qty = detail.item.quantity.toBigDecimalOrNull() ?: BigDecimal.ONE
-            acc + (BigDecimal.valueOf(price) * qty).toLong()
-        }
+        get() = MoneyCalculator.calculateEstimatedTotal(rawItems)
 
     val actualSpentMinor: Long
-        get() = items.filter { it.item.isPurchased }.fold(0L) { acc, detail ->
-            val price = detail.item.actualUnitPriceMinor ?: detail.item.estimatedUnitPriceMinor ?: 0L
-            val qty = detail.item.quantity.toBigDecimalOrNull() ?: BigDecimal.ONE
-            acc + (BigDecimal.valueOf(price) * qty).toLong()
-        }
+        get() = MoneyCalculator.calculateActualSpent(rawItems)
 
     val estimatedPendingMinor: Long
-        get() = items.filter { !it.item.isPurchased }.fold(0L) { acc, detail ->
-            val price = detail.item.estimatedUnitPriceMinor ?: 0L
-            val qty = detail.item.quantity.toBigDecimalOrNull() ?: BigDecimal.ONE
-            acc + (BigDecimal.valueOf(price) * qty).toLong()
-        }
+        get() = MoneyCalculator.calculatePendingEstimated(rawItems)
+
+    val budgetMetrics: BudgetMetrics
+        get() = MoneyCalculator.calculateBudgetMetrics(list.budgetMinor, rawItems)
 }
 
