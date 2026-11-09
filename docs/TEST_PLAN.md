@@ -290,6 +290,23 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
 - **Failures/Issues:** None. Integer minor unit rule strictly maintained; `Double`/`Float` arithmetic avoided completely. Ready to proceed to `SZ-031`.
 
+### Purchased/Pending Item State and Undo Verification: 2026-11-09 (Task SZ-031)
+- **Command:** `.\gradlew.bat testDebugUnitTest`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 7 executed, 19 up-to-date)
+- **Passed:** 142 unit/integration tests (135 existing + 7 new unit tests in `ListDetailsViewModelTest` verifying:
+  - Item toggle to purchased: updates repository atomically, sets `lastPurchaseToggleAction` with item name, pending-to-purchased transition, and emits `ListDetailsEvent.ItemPurchaseToggled` with `Marked "<item>" as purchased`
+  - Item toggle to pending: updates repository atomically, sets `lastPurchaseToggleAction` with purchased-to-pending transition, and emits `ListDetailsEvent.ItemPurchaseToggled` with `Marked "<item>" as pending`
+  - Undo purchase toggle: reverts item to previous state in repository and clears `lastPurchaseToggleAction`
+  - Explicit undo toggle: allows reverting a specific item ID directly to a target state
+  - Safe no-op on undo when no prior toggle has occurred
+  - Sequential toggles tracking the latest action for undo
+  - Integration with `SnackbarHost` in `ListDetailsScreen` allowing one-click snackbar Undo
+  - Tactile feedback integration via `LocalHapticFeedback` and 48dp accessible check target in `ShoppingItemRow`)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 3 executed, 34 up-to-date)
+- **Failures/Issues:** None. Purchase toggling, undo mechanisms, and haptic feedback verified. Ready to proceed to `SZ-032`.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

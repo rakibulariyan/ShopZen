@@ -11,10 +11,12 @@ import com.barakwebsoft.shopzen.domain.model.ShoppingListDetail
 import com.barakwebsoft.shopzen.domain.repository.HistoryRepository
 import com.barakwebsoft.shopzen.domain.repository.ShoppingItemRepository
 import com.barakwebsoft.shopzen.domain.repository.ShoppingListRepository
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -90,6 +92,157 @@ class ListDetailsViewModelTest {
         advanceUntilIdle()
 
         assertEquals(listOf("item-xyz" to true, "item-xyz" to false), fakeItemRepository.toggledItems)
+    }
+
+    @Test
+    fun toggleItemPurchased_recordsUndoActionAndEmitsSnackbarEvent() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-1",
+            items = listOf(
+                createItemDetail("item-1", "Bananas", catProduce, isPurchased = false)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-1")
+        advanceUntilIdle()
+
+        var emittedEvent: ListDetailsEvent? = null
+        backgroundScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            viewModel.events.collect { emittedEvent = it }
+        }
+
+        viewModel.toggleItemPurchased("item-1", currentPurchased = false)
+        advanceUntilIdle()
+
+        // 1. Verify repository toggle
+        assertEquals(listOf("item-1" to true), fakeItemRepository.toggledItems)
+
+        // 2. Verify state tracks the undoable action
+        val lastAction = viewModel.uiState.value.lastPurchaseToggleAction
+        assertNotNull(lastAction)
+        assertEquals("item-1", lastAction?.itemId)
+        assertEquals("Bananas", lastAction?.itemName)
+        assertFalse(lastAction?.wasPurchased ?: true)
+        assertTrue(lastAction?.newPurchased ?: false)
+
+        // 3. Verify event flow emitted the notification
+        assertNotNull(emittedEvent)
+        assertTrue(emittedEvent is ListDetailsEvent.ItemPurchaseToggled)
+        val toggleEvent = emittedEvent as ListDetailsEvent.ItemPurchaseToggled
+        assertEquals("Marked \"Bananas\" as purchased", toggleEvent.message)
+        assertEquals("item-1", toggleEvent.action.itemId)
+    }
+
+    @Test
+    fun toggleItemPurchased_whenPurchased_recordsUndoActionToPending() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-1",
+            items = listOf(
+                createItemDetail("item-apple", "Apples", catProduce, isPurchased = true)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-1")
+        advanceUntilIdle()
+
+        var emittedEvent: ListDetailsEvent? = null
+        backgroundScope.launch(start = CoroutineStart.UNDISPATCHED) {
+            viewModel.events.collect { emittedEvent = it }
+        }
+
+        viewModel.toggleItemPurchased("item-apple", currentPurchased = true)
+        advanceUntilIdle()
+
+        assertEquals(listOf("item-apple" to false), fakeItemRepository.toggledItems)
+
+        val lastAction = viewModel.uiState.value.lastPurchaseToggleAction
+        assertNotNull(lastAction)
+        assertEquals("item-apple", lastAction?.itemId)
+        assertEquals("Apples", lastAction?.itemName)
+        assertTrue(lastAction?.wasPurchased ?: false)
+        assertFalse(lastAction?.newPurchased ?: true)
+
+        assertNotNull(emittedEvent)
+        val toggleEvent = emittedEvent as ListDetailsEvent.ItemPurchaseToggled
+        assertEquals("Marked \"Apples\" as pending", toggleEvent.message)
+    }
+
+    @Test
+    fun undoPurchaseToggle_revertsItemToPreviousStateAndClearsState() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-1",
+            items = listOf(
+                createItemDetail("item-milk", "Whole Milk", catDairy, isPurchased = false)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-1")
+        advanceUntilIdle()
+
+        // Toggle to purchased
+        viewModel.toggleItemPurchased("item-milk", currentPurchased = false)
+        advanceUntilIdle()
+        assertEquals(listOf("item-milk" to true), fakeItemRepository.toggledItems)
+        assertNotNull(viewModel.uiState.value.lastPurchaseToggleAction)
+
+        // Undo toggle
+        viewModel.undoPurchaseToggle()
+        advanceUntilIdle()
+
+        // Verify repository was called to revert to false
+        assertEquals(listOf("item-milk" to true, "item-milk" to false), fakeItemRepository.toggledItems)
+        assertNull(viewModel.uiState.value.lastPurchaseToggleAction)
+    }
+
+    @Test
+    fun undoToggle_explicitItemIdAndState_revertsDirectly() = runTest {
+        viewModel.undoToggle("item-direct", previousPurchased = true)
+        advanceUntilIdle()
+
+        assertEquals(listOf("item-direct" to true), fakeItemRepository.toggledItems)
+    }
+
+    @Test
+    fun undoPurchaseToggle_whenNoPriorAction_isSafeNoOp() = runTest {
+        viewModel.undoPurchaseToggle()
+        advanceUntilIdle()
+
+        assertTrue(fakeItemRepository.toggledItems.isEmpty())
+        assertNull(viewModel.uiState.value.lastPurchaseToggleAction)
+    }
+
+    @Test
+    fun multipleSequentialToggles_tracksLatestActionForUndo() = runTest {
+        val testDetail = createTestDetail(
+            listId = "list-1",
+            items = listOf(
+                createItemDetail("item-1", "Apples", catProduce, isPurchased = false),
+                createItemDetail("item-2", "Milk", catDairy, isPurchased = false)
+            )
+        )
+        fakeListRepository.detailFlow.value = testDetail
+        viewModel.loadList("list-1")
+        advanceUntilIdle()
+
+        // Toggle item 1
+        viewModel.toggleItemPurchased("item-1", currentPurchased = false)
+        advanceUntilIdle()
+
+        // Toggle item 2
+        viewModel.toggleItemPurchased("item-2", currentPurchased = false)
+        advanceUntilIdle()
+
+        assertEquals("item-2", viewModel.uiState.value.lastPurchaseToggleAction?.itemId)
+
+        // Undo should undo item 2
+        viewModel.undoPurchaseToggle()
+        advanceUntilIdle()
+
+        assertEquals(
+            listOf("item-1" to true, "item-2" to true, "item-2" to false),
+            fakeItemRepository.toggledItems
+        )
+        assertNull(viewModel.uiState.value.lastPurchaseToggleAction)
     }
 
     @Test

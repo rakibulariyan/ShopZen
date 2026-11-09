@@ -43,6 +43,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -89,9 +93,28 @@ fun ListDetailsScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(listId) {
         viewModel.loadList(listId)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is ListDetailsEvent.ItemPurchaseToggled -> {
+                    snackbarHostState.currentSnackbarData?.dismiss()
+                    val result = snackbarHostState.showSnackbar(
+                        message = event.message,
+                        actionLabel = "Undo",
+                        duration = SnackbarDuration.Short
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.undoPurchaseToggle(event.action)
+                    }
+                }
+            }
+        }
     }
 
     LaunchedEffect(uiState.isListDeleted, uiState.isListArchived) {
@@ -109,6 +132,9 @@ fun ListDetailsScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         topBar = {
             TopAppBar(
                 title = {

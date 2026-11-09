@@ -26,6 +26,16 @@ enum class ItemPurchaseFilter(val displayName: String) {
 }
 
 /**
+ * Represents an undoable purchase state change action.
+ */
+data class PurchaseToggleAction(
+    val itemId: String,
+    val itemName: String,
+    val wasPurchased: Boolean,
+    val newPurchased: Boolean
+)
+
+/**
  * UI State for the List Details screen.
  */
 data class ListDetailsUiState(
@@ -36,6 +46,7 @@ data class ListDetailsUiState(
     val purchaseFilter: ItemPurchaseFilter = ItemPurchaseFilter.ALL,
     val selectedCategoryId: String? = null,
     val sortOrder: ItemSortOrder = ItemSortOrder.CATEGORY,
+    val lastPurchaseToggleAction: PurchaseToggleAction? = null,
     val isListDeleted: Boolean = false,
     val isListArchived: Boolean = false,
     val isListDuplicated: Boolean = false,

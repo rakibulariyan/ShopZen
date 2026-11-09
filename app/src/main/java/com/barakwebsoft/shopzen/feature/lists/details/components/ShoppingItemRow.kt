@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +46,7 @@ fun ShoppingItemRow(
 ) {
     val item = itemDetail.item
     val isPurchased = item.isPurchased
+    val haptic = LocalHapticFeedback.current
 
     Card(
         shape = RoundedCornerShape(14.dp),
@@ -73,18 +76,21 @@ fun ShoppingItemRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Interactive Check Toggle Button (48dp interactive touch target)
+                // Interactive Check Toggle Button (meets 48dp interactive touch target)
                 Surface(
-                    shape = RoundedCornerShape(10.dp),
+                    shape = RoundedCornerShape(12.dp),
                     color = if (isPurchased) {
                         MaterialTheme.colorScheme.primary
                     } else {
                         MaterialTheme.colorScheme.surfaceVariant
                     },
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable { onTogglePurchased(isPurchased) }
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onTogglePurchased(isPurchased)
+                        }
                         .semantics {
                             contentDescription = if (isPurchased) {
                                 "Mark ${item.name} as pending"
@@ -99,7 +105,7 @@ fun ShoppingItemRow(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onPrimary,
-                                modifier = Modifier.size(22.dp)
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     }
