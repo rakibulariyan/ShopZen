@@ -216,6 +216,25 @@ For each run, record:
 - **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 4 executed, 33 up-to-date)
 - **Failures/Issues:** None. `FinancialMetricsCard`, `ShoppingItemRow` (with 48dp check toggle and unpriced disclosure badge), `ListDetailsEmptyState`, category filter chips, sort order dropdown menu, and `ShopZenRoutes.LIST_DETAILS` navigation fully operational.
 
+### Add, Edit & Delete Shopping Items Verification: 2026-11-09 (Task SZ-024)
+- **Command:** `.\gradlew.bat test`
+- **Result:** BUILD SUCCESSFUL (26 actionable tasks: 6 executed, 20 up-to-date)
+- **Passed:** 110 unit/integration tests (100 existing + 10 new unit tests in `AddEditItemViewModelTest` verifying:
+  - Form initialization for add mode loading list currency and categories
+  - Form initialization for edit mode pre-populating item details, category, unit, prices, and notes
+  - Custom unit detection when unit is outside standard presets
+  - Field validation with name error clearance on typing
+  - Quantity stepper increment and decrement with lower bound at 1
+  - Exact minor-unit line total calculation (`quantity * estimatedUnitPriceMinor` using `BigDecimal`)
+  - Item creation persisting to repository and marking `isItemSaved`
+  - "Add & Create Another" saving item, resetting form name/quantity/price while retaining selected category and unit for rapid data entry
+  - Item updating in edit mode persisting modifications and actual unit price
+  - Permanent item deletion with confirmation dialog support)
+- **Failed:** 0
+- **Skipped:** 0
+- **Debug Build:** `.\gradlew.bat assembleDebug` — BUILD SUCCESSFUL (37 actionable tasks: 5 executed, 32 up-to-date)
+- **Failures/Issues:** None. Material 3 `AddEditItemScreen`, `DeleteItemDialog`, and `ShopZenRoutes.ADD_EDIT_ITEM` navigation fully integrated.
+
 Do not pre-mark test cases as passed. This file defines expected tests, not evidence of execution.
 
 ## 6. Release gate

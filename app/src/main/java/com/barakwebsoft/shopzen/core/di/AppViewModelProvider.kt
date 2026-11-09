@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.barakwebsoft.shopzen.ShopZenApplication
 import com.barakwebsoft.shopzen.feature.home.HomeViewModel
+import com.barakwebsoft.shopzen.feature.items.AddEditItemViewModel
 import com.barakwebsoft.shopzen.feature.lists.AddEditListViewModel
 import com.barakwebsoft.shopzen.feature.lists.details.ListDetailsViewModel
 
@@ -35,6 +36,14 @@ object AppViewModelProvider {
                 shoppingListRepository = app.container.shoppingListRepository,
                 shoppingItemRepository = app.container.shoppingItemRepository,
                 historyRepository = app.container.historyRepository
+            )
+        }
+        initializer {
+            val app = shopZenApplication()
+            AddEditItemViewModel(
+                shoppingListRepository = app.container.shoppingListRepository,
+                shoppingItemRepository = app.container.shoppingItemRepository,
+                categoryRepository = app.container.categoryRepository
             )
         }
     }

@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.barakwebsoft.shopzen.feature.history.HistoryScreen
 import com.barakwebsoft.shopzen.feature.home.HomeScreen
+import com.barakwebsoft.shopzen.feature.items.AddEditItemScreen
 import com.barakwebsoft.shopzen.feature.lists.AddEditListScreen
 import com.barakwebsoft.shopzen.feature.lists.details.ListDetailsScreen
 import com.barakwebsoft.shopzen.feature.settings.SettingsScreen
@@ -104,6 +105,25 @@ fun ShopZenApp(
                     listId = listId,
                     onNavigateBack = { navController.popBackStack() },
                     onListSaved = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = ShopZenRoutes.ADD_EDIT_ITEM,
+                arguments = listOf(
+                    navArgument("listId") { type = NavType.StringType },
+                    navArgument("itemId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    }
+                )
+            ) { backStackEntry ->
+                val listId = backStackEntry.arguments?.getString("listId") ?: ""
+                val itemId = backStackEntry.arguments?.getString("itemId")
+                AddEditItemScreen(
+                    listId = listId,
+                    itemId = itemId,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(ShopZenRoutes.HISTORY) {
